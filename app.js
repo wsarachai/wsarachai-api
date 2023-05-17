@@ -8,7 +8,8 @@ const express = require('express');
 const expressLayouts = require("express-ejs-layouts");
 const bodyParser = require('body-parser');
 const userRoute = require('./router/userRoutes');
-const webHookRoute = require('./router/webhookRoutes');
+const webHookRoute241 = require('./router/webhookRoutes241');
+const webHookRoute493 = require('./router/webhookRoutes493');
 const {
   middleware,
   JSONParseError, 
@@ -31,14 +32,20 @@ const {
 
 global.themesettings = themesettings;
 
-const config = {
-  channelAccessToken: process.env.LINE_ACCESS_TOKEN,
-  channelSecret: process.env.LINE_CHANNEL_SECRET
+const config241 = {
+  channelAccessToken: process.env.LINE_ACCESS_TOKEN241,
+  channelSecret: process.env.LINE_CHANNEL_SECRET241
+};
+
+const config493 = {
+  channelAccessToken: process.env.LINE_ACCESS_TOKEN493,
+  channelSecret: process.env.LINE_CHANNEL_SECRET493
 };
 
 const app = express();
 
-app.use('/api/v1/webhook', middleware(config), webHookRoute);
+app.use('/api/v1/webhook/it241', middleware(config241), webHookRoute241);
+app.use('/api/v1/webhook/it493', middleware(config493), webHookRoute493);
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 

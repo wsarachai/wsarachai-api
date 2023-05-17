@@ -6,8 +6,8 @@ const aimlInterpreter = new AIMLInterpreter({name:'WireInterpreter', age:'42'});
 aimlInterpreter.loadAIMLFilesIntoArray(['./test-aiml.xml']);
 
 const config = {
-    channelAccessToken: process.env.LINE_ACCESS_TOKEN,
-    channelSecret: process.env.LINE_CHANNEL_SECRET
+    channelAccessToken: process.env.LINE_ACCESS_TOKEN493,
+    channelSecret: process.env.LINE_CHANNEL_SECRET493
 };
 
 const client = new line.Client(config);
