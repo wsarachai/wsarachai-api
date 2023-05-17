@@ -20,16 +20,3 @@ const usersSchema = mongoose.Schema({
 const User = mongoose.model('User', usersSchema);
 
 module.exports = User;
-
-
-
-// const testUser = new User({
-//   firstName: 'Watcharin',
-//   lastName: 'Sarachai',
-//   age: 48,
-// });
-
-// testUser.save()
-// .then(doc => {
-//   console.log(doc);
-// }).catch(err => console.log('Error!!', err));
