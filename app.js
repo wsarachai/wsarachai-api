@@ -6,12 +6,23 @@ const createKtThemeInstance = require("./_keenthemes/lib/theme");
 const createKtBootstrapInstance = require(`./views/layout/${themesettings.name}/bootstrap`);
 const express = require('express');
 const expressLayouts = require("express-ejs-layouts");
+const bodyParser = require('body-parser');
 const userRoute = require('./router/userRoutes');
 const webHookRoute = require('./router/webhookRoutes');
+const line = require('@line/bot-sdk');
+
+global.themesettings = themesettings;
+
+const config = {
+  channelAccessToken: process.env.LINE_ACCESS_TOKEN,
+  channelSecret: process.env.LINE_CHANNEL_SECRET
+};
 
 const app = express();
 
-global.themesettings = themesettings;
+app.use('/api/v1/webhook', line.middleware(config), webHookRoute);
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json())
 
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
@@ -36,7 +47,6 @@ app.use('/', dashboardRouter);
 app.use("/auth", authRouter);
 app.use("/system", systemRouter);
 app.use('/api/v1/users', userRoute);
-app.use('/api/v1/webhook', webHookRoute);
 
 app.all("*", (req, res) => {
   res
