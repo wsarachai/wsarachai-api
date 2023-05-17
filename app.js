@@ -6,17 +6,12 @@ const createKtThemeInstance = require("./_keenthemes/lib/theme");
 const createKtBootstrapInstance = require(`./views/layout/${themesettings.name}/bootstrap`);
 const express = require('express');
 const expressLayouts = require("express-ejs-layouts");
-const bodyParser = require('body-parser');
-
 const userRoute = require('./router/userRoutes');
-const webhookRoute = require('./router/webhookRoutes');
-
-global.themesettings = themesettings;
+const webHookRoute = require('./router/webhookRoutes');
 
 const app = express();
 
-app.use(bodyParser.urlencoded({ extended: true }))
-app.use(bodyParser.json())
+global.themesettings = themesettings;
 
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
@@ -37,12 +32,11 @@ const init = function (req, res, next) {
 };
 
 app.use(init);
-
 app.use('/', dashboardRouter);
 app.use("/auth", authRouter);
 app.use("/system", systemRouter);
 app.use('/api/v1/users', userRoute);
-app.use('/api/v1/webhook', webhookRoute);
+app.use('/api/v1/webhook', webHookRoute);
 
 app.all("*", (req, res) => {
   res
