@@ -1,17 +1,19 @@
 const https = require("https")
-const request = require('request');
+const AIMLInterpreter = require('./AMILI');
 const TOKEN = process.env.LINE_ACCESS_TOKEN;
 
-reply = (reply_token) => {
+const aimlInterpreter = new AIMLInterpreter({name:'WireInterpreter', age:'42'});
+aimlInterpreter.loadAIMLFilesIntoArray(['./test-aiml.xml']);
+
+//const aimlParser = new AIMLParser({ name:'HelloBot' });
+//aimlParser.load(['./test-aiml.xml']);
+
+reply = (reply_token, msg) => {
     let dataString = JSON.stringify({
         replyToken: reply_token,
         messages: [{
             type: 'text',
-            text: 'Hello'
-        },
-        {
-            type: 'text',
-            text: 'How are you?'
+            text: msg
         }]
     });
 
@@ -49,6 +51,11 @@ exports.webHook = (req, res) => {
     res.send("HTTP POST request sent to the webhook URL!");
     if (req.body.events[0].type === "message") {
         let reply_token = req.body.events[0].replyToken;
-        reply(reply_token);
+        let msg = req.body.events[0].message.text;
+
+        aimlInterpreter.findAnswerInLoadedAIMLFiles(msg, (answer, wildCardArray, input) => {
+            console.log(answer + ' | ' + wildCardArray + ' | ' + input);
+            reply(reply_token, answer);
+        });
     }
 };
