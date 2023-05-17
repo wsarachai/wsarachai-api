@@ -9,7 +9,25 @@ const expressLayouts = require("express-ejs-layouts");
 const bodyParser = require('body-parser');
 const userRoute = require('./router/userRoutes');
 const webHookRoute = require('./router/webhookRoutes');
-const line = require('@line/bot-sdk');
+const {
+  middleware,
+  JSONParseError, 
+  SignatureValidationFailed, 
+  HTTPError, 
+  ReadError, 
+  RequestError,
+
+  // webhook event objects
+  WebhookEvent,
+  MessageEvent,
+  EventSource,
+  VideoEventMessage,
+
+  // message event objects
+  Message,
+  TemplateMessage,
+  TemplateContent,
+} = require('@line/bot-sdk');
 
 global.themesettings = themesettings;
 
@@ -20,7 +38,7 @@ const config = {
 
 const app = express();
 
-app.use('/api/v1/webhook', line.middleware(config), webHookRoute);
+app.use('/api/v1/webhook', middleware(config), webHookRoute);
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
@@ -55,5 +73,16 @@ app.all("*", (req, res) => {
       currentLayout: theme.getLayoutPath("system"),
     });
 });
+
+app.use((err, req, res, next) => {
+  if (err instanceof SignatureValidationFailed) {
+    res.status(401).send(err.signature)
+    return
+  } else if (err instanceof JSONParseError) {
+    res.status(400).send(err.raw)
+    return
+  }
+  next(err) // will throw default 500
+})
 
 module.exports = app;
