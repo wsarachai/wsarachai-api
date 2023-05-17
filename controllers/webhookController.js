@@ -1,12 +1,12 @@
 //const https = require("https")
-//const AIMLInterpreter = require('./AIMLInterpreter');
+const AIMLInterpreter = require('./AIMLInterpreter');
 const line = require('@line/bot-sdk');
 
-// const TOKEN = process.env.LINE_ACCESS_TOKEN;
-// const CHANNEL_SECRET = process.env.LINE_CHANNEL_SECRET;
+const TOKEN = process.env.LINE_ACCESS_TOKEN;
+const CHANNEL_SECRET = process.env.LINE_CHANNEL_SECRET;
 
-// const aimlInterpreter = new AIMLInterpreter({name:'WireInterpreter', age:'42'});
-// aimlInterpreter.loadAIMLFilesIntoArray(['./test-aiml.xml']);
+const aimlInterpreter = new AIMLInterpreter({name:'WireInterpreter', age:'42'});
+aimlInterpreter.loadAIMLFilesIntoArray(['./test-aiml.xml']);
 
 // reply = (reply_token, msg) => {
 //     let dataString = JSON.stringify({
@@ -48,8 +48,8 @@ const line = require('@line/bot-sdk');
 // };
 
 const config = {
-    channelAccessToken: process.env.LINE_ACCESS_TOKEN,
-    channelSecret: process.env.LINE_CHANNEL_SECRET
+    channelAccessToken: TOKEN,
+    channelSecret: CHANNEL_SECRET
 };
 
   
@@ -59,10 +59,16 @@ function handleEvent(event) {
     if (event.type !== 'message' || event.message.type !== 'text') {
         return Promise.resolve(null);
     }
-  
-    return client.replyMessage(event.replyToken, {
-        type: 'text',
-        text: event.message.text
+
+    return aimlInterpreter.findAnswerInLoadedAIMLFiles(event.message.text, async (answer, wildCardArray, input) => {
+        // console.log(answer + ' | ' + wildCardArray + ' | ' + input);
+        if (answer === undefined) {
+            answer = "I found nothing.";
+        }
+        await client.replyMessage(event.replyToken, {
+            type: 'text',
+            text: answer
+        })
     });
   }
   
