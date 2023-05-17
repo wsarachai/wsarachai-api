@@ -1,12 +1,9 @@
+const https = require("https")
 const request = require('request');
 const TOKEN = process.env.LINE_ACCESS_TOKEN;
 
 reply = (reply_token) => {
-    let headers = {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer {${TOKEN}}`
-    }
-    let body = JSON.stringify({
+    let dataString = JSON.stringify({
         replyToken: reply_token,
         messages: [{
             type: 'text',
@@ -16,18 +13,42 @@ reply = (reply_token) => {
             type: 'text',
             text: 'How are you?'
         }]
-    })
-    request.post({
-        url: 'https://api.line.me/v2/bot/message/reply',
-        headers: headers,
-        body: body
-    }, (err, res, body) => {
-        console.log('status = ' + res.statusCode);
     });
+
+    let headers = {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer {${TOKEN}}`
+    };
+
+    const webhookOptions = {
+        "hostname": "api.line.me",
+        "path": "/v2/bot/message/reply",
+        "method": "POST",
+        "headers": headers,
+        "body": dataString
+      };
+      
+      // Define request
+      const request = https.request(webhookOptions, (res) => {
+        res.on("data", (d) => {
+            process.stdout.write(d)
+        });
+      });
+  
+      // Handle error
+      request.on("error", (err) => {
+        console.error(err)
+      });
+  
+      // Send data
+      request.write(dataString);
+      request.end();
 };
 
 exports.webHook = (req, res) => {
-    let reply_token = req.body.events[0].replyToken
-    reply(reply_token)
-    res.sendStatus(200)
+    res.send("HTTP POST request sent to the webhook URL!");
+    if (req.body.events[0].type === "message") {
+        let reply_token = req.body.events[0].replyToken;
+        reply(reply_token);
+    }
 };
