@@ -57,55 +57,88 @@ function handleEvent(event) {
                 });
             }
         } 
+        else if (event.message.text === 'Info') {            
+            if (event.source.type === 'user') {
+                let userId = event.source.userId;
+                var url = 'https://itsci.mju.ac.th/watcharin/api/v1/users/64672baf62b0b5195445c9c1';
+                https.get(url, (resp)=>{
+                    let data = '';
+                    // A chunk of data has been received.
+                    resp.on('data', (chunk) => {
+                        data += chunk;
+                    });
+                    // The whole response has been received. Print out the result.
+                    resp.on('end', () => {
+                        const obj = JSON.parse(data);
+                        const student = obj.data.user;
+                        client.pushMessage(userId, {
+                            type: 'text',
+                            text: `สวัสดี, ${student.firstName} ${student.lastName}`,
+                        });
+                    });
+                }).on("error", (err) => {
+                    console.log("Error: " + err.message);
+                });
+            }
+        }
         else if (event.message.text === 'Reg') {
-            const url = 'api.line.me';
-            var postData = JSON.stringify({
-                "to": "Uaa87542acc2a6380d218823e6188126d",
-                "messages": [{
-                    "type": "template",
-                    "altText": "Account Link",
-                    "template": {
-                        "type": "buttons",
-                        "text": "ลงทะเบียนนักศึกษาใหม่",
-                        "actions": [{
-                            "type": "uri",
-                            "label": "คลิกที่นี่",
-                            "uri": "https://itsci.mju.ac.th/watcharin/api/v1/webhook/line"
-                        }]
-                    }
-                }]
-            });
-            var options = {
-                hostname: url,
-                port: 443,
-                path: '/v2/bot/message/push',
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                  'Content-Length': Buffer.byteLength(postData),
-                  'Authorization': 'Bearer km48UQvYf/VHuvs9SeMBfO3mC9EWjGrFSR8EtBpuj/Ku5mAaCA5N/Hl9rTAvEE5tu4zRN6WTmxQFIHiyDeXqCk6jBer2K2JSrKsCsgmi2zcMMieB6BlkdLH5nEHdVRv6cep+TbriqjbgXK6n7BpuxAdB04t89/1O/w1cDnyilFU='
-               }
-              };
-              
-              var req = https.request(options, (res) => {
-                console.log(`STATUS: ${res.statusCode}`);
-                console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
-                res.setEncoding('utf8');
-                res.on('data', (chunk) => {
-                  console.log(`BODY: ${chunk}`);
+            if (event.source.type === 'user') {
+                let userId = event.source.userId;
+                const url = 'api.line.me';
+                var postData = JSON.stringify({
+                    "to": "Uaa87542acc2a6380d218823e6188126d",
+                    "messages": [{
+                        "type": "template",
+                        "altText": "Account Link",
+                        "template": {
+                            "type": "buttons",
+                            "text": "ลงทะเบียนนักศึกษาใหม่",
+                            "actions": [{
+                                "type": "uri",
+                                "label": "คลิกที่นี่",
+                                "uri": "https://itsci.mju.ac.th/watcharin/student/register?userId=" + userId
+                            }]
+                        }
+                    }]
                 });
-                res.on('end', () => {
-                  console.log('No more data in response.');
+                var options = {
+                    hostname: url,
+                    port: 443,
+                    path: '/v2/bot/message/push',
+                    method: 'POST',
+                    headers: {
+                    'Content-Type': 'application/json',
+                    'Content-Length': Buffer.byteLength(postData),
+                    'Authorization': 'Bearer km48UQvYf/VHuvs9SeMBfO3mC9EWjGrFSR8EtBpuj/Ku5mAaCA5N/Hl9rTAvEE5tu4zRN6WTmxQFIHiyDeXqCk6jBer2K2JSrKsCsgmi2zcMMieB6BlkdLH5nEHdVRv6cep+TbriqjbgXK6n7BpuxAdB04t89/1O/w1cDnyilFU='
+                }
+                };
+                
+                var req = https.request(options, (res) => {
+                    console.log(`STATUS: ${res.statusCode}`);
+                    console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+                    res.setEncoding('utf8');
+                    res.on('data', (chunk) => {
+                        console.log(`BODY: ${chunk}`);
+                    });
+                    res.on('end', () => {
+                        console.log('No more data in response.');
+                    });
                 });
-              });
-              
-              req.on('error', (e) => {
-                console.log(`problem with request: ${e.message}`);
-              });
-              
-              // write data to request body
-              req.write(postData);
-              req.end();
+                
+                req.on('error', (e) => {
+                    console.log(`problem with request: ${e.message}`);
+                });
+                
+                // write data to request body
+                req.write(postData);
+                req.end();
+            }
+            else {
+                client.replyMessage(event.replyToken, {
+                    type: 'text',
+                    text: 'You are not a User!'
+                })
+            }
         } 
         // else if (event.message.text === 'Msg') {
         //     client.getMessageContent('455505364492661649')

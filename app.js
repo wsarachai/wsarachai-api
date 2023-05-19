@@ -9,6 +9,7 @@ const expressLayouts = require("express-ejs-layouts");
 const bodyParser = require('body-parser');
 const userRoute = require('./router/userRoutes');
 const lineRoute = require('./router/line');
+const studentRoute = require('./router/studentRoutes');
 const webHookRoute241 = require('./router/webhookRoutes241');
 const webHookRoute493 = require('./router/webhookRoutes493');
 const {
@@ -51,6 +52,8 @@ app.use('/api/v1/webhook/it493', middleware(config493), webHookRoute493);
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
+app.use('/api/v1/users', userRoute);
+
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
   next();
@@ -73,7 +76,7 @@ app.use(init);
 app.use('/', dashboardRouter);
 app.use("/auth", authRouter);
 app.use("/system", systemRouter);
-app.use('/api/v1/users', userRoute);
+app.use('/student', studentRoute);
 
 app.all("*", (req, res) => {
   res
