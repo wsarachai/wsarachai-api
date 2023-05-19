@@ -20,7 +20,7 @@ function handleEvent(event) {
     console.log(event);
 
     if (event.message.type === 'text') {
-        if (event.message.text === 'bye') {
+        if (event.message.text === 'Bye') {
             if (event.source.type === 'room') {
                 client.leaveRoom(event.source.roomId);
             } else if (event.source.type === 'group') {
@@ -35,29 +35,50 @@ function handleEvent(event) {
                     }
                 });
             }
-        } else if (event.message.text === 'Hi') {
-            client.getProfile('Uaa87542acc2a6380d218823e6188126d').then((profile) => {
-                console.log(profile);
-                client.pushMessage('Uaa87542acc2a6380d218823e6188126d', {
+        } 
+        else if (event.message.text === 'Hi') {            
+            if (event.source.type === 'user') {
+                let userId = event.source.userId;
+                client.getProfile(userId).then((profile) => {
+                    console.log(profile);
+                    client.pushMessage(userId, {
+                        type: 'text',
+                        text: `hello, ${profile.displayName}`,
+                    });
+                });
+            } else {
+                client.replyMessage(event.replyToken, {
                     type: 'text',
-                    text: `hello, ${profile.displayName}`,
+                    text: 'Hi, noname',
+                }).catch((err) => {
+                    if (err instanceof HTTPError) {
+                        console.error(err.statusCode);
+                    }
                 });
-            });
-        } else if (event.message.text === 'Msg') {
-            client.getMessageContent('455505364492661649')
-            .then((stream) => {
-                stream.on('data', (chunk) => {
+            }
+        } 
+        // else if (event.message.text === 'Msg') {
+        //     client.getMessageContent('455505364492661649')
+        //     .then((stream) => {
+        //         stream.on('data', (chunk) => {
 
+        //         });
+        //         stream.on('error', (err) => {
+        //             console.error(err.statusCode);
+        //         });
+        //         stream.pipe();
+        //     })
+        // }
+        else if (event.message.text === 'Profile') {            
+            if (event.source.type === 'user') {
+                let userId = event.source.userId;
+                client.getProfile(userId).then((profile) => {
+                    client.pushMessage(userId, {
+                        type: 'text',
+                        text: JSON.stringify(profile),
+                    });
                 });
-                stream.on('error', (err) => {
-                    console.error(err.statusCode);
-                });
-                stream.pipe();
-            })
-        } else if (event.message.text === 'Profile') {
-            client.getProfile('user_id').then((profile) => {
-                console.log(profile);
-              });
+            }
         } else {
             return aimlInterpreter.findAnswerInLoadedAIMLFiles(event.message.text, async (answer, wildCardArray, input) => {
                 // console.log(answer + ' | ' + wildCardArray + ' | ' + input);

@@ -8,6 +8,7 @@ const express = require('express');
 const expressLayouts = require("express-ejs-layouts");
 const bodyParser = require('body-parser');
 const userRoute = require('./router/userRoutes');
+const lineRoute = require('./router/line');
 const webHookRoute241 = require('./router/webhookRoutes241');
 const webHookRoute493 = require('./router/webhookRoutes493');
 const {
@@ -44,6 +45,7 @@ const config493 = {
 
 const app = express();
 
+app.use('/api/v1/webhook/line', lineRoute);
 app.use('/api/v1/webhook/it241', middleware(config241), webHookRoute241);
 app.use('/api/v1/webhook/it493', middleware(config493), webHookRoute493);
 app.use(bodyParser.urlencoded({ extended: true }))
