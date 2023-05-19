@@ -1,4 +1,4 @@
-//const https = require("https")
+const https = require("https")
 const AIMLInterpreter = require('./AIMLInterpreter');
 const line = require('@line/bot-sdk');
 
@@ -56,6 +56,56 @@ function handleEvent(event) {
                     }
                 });
             }
+        } 
+        else if (event.message.text === 'Reg') {
+            const url = 'api.line.me';
+            var postData = JSON.stringify({
+                "to": "Uaa87542acc2a6380d218823e6188126d",
+                "messages": [{
+                    "type": "template",
+                    "altText": "Account Link",
+                    "template": {
+                        "type": "buttons",
+                        "text": "ลงทะเบียนนักศึกษาใหม่",
+                        "actions": [{
+                            "type": "uri",
+                            "label": "คลิกที่นี่",
+                            "uri": "https://itsci.mju.ac.th/watcharin/api/v1/webhook/line"
+                        }]
+                    }
+                }]
+            });
+            var options = {
+                hostname: url,
+                port: 443,
+                path: '/v2/bot/message/push',
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Content-Length': Buffer.byteLength(postData),
+                  'Authorization': 'Bearer km48UQvYf/VHuvs9SeMBfO3mC9EWjGrFSR8EtBpuj/Ku5mAaCA5N/Hl9rTAvEE5tu4zRN6WTmxQFIHiyDeXqCk6jBer2K2JSrKsCsgmi2zcMMieB6BlkdLH5nEHdVRv6cep+TbriqjbgXK6n7BpuxAdB04t89/1O/w1cDnyilFU='
+               }
+              };
+              
+              var req = https.request(options, (res) => {
+                console.log(`STATUS: ${res.statusCode}`);
+                console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+                res.setEncoding('utf8');
+                res.on('data', (chunk) => {
+                  console.log(`BODY: ${chunk}`);
+                });
+                res.on('end', () => {
+                  console.log('No more data in response.');
+                });
+              });
+              
+              req.on('error', (e) => {
+                console.log(`problem with request: ${e.message}`);
+              });
+              
+              // write data to request body
+              req.write(postData);
+              req.end();
         } 
         // else if (event.message.text === 'Msg') {
         //     client.getMessageContent('455505364492661649')
