@@ -1,6 +1,7 @@
 const https = require("https")
 const AIMLInterpreter = require('./AIMLInterpreter');
 const line = require('@line/bot-sdk');
+const User = require('./../models/userModel');
 
 const aimlInterpreter = new AIMLInterpreter({name:'WireInterpreter', age:'42'});
 aimlInterpreter.loadAIMLFilesIntoArray(['./test-aiml.xml']);
@@ -12,7 +13,7 @@ const config = {
 
 const client = new line.Client(config);
 
-function handleEvent(event) {
+const handleEvent = (event) => {
     if (event.type !== 'message' || event.message.type !== 'text') {
         return Promise.resolve(null);
     }
@@ -57,81 +58,90 @@ function handleEvent(event) {
                 });
             }
         } 
-        else if (event.message.text === 'Info') {            
+        else if (event.message.text === 'User') {            
             if (event.source.type === 'user') {
                 let userId = event.source.userId;
-                var url = 'https://itsci.mju.ac.th/watcharin/api/v1/users/64672baf62b0b5195445c9c1';
-                https.get(url, (resp)=>{
-                    let data = '';
-                    // A chunk of data has been received.
-                    resp.on('data', (chunk) => {
-                        data += chunk;
-                    });
-                    // The whole response has been received. Print out the result.
-                    resp.on('end', () => {
-                        const obj = JSON.parse(data);
-                        const student = obj.data.user;
+                User.findOne({ userId: userId }).then(user => {
+                    if (user) {
+                        console.log('User found:', user);
                         client.pushMessage(userId, {
                             type: 'text',
-                            text: `สวัสดี, ${student.firstName} ${student.lastName}`,
+                            text: `สวัสดี, ${user.code}-${user.firstName} ${user.lastName}`,
                         });
-                    });
-                }).on("error", (err) => {
-                    console.log("Error: " + err.message);
+                    } else {
+                        console.log('User not found');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error occurred while finding user:', error);
                 });
             }
         }
-        else if (event.message.text === 'Reg') {
+        else if (event.message.text === 'Info') {
             if (event.source.type === 'user') {
                 let userId = event.source.userId;
-                const url = 'api.line.me';
-                var postData = JSON.stringify({
-                    "to": "Uaa87542acc2a6380d218823e6188126d",
-                    "messages": [{
-                        "type": "template",
-                        "altText": "Account Link",
-                        "template": {
-                            "type": "buttons",
-                            "text": "ลงทะเบียนนักศึกษาใหม่",
-                            "actions": [{
-                                "type": "uri",
-                                "label": "คลิกที่นี่",
-                                "uri": "https://itsci.mju.ac.th/watcharin/student/register?userId=" + userId
+
+                User.findOne({ userId: userId }).then(user => {
+                    if (user) {
+                        console.log('User found:', user);
+                        client.pushMessage(userId, {
+                            type: 'text',
+                            text: `สวัสดี, ${user.code}-${user.firstName} ${user.lastName}`,
+                        });
+                    } else {
+                        //
+                        const url = 'api.line.me';
+                        var postData = JSON.stringify({
+                            "to": userId,
+                            "messages": [{
+                                "type": "template",
+                                "altText": "Account Link",
+                                "template": {
+                                    "type": "buttons",
+                                    "text": "ลงทะเบียนนักศึกษาใหม่",
+                                    "actions": [{
+                                        "type": "uri",
+                                        "label": "คลิกที่นี่",
+                                        "uri": "https://itsci.mju.ac.th/watcharin/student/register?userId=" + userId
+                                    }]
+                                }
                             }]
-                        }
-                    }]
+                        });
+                        var options = {
+                            hostname: url,
+                            port: 443,
+                            path: '/v2/bot/message/push',
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Content-Length': Buffer.byteLength(postData),
+                                'Authorization': 'Bearer km48UQvYf/VHuvs9SeMBfO3mC9EWjGrFSR8EtBpuj/Ku5mAaCA5N/Hl9rTAvEE5tu4zRN6WTmxQFIHiyDeXqCk6jBer2K2JSrKsCsgmi2zcMMieB6BlkdLH5nEHdVRv6cep+TbriqjbgXK6n7BpuxAdB04t89/1O/w1cDnyilFU='
+                            }
+                        };
+
+                        let req = https.request(options, (res) => {
+                            console.log(`STATUS: ${res.statusCode}`);
+                            console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+                            res.setEncoding('utf8');
+                            res.on('data', (chunk) => {
+                                console.log(`BODY: ${chunk}`);
+                            });
+                            res.on('end', () => {
+                                console.log('No more data in response.');
+                            });
+                        });
+
+                        req.on('error', (e) => {
+                            console.log(`problem with request: ${e.message}`);
+                        });
+                        // write data to request body
+                        req.write(postData);
+                        req.end();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error occurred while finding user:', error);
                 });
-                var options = {
-                    hostname: url,
-                    port: 443,
-                    path: '/v2/bot/message/push',
-                    method: 'POST',
-                    headers: {
-                    'Content-Type': 'application/json',
-                    'Content-Length': Buffer.byteLength(postData),
-                    'Authorization': 'Bearer km48UQvYf/VHuvs9SeMBfO3mC9EWjGrFSR8EtBpuj/Ku5mAaCA5N/Hl9rTAvEE5tu4zRN6WTmxQFIHiyDeXqCk6jBer2K2JSrKsCsgmi2zcMMieB6BlkdLH5nEHdVRv6cep+TbriqjbgXK6n7BpuxAdB04t89/1O/w1cDnyilFU='
-                }
-                };
-                
-                var req = https.request(options, (res) => {
-                    console.log(`STATUS: ${res.statusCode}`);
-                    console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
-                    res.setEncoding('utf8');
-                    res.on('data', (chunk) => {
-                        console.log(`BODY: ${chunk}`);
-                    });
-                    res.on('end', () => {
-                        console.log('No more data in response.');
-                    });
-                });
-                
-                req.on('error', (e) => {
-                    console.log(`problem with request: ${e.message}`);
-                });
-                
-                // write data to request body
-                req.write(postData);
-                req.end();
             }
             else {
                 client.replyMessage(event.replyToken, {
