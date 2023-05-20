@@ -16,24 +16,18 @@ exports.createStudentFrm = (req, res) => {
   res.end(textIn);
 };
 
-exports.createStudent = async (req, res) => {
+exports.createStudent = (req, res) => {
     try {
-        const newUser = await User.create(req.body);
-        textResilt = textResilt.replace("{result}", "สำเร็จ!!");
-        res.status(200).send(textResilt);
-
-        console.log(newUser);
-        // res.status(200).json({
-        //     status: 'success',
-        //     data: newUser,
-        // });
+        User.create(req.body).then(newUser => {
+          console.log(newUser);
+          textResilt = textResilt.replace("{result}", "สำเร็จ!!");
+          res.status(200).send(textResilt);
+  
+          console.log(newUser);
+        });
       } catch (err) {
         textResilt = textResilt.replace("{result}", "ไม่สำเร็จ ให้ติดต่ออาจารย์!! (นักศึกษาอาจลงทะเบียนแล้วลองใช้คำสั่ง 'Info')");
         res.status(400).send(textResilt);
-        // res.status(400).json({
-        //     status: 'failed',
-        //     message: err,
-        // });
       }
 };
 
