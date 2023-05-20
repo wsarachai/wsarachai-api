@@ -69,5 +69,5 @@ exports.findOne = (user) => {
     });
   });
 
-  return createStudent;
+  return student;
 };
