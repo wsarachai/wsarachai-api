@@ -9,5 +9,7 @@ route.route('/:id')
     .get(userController.getUser)
     .patch(userController.updateUser)
     .delete(userController.deleteUser);
+route.route('/userId/:id')
+    .get(userController.findByUserId);
 
 module.exports = route;

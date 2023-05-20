@@ -22,7 +22,11 @@ class KTTheme {
 
   vendorFiles = [];
 
-  constructor() {}
+  constructor() { }
+
+  getTitle() {
+    return themeSettings.title;
+  }
 
   // Add HTML attributes by scope
   addHtmlAttribute(scope, attributeName, attributeValue) {

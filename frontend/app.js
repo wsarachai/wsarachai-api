@@ -1,6 +1,7 @@
 const themesettings = require("./_keenthemes/lib/themesettings.json");
 const dashboardRouter = require("./router/dashboard");
 const authRouter = require("./router/auth");
+const itsciRouter = require("./router/itsci");
 const systemRouter = require("./router/system");
 const createKtThemeInstance = require("./_keenthemes/lib/theme");
 const createKtBootstrapInstance = require(`./views/layout/${themesettings.name}/bootstrap`);
@@ -19,16 +20,18 @@ global.themesettings = themesettings;
 
 const app = express();
 
-app.use('/api/v1/webhook', webHookRoute);
-app.use('/api/v1/webhook/line', lineRoute);
-app.use(bodyParser.urlencoded({ extended: true }))
-app.use(bodyParser.json())
-
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
   next();
 });
 
+// Line webhook routes
+app.use('/api/v1/webhook', webHookRoute);
+app.use('/api/v1/webhook/line', lineRoute);
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json())
+
+// Home frontend routes
 app.use("/", express.static("public"));
 
 // Set Templating Engine
@@ -44,6 +47,7 @@ const init = function (req, res, next) {
 
 app.use(init);
 app.use('/', dashboardRouter);
+app.use("/itsci", itsciRouter);
 app.use("/auth", authRouter);
 app.use("/system", systemRouter);
 app.use('/student', studentRoute);
