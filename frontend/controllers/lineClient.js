@@ -1,6 +1,7 @@
 const https = require("https")
 const AIMLInterpreter = require('./AIMLInterpreter');
 const lineConfig = require('./../utils/lineConfig');
+const studentService = require('../services/studentService');
 
 const aimlInterpreter = new AIMLInterpreter({ name: 'WireInterpreter', age: '42' });
 aimlInterpreter.loadAIMLFilesIntoArray(['./test-aiml.xml']);
@@ -54,7 +55,7 @@ const handleEvent = (event, client) => {
     else if (event.message.text === 'User') {
       if (event.source.type === 'user') {
         let userId = event.source.userId;
-        User.findOne({ userId: userId }).then(user => {
+        studentService.findOne({ userId: userId }).then(user => {
           if (user) {
             console.log('User found:', user);
             client.pushMessage(userId, {
@@ -74,7 +75,7 @@ const handleEvent = (event, client) => {
       if (event.source.type === 'user') {
         let userId = event.source.userId;
 
-        User.findOne({ userId: userId }).then(user => {
+        studentService.findOne({ userId: userId }).then(user => {
           if (user) {
             console.log('User found:', user);
             client.pushMessage(userId, {

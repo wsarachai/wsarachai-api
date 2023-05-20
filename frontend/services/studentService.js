@@ -3,7 +3,7 @@ const request = require("request");
 const connectApiHost = "http://localhost:3000"
 const connectApiPath = "api/v1/users"
 
-exports.getAllStudents = () => {
+exports.getAll = () => {
   const allStudent = new Promise(function (resolve, reject) {
     const url = `${connectApiHost}/${connectApiPath}`;
     request.get(url, (error, response, body) => {
@@ -22,7 +22,7 @@ exports.getAllStudents = () => {
   return allStudent;
 };
 
-exports.createStudent = (student) => {
+exports.create = (student) => {
   const createStudent = new Promise(function (resolve, reject) {
     const url = `${connectApiHost}/${connectApiPath}`;
     const options = {
@@ -51,13 +51,23 @@ exports.createStudent = (student) => {
   return createStudent;
 };
 
-exports.getStudent = (id) => {
+exports.findOne = (user) => {
+  const student = new Promise(function (resolve, reject) {
+    console.log('findOne: ' + user);
+    const url = `${connectApiHost}/${connectApiPath}/userId/${user.userId}`;
+    request.get(url, (error, response, body) => {
+      if (error) {
+        reject(error, 'Error:', error);
+      } else if (response.statusCode !== 200) {
+        reject(error, 'Error:', error);
+        console.error(error, `Status code: ${response.statusCode}`);
+      } else {
+        console.log('Response body:', body);
+        const result = JSON.parse(body);
+        resolve(result.data);
+      }
+    });
+  });
 
+  return createStudent;
 };
-
-exports.getStudent = (lineId) => {
-};
-
-exports.updateStudent = () => { };
-
-exports.deleteStudent = () => { };

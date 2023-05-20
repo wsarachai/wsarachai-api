@@ -5,7 +5,6 @@ const createKtBootstrapInstance = require(`./views/layout/${themesettings.name}/
 const express = require('express');
 const expressLayouts = require("express-ejs-layouts");
 const bodyParser = require('body-parser');
-const lineRoute = require('./router/line');
 const webHookRoute = require('./router/webhookRoutes');
 const {
   JSONParseError,
@@ -23,7 +22,6 @@ app.use((req, res, next) => {
 
 // Line webhook routes
 app.use('/api/v1/webhook', webHookRoute);
-app.use('/api/v1/webhook/line', lineRoute);
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
