@@ -12,6 +12,7 @@ const handleEvent = (event, client) => {
     return Promise.resolve(null);
   }
 
+  console.log(client);
   console.log(event);
 
   if (event.message.type === 'text') {
@@ -109,7 +110,7 @@ const handleEvent = (event, client) => {
               headers: {
                 'Content-Type': 'application/json',
                 'Content-Length': Buffer.byteLength(postData),
-                'Authorization': 'Bearer km48UQvYf/VHuvs9SeMBfO3mC9EWjGrFSR8EtBpuj/Ku5mAaCA5N/Hl9rTAvEE5tu4zRN6WTmxQFIHiyDeXqCk6jBer2K2JSrKsCsgmi2zcMMieB6BlkdLH5nEHdVRv6cep+TbriqjbgXK6n7BpuxAdB04t89/1O/w1cDnyilFU='
+                'Authorization': `Bearer ${client.config.channelAccessToken}`
               }
             };
 

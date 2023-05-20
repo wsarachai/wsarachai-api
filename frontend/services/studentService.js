@@ -7,6 +7,7 @@ exports.getAll = () => {
   const allStudent = new Promise(function (resolve, reject) {
     const url = `${connectApiHost}/${connectApiPath}`;
     request.get(url, (error, response, body) => {
+      console.log(body);
       if (error) {
         reject(error, 'Error:', error);
       } else if (response.statusCode !== 200) {
