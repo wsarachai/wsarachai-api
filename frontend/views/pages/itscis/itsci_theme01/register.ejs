@@ -1,0 +1,90 @@
+<!--begin::Form-->
+<form
+  class="form w-100"
+  novalidate="novalidate"
+  id="kt_sign_up_form"
+  data-kt-redirect-url="/signin"
+  action="register"
+  method="POST"
+>
+  <!--begin::Heading-->
+  <div class="text-center mb-11">
+    <!--begin::Title-->
+    <h1 class="text-dark fw-bolder mb-3">ลงทะเบียน</h1>
+    <!--end::Title-->
+  </div>
+  <!--begin::Heading-->
+
+  <!--begin::Email-->
+  <input type="hidden" name="userId" value="<%- userId %>" />
+  <!--end::Email-->
+
+  <!--begin::Input group--->
+  <div class="fv-row mb-8">
+    <!--begin::Email-->
+    <input
+      type="text"
+      placeholder="รหัสนักศึกษา"
+      name="code"
+      autocomplete="off"
+      class="form-control bg-transparent"
+    />
+    <!--end::Email-->
+  </div>
+
+  <!--begin::Input group--->
+  <div class="fv-row mb-8">
+    <!--begin::firstName Tnai-->
+    <input
+      type="text"
+      placeholder="ชื่อ"
+      name="firstName"
+      autocomplete="off"
+      class="form-control bg-transparent"
+    />
+    <!--end::firstName Tnai-->
+  </div>
+
+  <!--begin::Input group--->
+  <div class="fv-row mb-8">
+    <!--begin::firstName Tnai-->
+    <input
+      type="text"
+      placeholder="นามสกุล"
+      name="lastName"
+      autocomplete="off"
+      class="form-control bg-transparent"
+    />
+    <!--end::firstName Tnai-->
+  </div>
+
+  <!--begin::Input group--->
+  <div class="fv-row mb-8">
+    <!--begin::firstName Tnai-->
+    <input
+      type="text"
+      placeholder="ชื่อเล่น"
+      name="nickname"
+      autocomplete="off"
+      class="form-control bg-transparent"
+    />
+    <!--end::firstName Tnai-->
+  </div>
+
+  <!--begin::Submit button-->
+  <div class="d-grid mb-10">
+    <button type="submit" id="kt_sign_up_submit" class="btn btn-primary">
+      ตกลง
+    </button>
+  </div>
+  <!--end::Submit button-->
+
+  <!--begin::Sign up-->
+  <div class="text-gray-500 text-center fw-semibold fs-6">
+    Already have an Account?
+
+    <a href="/auth/sign-in" class="link-primary fw-semibold"> Sign in </a>
+  </div>
+  <!--end::Sign up-->
+</form>
+<!--end::Form-->

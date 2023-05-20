@@ -1,15 +1,11 @@
 const themesettings = require("./_keenthemes/lib/themesettings.json");
-const dashboardRouter = require("./router/dashboard");
-const authRouter = require("./router/auth");
-const itsciRouter = require("./router/itsci");
-const systemRouter = require("./router/system");
+const studentRoute = require('./router/studentRoutes');
 const createKtThemeInstance = require("./_keenthemes/lib/theme");
 const createKtBootstrapInstance = require(`./views/layout/${themesettings.name}/bootstrap`);
 const express = require('express');
 const expressLayouts = require("express-ejs-layouts");
 const bodyParser = require('body-parser');
 const lineRoute = require('./router/line');
-const studentRoute = require('./router/studentRoutes');
 const webHookRoute = require('./router/webhookRoutes');
 const {
   JSONParseError,
@@ -46,10 +42,6 @@ const init = function (req, res, next) {
 };
 
 app.use(init);
-app.use('/', dashboardRouter);
-app.use("/itsci", itsciRouter);
-app.use("/auth", authRouter);
-app.use("/system", systemRouter);
 app.use('/student', studentRoute);
 
 app.all("*", (req, res) => {

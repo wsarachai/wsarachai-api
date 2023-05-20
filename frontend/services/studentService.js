@@ -38,7 +38,12 @@ exports.createStudent = (student) => {
       if (error) {
         reject(error);
       } else {
-        resolve(body);
+        const data = JSON.parse(body);
+        if (data.status === 'success') {
+          resolve(data);
+        } else {
+          reject(data);
+        }
       }
     });
   });

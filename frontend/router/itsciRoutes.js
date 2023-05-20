@@ -8,8 +8,8 @@ router.use((req, res, next) => {
 });
 
 router.get("/", (req, res) => {
-  res.render(theme.getPageViewPath("itsci", "index"), {
-    currentLayout: theme.getLayoutPath("default")
+  res.render(theme.getPageViewPath("itscis", "index"), {
+    currentLayout: theme.getLayoutPath("default"),
   });
 });
 

@@ -5,7 +5,7 @@ router.use((req, res, next) => {
    bootstrap.init();
    bootstrap.initAuthLayout()
    next()
- })
+})
 
 router.get('/new-password', (req, res) => {
    theme.addJavascriptFile("js/custom/authentication/reset-password/new-password.js");
@@ -24,7 +24,9 @@ router.get('/sign-in', (req, res) => {
 
 router.get('/sign-up', (req, res) => {
    theme.addJavascriptFile("js/custom/authentication/sign-up/general.js");
-   res.render(theme.getPageViewPath("auth", "sign-up"), { currentLayout: theme.getLayoutPath("auth") });
+   res.render(theme.getPageViewPath("auth", "sign-up"), {
+      currentLayout: theme.getLayoutPath("auth")
+   });
 });
 
 module.exports = router;
