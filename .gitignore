@@ -26,5 +26,4 @@ coverage
 
 package-lock.json
 *.out
-
 *.env
