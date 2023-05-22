@@ -47,7 +47,7 @@ exports.atten = (req, res) => {
 
   theme.addJavascriptFile("js/custom/authentication/get-location.js");
   res.render(theme.getPageViewPath("itscis", "student-attention"), {
-    currentLayout: theme.getLayoutPath("default"),
+    currentLayout: theme.getLayoutPath("atten-layout"),
     userId: req.query.userId,
     course: "it241",
   });
