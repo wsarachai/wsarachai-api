@@ -163,7 +163,7 @@ const handleEvent = (event, client) => {
                   "actions": [{
                     "type": "uri",
                     "label": "คลิกที่นี่",
-                    "uri": "https://itsci.mju.ac.th/watcharin/student/atten?userId=" + userId
+                    "uri": `https://itsci.mju.ac.th/watcharin/student/atten?userId=${userId}&course=${client.config.course}`
                   }]
                 }
               }]
