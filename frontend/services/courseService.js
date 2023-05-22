@@ -59,15 +59,13 @@ exports.create = (obj) => {
 exports.findOne = (param) => {
   const promise = new Promise(function (resolve, reject) {
     const url = `${connectApiHost}/${connectApiPath}/code/${param}`;
-    console.log(url);
     request.get(url, (error, response, body) => {
-      if (body.status === "success") {
-        console.log("Response body:", body);
-        const result = JSON.parse(body);
+      const result = JSON.parse(body);
+      console.log(result);
+      if (result.status === "success") {
         resolve(result.data);
       } else {
-        reject(body.message);
-        console.error(error, `Status code: ${response.statusCode}`);
+        reject(result.status);
       }
     });
   });
