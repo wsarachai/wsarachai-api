@@ -102,39 +102,40 @@ exports.atten = (req, res) => {
 };
 
 exports.attenCheck = async (req, res) => {
-  console.log(req.body);
-  const location = JSON.parse(req.body.userLocation);
-  const course = await courseService.findOne(req.body.course);
-
   let message = "ลงชื่อเข้าเรียนไม่สำเร็จ ให้ติดต่ออาจารย์!!"
+  console.log(req.body);
+  if (req.body.userLocation && req.body.course && req.body.userId) {
+    const location = JSON.parse(req.body.userLocation);
+    const course = await courseService.findOne(req.body.course);
 
-  try {
-    if (course) {
-      let status = timeInRanges(course.startTime);
-      if (status === "atten" || status === "late") {
-        const student = await studentService.findOne({ userId: req.body.userId });
 
-        // Example usage
-        const distance = calculateDistance(
-          location.latitude,
-          location.longitude,
-          course.location.latitude,
-          course.location.longitude
-        );
+    try {
+      if (course) {
+        let status = timeInRanges(course.startTime);
+        if (status === "atten" || status === "late") {
+          const student = await studentService.findOne({ userId: req.body.userId });
 
-        console.log(distance.toFixed(2)); // Output: 3934.44 kilometers
+          // Example usage
+          const distance = calculateDistance(
+            location.latitude,
+            location.longitude,
+            course.location.latitude,
+            course.location.longitude
+          );
 
-        if (distance <= 0.05) {
-          message = `${student.code} ${student.firstName} ${student.lastName}: ลงชื่อเข้าเรียนสำเร็จ`;
-        } else {
-          message = `${student.code} ${student.firstName} ${student.lastName}: ลงชื่อเข้าเรียนไม่สำเร็จ, อยู่นอกระยะห้องเรียนกรุณาเข้าไปเช็คชื่อในห้องเรียนเท่านั้น`;
+          console.log(distance.toFixed(2)); // Output: 3934.44 kilometers
+
+          if (distance <= 0.05) {
+            message = `${student.code} ${student.firstName} ${student.lastName}: ลงชื่อเข้าเรียนสำเร็จ`;
+          } else {
+            message = `${student.code} ${student.firstName} ${student.lastName}: ลงชื่อเข้าเรียนไม่สำเร็จ, อยู่นอกระยะห้องเรียนกรุณาเข้าไปเช็คชื่อในห้องเรียนเท่านั้น`;
+          }
         }
       }
+    } catch (e) {
+      console.error(e);
     }
-  } catch (e) {
-    console.error(e);
   }
-
   res.render(theme.getPageViewPath("itscis", "student-attention-result"), {
     currentLayout: theme.getLayoutPath("atten-layout"),
     message: message,
