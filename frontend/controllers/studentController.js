@@ -5,6 +5,26 @@ const degToRad = (degrees) => {
   return degrees * (Math.PI / 180);
 };
 
+const timeInRanges = (time) => {
+
+  let result = "absent";
+  const times = time.split(":");
+  const now = new Date();
+  const stuTime = new Date(`2023-05-22 ${now.getHours()}:${now.getMinutes()}:00`);
+  const date1 = new Date('2023-05-22 ' + time);
+  const date2 = new Date(`2023-05-22 ${times[0]}:${parseInt(times[1]) + 15}:00`);
+  const date3 = new Date(`2023-05-22 ${parseInt(times[0]) + 1}:${times[1]}:00`);
+
+  // Verify if the first time is equal, more recent or less recent than the second
+  if (stuTime.getTime() >= date1.getTime() && stuTime.getTime() <= date2.getTime()) {
+    result = "atten";
+  }
+  else if (stuTime.getTime() > date2.getTime() && stuTime.getTime() <= date3.getTime()) {
+    result = "late";
+  }
+  return result;
+};
+
 const calculateDistance = (lat1, lon1, lat2, lon2) => {
   const earthRadius = 6371; // Radius of the Earth in kilometers
 
@@ -22,9 +42,9 @@ const calculateDistance = (lat1, lon1, lat2, lon2) => {
   const a =
     Math.sin(latDiff / 2) * Math.sin(latDiff / 2) +
     Math.cos(lat1Rad) *
-      Math.cos(lat2Rad) *
-      Math.sin(lonDiff / 2) *
-      Math.sin(lonDiff / 2);
+    Math.cos(lat2Rad) *
+    Math.sin(lonDiff / 2) *
+    Math.sin(lonDiff / 2);
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   const distance = earthRadius * c;
 
@@ -76,46 +96,47 @@ exports.atten = (req, res) => {
   theme.addJavascriptFile("js/custom/authentication/get-location.js");
   res.render(theme.getPageViewPath("itscis", "student-attention"), {
     currentLayout: theme.getLayoutPath("atten-layout"),
-    userId: "U60cc189412773ed612d8efe00854e92f", //req.query.userId,
-    course: "IT241",
+    userId: req.query.userId,
+    course: req.query.course
   });
 };
 
 exports.attenCheck = async (req, res) => {
   console.log(req.body);
   const location = JSON.parse(req.body.userLocation);
-
-  const student = await studentService.findOne({ userId: req.body.userId });
   const course = await courseService.findOne(req.body.course);
 
-  if (course) {
-    // Example usage
-    const distance = calculateDistance(
-      location.latitude,
-      location.longitude,
-      course.location.latitude,
-      course.location.longitude
-    );
+  let message = "ลงชื่อเข้าเรียนไม่สำเร็จ ให้ติดต่ออาจารย์!!"
 
-    console.log(distance.toFixed(2)); // Output: 3934.44 kilometers
+  try {
+    if (course) {
+      let status = timeInRanges(course.startTime);
+      if (status === "atten" || status === "late") {
+        const student = await studentService.findOne({ userId: req.body.userId });
 
-    if (distance <= 0.05) {
-      res.render(theme.getPageViewPath("itscis", "student-attention-result"), {
-        currentLayout: theme.getLayoutPath("atten-layout"),
-        student: student,
-        message: "ลงชื่อเข้าเรียนสำเร็จ",
-      });
-    } else {
-      res.render(theme.getPageViewPath("itscis", "student-attention-result"), {
-        currentLayout: theme.getLayoutPath("atten-layout"),
-        student: student,
-        message: "ลงชื่อเข้าเรียนไม่สำเร็จ",
-      });
+        // Example usage
+        const distance = calculateDistance(
+          location.latitude,
+          location.longitude,
+          course.location.latitude,
+          course.location.longitude
+        );
+
+        console.log(distance.toFixed(2)); // Output: 3934.44 kilometers
+
+        if (distance <= 0.05) {
+          message = `${student.code} ${student.firstName} ${student.lastName}: ลงชื่อเข้าเรียนสำเร็จ`;
+        } else {
+          message = `${student.code} ${student.firstName} ${student.lastName}: ลงชื่อเข้าเรียนไม่สำเร็จ, อยู่นอกระยะห้องเรียนกรุณาเข้าไปเช็คชื่อในห้องเรียนเท่านั้น`;
+        }
+      }
     }
-  } else {
-    res.render(theme.getPageViewPath("itscis", "student-attention"), {
-      currentLayout: theme.getLayoutPath("atten-layout"),
-      message: "ลงชื่อเข้าเรียนไม่สำเร็จ ให้ติดต่ออาจารย์!!",
-    });
+  } catch (e) {
+    console.error(e);
   }
+
+  res.render(theme.getPageViewPath("itscis", "student-attention-result"), {
+    currentLayout: theme.getLayoutPath("atten-layout"),
+    message: message,
+  });
 };

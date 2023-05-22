@@ -2,8 +2,8 @@
 <form
   class="form w-100"
   novalidate="novalidate"
-  id="kt_sign_up_form"
-  data-kt-redirect-url="/atten"
+  id="itsci_sign_in_form"
+  data-itsci-redirect-url="atten"
   action="atten"
   method="POST"
 >
@@ -18,12 +18,12 @@
   <!--begin::Email-->
   <input type="hidden" name="userId" value="<%- userId %>" />
   <input type="hidden" name="course" value="<%- course %>" />
-  <input type="text" id="userLocation" name="userLocation" value="" />
+  <input type="hidden" id="userLocation" name="userLocation" value="" />
   <!--end::Email-->
 
   <!--begin::Submit button-->
   <div class="d-grid mb-10">
-    <button type="submit" id="kt_sign_up_submit" class="btn btn-primary">
+    <button type="submit" id="itsci_sign_in_submit" class="btn btn-primary">
       ตกลง
     </button>
   </div>

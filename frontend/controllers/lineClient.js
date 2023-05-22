@@ -97,7 +97,73 @@ const handleEvent = (event, client) => {
                   "actions": [{
                     "type": "uri",
                     "label": "คลิกที่นี่",
-                    "uri": "https://itsci.mju.ac.th/watcharin/student/register?userId=" + userId
+                    "uri": `https://itsci.mju.ac.th/watcharin/student/register?userId=${userId}&course=IT214`
+                  }]
+                }
+              }]
+            });
+            var options = {
+              hostname: url,
+              port: 443,
+              path: '/v2/bot/message/push',
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Content-Length': Buffer.byteLength(postData),
+                'Authorization': `Bearer ${client.config.channelAccessToken}`
+              }
+            };
+
+            let req = https.request(options, (res) => {
+              console.log(`STATUS: ${res.statusCode}`);
+              console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+              res.setEncoding('utf8');
+              res.on('data', (chunk) => {
+                console.log(`BODY: ${chunk}`);
+              });
+              res.on('end', () => {
+                console.log('No more data in response.');
+              });
+            });
+
+            req.on('error', (e) => {
+              console.log(`problem with request: ${e.message}`);
+            });
+            // write data to request body
+            req.write(postData);
+            req.end();
+          }
+        })
+          .catch(error => {
+            console.error('Error occurred while finding user:', error);
+          });
+      }
+      else {
+        client.replyMessage(event.replyToken, {
+          type: 'text',
+          text: 'You are not a User!'
+        })
+      }
+    }
+    else if (event.message.text === 'atten') {
+      if (event.source.type === 'user') {
+        let userId = event.source.userId;
+
+        studentService.findOne({ userId: userId }).then(user => {
+          if (user) {
+            const url = 'api.line.me';
+            var postData = JSON.stringify({
+              "to": userId,
+              "messages": [{
+                "type": "template",
+                "altText": "Account Link",
+                "template": {
+                  "type": "buttons",
+                  "text": "ลงชื่อเข้าเรียน",
+                  "actions": [{
+                    "type": "uri",
+                    "label": "คลิกที่นี่",
+                    "uri": "https://itsci.mju.ac.th/watcharin/student/atten?userId=" + userId
                   }]
                 }
               }]

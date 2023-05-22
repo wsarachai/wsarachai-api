@@ -11,6 +11,18 @@ const coursesSchema = mongoose.Schema({
     required: [true, "A userId is required"],
     unique: true,
   },
+  type: {
+    type: String,
+    required: [true, "A userId is required"]
+  },
+  startTime: {
+    type: String,
+    required: [true, "A startTime is required [xx:xx]"]
+  },
+  hours: {
+    type: Number,
+    required: [true, "A hours is required"]
+  },
   location: {
     latitude: {
       type: Number,

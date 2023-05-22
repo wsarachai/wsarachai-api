@@ -57,14 +57,14 @@ exports.create = (obj) => {
 };
 
 exports.findOne = (param) => {
-  const result = new Promise(function (resolve, reject) {
+  const promise = new Promise(function (resolve, reject) {
     console.log("findOne: " + param);
     const url = `${connectApiHost}/${connectApiPath}/code/${param}`;
     request.get(url, (error, response, body) => {
-      if (error) {
-        reject(error, "Error:", error);
-      } else if (response.statusCode !== 200) {
-        reject(error, "Error:", error);
+      if (error === null) {
+        reject("Error", "Unknown error...");
+      } else if (body.status === "failed") {
+        reject(body.status, "Error:", body.message);
         console.error(error, `Status code: ${response.statusCode}`);
       } else {
         console.log("Response body:", body);
@@ -74,5 +74,5 @@ exports.findOne = (param) => {
     });
   });
 
-  return result;
+  return promise;
 };
