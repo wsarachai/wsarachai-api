@@ -58,18 +58,16 @@ exports.create = (obj) => {
 
 exports.findOne = (param) => {
   const promise = new Promise(function (resolve, reject) {
-    console.log("findOne: " + param);
     const url = `${connectApiHost}/${connectApiPath}/code/${param}`;
+    console.log(url);
     request.get(url, (error, response, body) => {
-      if (error === null) {
-        reject("Unknown error...");
-      } else if (body.status === "failed") {
-        reject("Error:" + body.message);
-        console.error(error, `Status code: ${response.statusCode}`);
-      } else {
+      if (body.status === "success") {
         console.log("Response body:", body);
         const result = JSON.parse(body);
         resolve(result.data);
+      } else {
+        reject(body.message);
+        console.error(error, `Status code: ${response.statusCode}`);
       }
     });
   });
