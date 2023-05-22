@@ -26,4 +26,9 @@ coverage
 
 package-lock.json
 *.out
+<<<<<<< HEAD
 config.env
+=======
+
+*.env
+>>>>>>> master
