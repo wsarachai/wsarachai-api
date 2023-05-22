@@ -62,9 +62,9 @@ exports.findOne = (param) => {
     const url = `${connectApiHost}/${connectApiPath}/code/${param}`;
     request.get(url, (error, response, body) => {
       if (error === null) {
-        reject("Error", "Unknown error...");
+        reject("Unknown error...");
       } else if (body.status === "failed") {
-        reject(body.status, "Error:", body.message);
+        reject("Error:" + body.message);
         console.error(error, `Status code: ${response.statusCode}`);
       } else {
         console.log("Response body:", body);

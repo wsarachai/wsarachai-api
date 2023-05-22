@@ -108,32 +108,27 @@ exports.attenCheck = async (req, res) => {
     const location = JSON.parse(req.body.userLocation);
     const course = await courseService.findOne(req.body.course);
 
+    if (course) {
+      let status = timeInRanges(course.startTime);
+      if (status === "atten" || status === "late") {
+        const student = await studentService.findOne({ userId: req.body.userId });
 
-    try {
-      if (course) {
-        let status = timeInRanges(course.startTime);
-        if (status === "atten" || status === "late") {
-          const student = await studentService.findOne({ userId: req.body.userId });
+        // Example usage
+        const distance = calculateDistance(
+          location.latitude,
+          location.longitude,
+          course.location.latitude,
+          course.location.longitude
+        );
 
-          // Example usage
-          const distance = calculateDistance(
-            location.latitude,
-            location.longitude,
-            course.location.latitude,
-            course.location.longitude
-          );
+        console.log(distance.toFixed(2)); // Output: 3934.44 kilometers
 
-          console.log(distance.toFixed(2)); // Output: 3934.44 kilometers
-
-          if (distance <= 0.05) {
-            message = `${student.code} ${student.firstName} ${student.lastName}: ลงชื่อเข้าเรียนสำเร็จ`;
-          } else {
-            message = `${student.code} ${student.firstName} ${student.lastName}: ลงชื่อเข้าเรียนไม่สำเร็จ, อยู่นอกระยะห้องเรียนกรุณาเข้าไปเช็คชื่อในห้องเรียนเท่านั้น`;
-          }
+        if (distance <= 0.05) {
+          message = `${student.code} ${student.firstName} ${student.lastName}: ลงชื่อเข้าเรียนสำเร็จ`;
+        } else {
+          message = `${student.code} ${student.firstName} ${student.lastName}: ลงชื่อเข้าเรียนไม่สำเร็จ, อยู่นอกระยะห้องเรียนกรุณาเข้าไปเช็คชื่อในห้องเรียนเท่านั้น`;
         }
       }
-    } catch (e) {
-      console.error(e);
     }
   }
   res.render(theme.getPageViewPath("itscis", "student-attention-result"), {
