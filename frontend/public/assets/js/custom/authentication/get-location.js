@@ -1,7 +1,7 @@
 "use strict";
 
 const successCallback = (position) => {
-  const location = `${position.coords.latitude},${position.coords.longitude}`;
+  const location = `{"latitude": ${position.coords.latitude}, "longitude":${position.coords.longitude}}`;
   document.getElementById("userLocation").value = location;
 };
 

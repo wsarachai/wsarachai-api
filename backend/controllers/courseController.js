@@ -1,13 +1,13 @@
-const User = require("./../models/userModel");
+const Course = require("../models/courseModel");
 
-exports.getAllUsers = async (req, res) => {
+exports.getAllCourses = async (req, res) => {
   try {
-    const users = await User.find();
+    const courses = await Course.find();
     res.status(200).json({
       status: "success",
       requestAt: req.requestTime,
-      results: users.length,
-      data: users,
+      results: courses.length,
+      data: courses,
     });
   } catch (err) {
     res.status(404).json({
@@ -17,12 +17,12 @@ exports.getAllUsers = async (req, res) => {
   }
 };
 
-exports.createUser = async (req, res) => {
+exports.createCourse = async (req, res) => {
   try {
-    const newUser = await User.create(req.body);
+    const newCourse = await Course.create(req.body);
     res.status(200).json({
       status: "success",
-      data: newUser,
+      data: newCourse,
     });
   } catch (err) {
     res.status(400).json({
@@ -32,13 +32,13 @@ exports.createUser = async (req, res) => {
   }
 };
 
-exports.getUser = async (req, res) => {
+exports.getCourse = async (req, res) => {
   try {
-    const user = await User.findById(req.params.id);
+    const course = await Course.findById(req.params.id);
     res.status(200).json({
       status: "success",
       requestAt: req.requestTime,
-      data: { user },
+      data: { course },
     });
   } catch (err) {
     res.status(404).json({
@@ -48,16 +48,16 @@ exports.getUser = async (req, res) => {
   }
 };
 
-exports.updateUser = async (req, res) => {
+exports.updateCourse = async (req, res) => {
   try {
-    const user = await User.findByIdAndUpdate(req.params.id, req.body, {
+    const course = await Course.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
       runValidators: true,
     });
     res.status(200).json({
       status: "success",
       requestAt: req.requestTime,
-      data: { user },
+      data: { course },
     });
   } catch (err) {
     res.status(404).json({
@@ -67,9 +67,9 @@ exports.updateUser = async (req, res) => {
   }
 };
 
-exports.deleteUser = async (req, res) => {
+exports.deleteCourse = async (req, res) => {
   try {
-    await User.findByIdAndDelete(req.params.id);
+    await Course.findByIdAndDelete(req.params.id);
 
     res.status(200).json({
       status: "success",
@@ -84,13 +84,13 @@ exports.deleteUser = async (req, res) => {
   }
 };
 
-exports.findByUserId = async (req, res) => {
+exports.findByCourseCode = async (req, res) => {
   try {
-    const user = await User.findOne({ userId: req.params.id });
+    const course = await Course.findOne({ code: req.params.id });
     res.status(200).json({
       status: "success",
       requestAt: req.requestTime,
-      data: user,
+      data: course,
     });
   } catch (err) {
     res.status(404).json({

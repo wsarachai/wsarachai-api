@@ -1,34 +1,35 @@
-
-const express = require('express');
-const bodyParser = require('body-parser');
-const userRoute = require('./router/userRoutes');
+const express = require("express");
+const bodyParser = require("body-parser");
+const userRoute = require("./router/userRoutes");
+const courseRoute = require("./router/courseRoutes");
 
 const app = express();
 
-app.use(bodyParser.urlencoded({ extended: true }))
-app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
   next();
 });
 
-app.use('/api/v1/users', userRoute);
+app.use("/api/v1/users", userRoute);
+app.use("/api/v1/courses", courseRoute);
 
 app.use((err, req, res, next) => {
   if (err instanceof SignatureValidationFailed) {
     res.status(404).json({
-      status: 'failed',
+      status: "failed",
       message: err.signature,
     });
-    return
+    return;
   } else if (err instanceof JSONParseError) {
     res.status(404).json({
-      status: 'failed',
+      status: "failed",
       message: err.raw,
     });
-    return
+    return;
   }
-  next(err) // will throw default 500
-})
+  next(err); // will throw default 500
+});
 
 module.exports = app;

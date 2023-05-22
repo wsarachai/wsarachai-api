@@ -13,6 +13,9 @@ router
   .get(studentController.createStudentFrm)
   .post(studentController.createStudent);
 
-router.route("/atten").get(studentController.atten);
+router
+  .route("/atten")
+  .get(studentController.atten)
+  .post(studentController.attenCheck);
 
 module.exports = router;
