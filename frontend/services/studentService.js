@@ -69,6 +69,25 @@ exports.findOne = (user) => {
       }
     });
   });
+}
 
-  return student;
-};
+exports.findByLineId = (user) => {
+  const promise = new Promise(function (resolve, reject) {
+    console.log('findByLine: ' + user.lineId);
+    const url = `${connectApiHost}/${connectApiPath}/lineId/${user.lineId}`;
+    request.get(url, (error, response, body) => {
+      if (error) {
+        reject(error, 'Error:', error);
+      } else if (response.statusCode !== 200) {
+        reject(error, 'Error:', error);
+        console.error(error, `Status code: ${response.statusCode}`);
+      } else {
+        console.log('Response body:', body);
+        const result = JSON.parse(body);
+        resolve(result.data);
+      }
+    });
+  });
+
+  return promise;
+}

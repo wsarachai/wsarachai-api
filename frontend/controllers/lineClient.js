@@ -9,7 +9,7 @@ aimlInterpreter.loadAIMLFilesIntoArray(['./test-aiml.xml']);
 
 const textMessage = (event, client) => {
 
-  if (event.message.text.slice(0, 3) === 'reg') {
+  if (event.message.text.slice(0, 3) === 'Reg') {
     const cmds = event.message.text.split(':');
     const studentId = cmds[1];
 
@@ -17,6 +17,80 @@ const textMessage = (event, client) => {
       let userId = event.source.userId;
 
       studentService.findOne({ studentId: studentId }).then(user => {
+        console.log(user);
+        if (user.lineId) {
+          console.log('User found:', user);
+          client.pushMessage(userId, {
+            type: 'text',
+            text: `สวัสดี, ${user.studentId}-${user.firstName} ${user.lastName}`,
+          });
+        } else {
+          //
+          const url = 'api.line.me';
+          var postData = JSON.stringify({
+            "to": userId,
+            "messages": [{
+              "type": "template",
+              "altText": "Account Link",
+              "template": {
+                "type": "buttons",
+                "text": "ลงทะเบียนนักศึกษาใหม่",
+                "actions": [{
+                  "type": "uri",
+                  "label": "คลิกที่นี่",
+                  "uri": `https://itsci.mju.ac.th/watcharin/student/register?userId=${userId}&studentId=${user.studentId}&firstName=${user.firstName}&lastName=${user.lastName}`
+                }]
+              }
+            }]
+          });
+          var options = {
+            hostname: url,
+            port: 443,
+            path: '/v2/bot/message/push',
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Content-Length': Buffer.byteLength(postData),
+              'Authorization': `Bearer ${client.config.channelAccessToken}`
+            }
+          };
+
+          let req = https.request(options, (res) => {
+            console.log(`STATUS: ${res.statusCode}`);
+            console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+            res.setEncoding('utf8');
+            res.on('data', (chunk) => {
+              console.log(`BODY: ${chunk}`);
+            });
+            res.on('end', () => {
+              console.log('No more data in response.');
+            });
+          });
+
+          req.on('error', (e) => {
+            console.log(`problem with request: ${e.message}`);
+          });
+          // write data to request body
+          req.write(postData);
+          req.end();
+        }
+      })
+        .catch(error => {
+          console.error('Error occurred while finding user:', error);
+        });
+    }
+    else {
+      client.replyMessage(event.replyToken, {
+        type: 'text',
+        text: 'You are not a User!'
+      })
+    }
+  }
+  else if (event.message.text === 'Info') {
+    if (event.source.type === 'user') {
+      let lineId = event.source.userId;
+
+      studentService.findLineId({ userId: lineId }).then(user => {
         if (user) {
           console.log('User found:', user);
           client.pushMessage(userId, {
