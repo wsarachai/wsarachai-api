@@ -35,6 +35,30 @@ class UserController {
     }
   };
 
+  createFromJson = async (req: Request, res: Response) => {
+    try {
+      const data = req.body;
+      Object.keys(data).forEach(async function (key) {
+        const stu = {
+          studentId: data[key]["studentId"],
+          firstName: data[key]["firstName"],
+          lastName: data[key]["lastName"],
+          nickname: data[key]["nickname"],
+        };
+        await Student.create(stu);
+      });
+      res.status(200).json({
+        status: "success",
+        data: data,
+      });
+    } catch (err) {
+      res.status(400).json({
+        status: "failed",
+        message: err,
+      });
+    }
+  };
+
   get = async (req: Request, res: Response) => {
     try {
       const user = await Student.findById(req.params.id);
@@ -84,7 +108,7 @@ class UserController {
   };
   findById = async (req: Request, res: Response) => {
     try {
-      const user = await Student.findOne({ userId: req.params.id });
+      const user = await Student.findOne({ studentId: req.params.id });
       res.status(200).json({
         status: "success",
         data: user,

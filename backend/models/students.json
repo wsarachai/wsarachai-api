@@ -1,0 +1,728 @@
+[
+  {
+    "studentId": "6304106303",
+    "firstName": "นายกิตติพงศ์",
+    "lastName": "พรหมเรืองฤทธิ์",
+    "nickname": ""
+  },
+  {
+    "studentId": "6304106307",
+    "firstName": "นางสาวจุฑามาศ",
+    "lastName": "พงษ์เถื่อน",
+    "nickname": ""
+  },
+  {
+    "studentId": "6304106322",
+    "firstName": "นายธนัญชัย",
+    "lastName": "ไชยชะนะ",
+    "nickname": ""
+  },
+  {
+    "studentId": "6304106327",
+    "firstName": "นายพันธกานต์",
+    "lastName": "คนเที่ยง",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106306",
+    "firstName": "นายกิตติพัทธ์",
+    "lastName": "เคร่งครัด",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106307",
+    "firstName": "นายกิติพงษ์",
+    "lastName": "สิทธิกัน",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106309",
+    "firstName": "นายกุลกิจ",
+    "lastName": "แก้วโชติช่วงกูล",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106312",
+    "firstName": "นายจตุพงษ์",
+    "lastName": "รัตนศรีวิโรจน์",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106313",
+    "firstName": "นายจักรภัทร",
+    "lastName": "ชัยวงษา",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106314",
+    "firstName": "นายจารุกฤษฎิ์",
+    "lastName": "พิมมะหา",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106318",
+    "firstName": "นายจิรวัฒน์",
+    "lastName": "ดีประสิทธิ์",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106320",
+    "firstName": "นายจิรศักดิ์",
+    "lastName": "มะโนธรรม",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106321",
+    "firstName": "นายจิรศักดิ์",
+    "lastName": "สุภะการ",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106322",
+    "firstName": "นายจิระวิน",
+    "lastName": "จองคำ",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106323",
+    "firstName": "นางสาวจุฑามาศ",
+    "lastName": "คิดดี",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106325",
+    "firstName": "นายเจตนิพัทธ์",
+    "lastName": "กรีสกล",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106326",
+    "firstName": "นายชนกานต์",
+    "lastName": "กองเย็น",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106327",
+    "firstName": "นางสาวชนากานต์",
+    "lastName": "สงวนพงษ์",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106332",
+    "firstName": "นายชัชพงศ์",
+    "lastName": "สำราญศรี",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106334",
+    "firstName": "นายชัยณัฐ",
+    "lastName": "ลัมยศ",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106335",
+    "firstName": "นายชัยยโชค",
+    "lastName": "เสร็จสวัสดิ์",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106338",
+    "firstName": "นายชินกฤต",
+    "lastName": "อุประกุล",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106339",
+    "firstName": "นายชินภัทร",
+    "lastName": "ตันติเตชา",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106340",
+    "firstName": "นายชินภัทร",
+    "lastName": "ยะท่าตุ่ม",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106341",
+    "firstName": "นายฐิติกร",
+    "lastName": "พวงสุวรรณ",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106345",
+    "firstName": "นายณัฐวุฒิ",
+    "lastName": "พงษ์ตุ้ย",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106349",
+    "firstName": "นายทรงพล",
+    "lastName": "คำวงศ์ษา",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106350",
+    "firstName": "นายธนกฤต",
+    "lastName": "เถายศ",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106351",
+    "firstName": "นายธนกฤต",
+    "lastName": "วัฒนะ",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106352",
+    "firstName": "นายธนกฤต",
+    "lastName": "สุริยะศร",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106354",
+    "firstName": "นายธนภัทร",
+    "lastName": "สิริประภาสุข",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106355",
+    "firstName": "นายธนันดร",
+    "lastName": "บุญโชติ",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106356",
+    "firstName": "นางสาวธิดารัตน์",
+    "lastName": "ทองทิพย์",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106357",
+    "firstName": "นายธีร์ธวัช",
+    "lastName": "เครือสายด้วง",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106358",
+    "firstName": "นายธีรพล",
+    "lastName": "สุขห้วยพระ",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106359",
+    "firstName": "นายธีรภัทร",
+    "lastName": "งามคณะ",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106360",
+    "firstName": "นายธีรภัทร",
+    "lastName": "ศรีมณฑา",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106361",
+    "firstName": "นายธีรภัทร",
+    "lastName": "อินวัน",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106362",
+    "firstName": "นายนนทกร",
+    "lastName": "อุตอุโมงค์",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106363",
+    "firstName": "นายนนทน์ชาติ",
+    "lastName": "ทุมนัส",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106364",
+    "firstName": "นายนันทวัช",
+    "lastName": "นาคเถื่อน",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106365",
+    "firstName": "นายนิธิกอน",
+    "lastName": "ใจจันติ๊บ",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106366",
+    "firstName": "นายนิรุท",
+    "lastName": "จันทร์อ้าย",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106367",
+    "firstName": "นางสาวนุชจิรา",
+    "lastName": "เสาร์โมกข์",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106368",
+    "firstName": "นางสาวเนติภรณ์",
+    "lastName": "สินเปียง",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106369",
+    "firstName": "นายบุญญฤทธิ์",
+    "lastName": "กาฬภักดี",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106373",
+    "firstName": "นายปุญญพัฒน์",
+    "lastName": "โลราช",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106375",
+    "firstName": "นางสาวพรปวีณ์",
+    "lastName": "จันทจร",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106376",
+    "firstName": "นายพรเสน่ห์",
+    "lastName": "เตอะป้อ",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106381",
+    "firstName": "นายพุฒิพัฒน์",
+    "lastName": "ผลประเสริฐ",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106382",
+    "firstName": "นางสาวภัทรดา",
+    "lastName": "เยื้อนจันทึก",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106384",
+    "firstName": "นายภาณุพงศ์",
+    "lastName": "สุขใส",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106385",
+    "firstName": "นายภาณุพงศ์",
+    "lastName": "สุวรรณ์",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106386",
+    "firstName": "นายภาณุวัฒน์",
+    "lastName": "คะชา",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106391",
+    "firstName": "นายมณฑล",
+    "lastName": "อินโต๋",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106392",
+    "firstName": "นายมาร์ค",
+    "lastName": "หมอกเมฆ",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106393",
+    "firstName": "นายรัตนชัย",
+    "lastName": "ไม้รังทอง",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106400",
+    "firstName": "นายวรวิบูล",
+    "lastName": "กันทาใจ",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106402",
+    "firstName": "นายวิชยุตม์",
+    "lastName": "อรินโต",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106404",
+    "firstName": "นางสาววิภาดา",
+    "lastName": "ปันเจริญ",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106415",
+    "firstName": "นายศุภกฤต",
+    "lastName": "ชัชวาลย์",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106416",
+    "firstName": "นางสาวสาธินี",
+    "lastName": "ขุนดำ",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106417",
+    "firstName": "นายสายเครือ",
+    "lastName": "แสงสุรินทร์",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106418",
+    "firstName": "นายสิทธิกร",
+    "lastName": "นุตตะละ",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106426",
+    "firstName": "นายอนุรักษ์",
+    "lastName": "อตาธิคุณ",
+    "nickname": ""
+  },
+  {
+    "studentId": "6404106314",
+    "firstName": "นายธัญวรัตน์",
+    "lastName": "มณเฑียรมณีรัตน์",
+    "nickname": ""
+  },
+  {
+    "studentId": "6404106347",
+    "firstName": "นางสาวอรญา",
+    "lastName": "กาจารี",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106303",
+    "firstName": "นายก้องภพ",
+    "lastName": "จันจองคำ",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106304",
+    "firstName": "นายก้องสกุล",
+    "lastName": "จันทรา",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106305",
+    "firstName": "นายกิจติ์ณุพงษ์",
+    "lastName": "รุจิเลิศ",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106310",
+    "firstName": "นางสาวกุลิสรา",
+    "lastName": "ศรีแก้ว",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106311",
+    "firstName": "นางสาวเกศกาญจน์ฎา",
+    "lastName": "สังข์สุวรรณ",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106315",
+    "firstName": "นางสาวจารุวรรณ",
+    "lastName": "จะยี",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106317",
+    "firstName": "นายจิรภัทร์",
+    "lastName": "ทองรัตน์",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106319",
+    "firstName": "นายจิรศักดิ์",
+    "lastName": "จันทร์ต๊ะริมปิง",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106324",
+    "firstName": "นางสาวจุฑามาศ",
+    "lastName": "ปุยคำ",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106328",
+    "firstName": "นายชลกร",
+    "lastName": "โชตินิคม",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106330",
+    "firstName": "นางสาวชลินทรา",
+    "lastName": "ลาวิราช",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106331",
+    "firstName": "นายชวทักษ์",
+    "lastName": "เขียวขำ",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106333",
+    "firstName": "นายชัชวาลย์",
+    "lastName": "ถกลพัฒนกุล",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106336",
+    "firstName": "นายชาญชัย",
+    "lastName": "เงินใส",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106337",
+    "firstName": "นายชิติพัทธ์",
+    "lastName": "ตั้งสวัสดิ์",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106343",
+    "firstName": "นายณัฐนนท์",
+    "lastName": "ธงซิว",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106346",
+    "firstName": "นายดำรงศักดิ์",
+    "lastName": "ต้องวั้น",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106347",
+    "firstName": "นายเดชาภัทร",
+    "lastName": "เจริญทรัพย์",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106348",
+    "firstName": "นายตรีเนตร",
+    "lastName": "จงงามวิไล",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106353",
+    "firstName": "นายธนธร",
+    "lastName": "ยี่ฝั้น",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106370",
+    "firstName": "นายปฏิภาณ",
+    "lastName": "ขัดเรือน",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106372",
+    "firstName": "นางสาวปิยฉัตร",
+    "lastName": "ถึงสุข",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106377",
+    "firstName": "นางสาวพัณณิตา",
+    "lastName": "สิงห์คะ",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106378",
+    "firstName": "นางสาวพันธกานต์",
+    "lastName": "เสริมมติวงศ์",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106379",
+    "firstName": "นายพิทักษ์พงศ์",
+    "lastName": "มีบุญ",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106380",
+    "firstName": "นายพีรพล",
+    "lastName": "เตจ๊ะบูรณ์",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106383",
+    "firstName": "นายภัทราวุธ",
+    "lastName": "เมาใจ",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106387",
+    "firstName": "นายภาราดร",
+    "lastName": "ลาละคร",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106388",
+    "firstName": "นายภาสกร",
+    "lastName": "จอมอูป",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106389",
+    "firstName": "นายภูเบศ",
+    "lastName": "ฟักทองอยู่",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106390",
+    "firstName": "นายภูวดล",
+    "lastName": "ใจมูล",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106394",
+    "firstName": "นางสาวรัตนาภรณ์",
+    "lastName": "เดคำกาศ",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106395",
+    "firstName": "นางสาวฤทัยชนก",
+    "lastName": "กาซัน",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106397",
+    "firstName": "นางสาวลักขณา",
+    "lastName": "ภูพวก",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106398",
+    "firstName": "นางสาววนิดา",
+    "lastName": "ทองนาค",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106399",
+    "firstName": "นายวรกร",
+    "lastName": "บ้านกระโทก",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106405",
+    "firstName": "นายวีรภัทร",
+    "lastName": "จีนกิจมั่น",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106407",
+    "firstName": "นางสาวศรสวรรค์",
+    "lastName": "สังข์ศิริพงษ์",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106409",
+    "firstName": "นางสาวศิรประภา",
+    "lastName": "ทาบุตร",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106410",
+    "firstName": "นายศิริชัย",
+    "lastName": "วัชราไชยกุล",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106411",
+    "firstName": "นายศิริธนากร",
+    "lastName": "มูลคำ",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106413",
+    "firstName": "นายศิลา",
+    "lastName": "โอดปะละ",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106419",
+    "firstName": "นายสิทธิชัย",
+    "lastName": "โพธิ์จิ๋ว",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106420",
+    "firstName": "นายสิทธิโชค",
+    "lastName": "ละเลิง",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106422",
+    "firstName": "นายสุทธิพงศ์",
+    "lastName": "อินทะปัญโญ",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106424",
+    "firstName": "นางสาวหนึ่งฤทัย",
+    "lastName": "เกตุแสง",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106425",
+    "firstName": "นายอชิระ",
+    "lastName": "วันทะมาศ",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106427",
+    "firstName": "นายอนุวัฒน์",
+    "lastName": "ชัยชะนะ",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106429",
+    "firstName": "นายธาดา",
+    "lastName": "ธาระวัย",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106430",
+    "firstName": "นายณัฐนนท์",
+    "lastName": "อ้นชาวนา",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106431",
+    "firstName": "นายทวีรัชต์",
+    "lastName": "หุตะวรากร",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106432",
+    "firstName": "นายพัชรพล",
+    "lastName": "ศิริเรือง",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106433",
+    "firstName": "นางสาววราลักษณ์",
+    "lastName": "เชียงชุม",
+    "nickname": ""
+  },
+  {
+    "studentId": "6504106434",
+    "firstName": "นายศักดากร",
+    "lastName": "คูยิ่งรัตน์",
+    "nickname": ""
+  }
+]

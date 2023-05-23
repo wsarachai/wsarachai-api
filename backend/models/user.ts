@@ -1,15 +1,8 @@
 import { model, Schema, Document } from "mongoose";
 
 const usersSchema: Schema = new Schema({
-  code: {
+  lineId: {
     type: String,
-    required: [true, "A code is required"],
-    unique: true,
-  },
-  userId: {
-    type: String,
-    required: [true, "A userId is required"],
-    unique: true,
   },
   firstName: {
     type: String,

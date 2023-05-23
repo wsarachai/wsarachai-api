@@ -8,6 +8,7 @@ router
   .get(studentController.get)
   .patch(studentController.update)
   .delete(studentController.delete);
+router.route("/all").post(studentController.createFromJson);
 router.route("/userId/:id").get(studentController.findById);
 
 export default router;
