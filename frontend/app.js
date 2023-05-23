@@ -1,11 +1,13 @@
 const themesettings = require("./_keenthemes/lib/themesettings.json");
 const studentRoute = require('./router/studentRoutes');
+const courseRoute = require('./router/courseRoutes');
 const createKtThemeInstance = require("./_keenthemes/lib/theme");
 const createKtBootstrapInstance = require(`./views/layout/${themesettings.name}/bootstrap`);
 const express = require('express');
 const expressLayouts = require("express-ejs-layouts");
 const bodyParser = require('body-parser');
 const webHookRoute = require('./router/webhookRoutes');
+
 const {
   JSONParseError,
   SignatureValidationFailed
@@ -40,6 +42,7 @@ const init = function (req, res, next) {
 };
 
 app.use(init);
+app.use('/course', courseRoute);
 app.use('/student', studentRoute);
 
 app.all("*", (req, res) => {

@@ -4,10 +4,15 @@ const connectApiHost = "http://localhost:3000";
 const connectApiPath = "api/v1/courses";
 
 exports.getAll = () => {
-  const results = new Promise(function (resolve, reject) {
+  const promise = new Promise(function (resolve, reject) {
     const url = `${connectApiHost}/${connectApiPath}`;
 
-    request.get(url, (error, response, body) => {
+    const requestOptions = {
+      url: url,
+      json: true
+    };
+
+    request.get(requestOptions, (error, response, body) => {
       console.log(body);
 
       if (error) {
@@ -17,37 +22,36 @@ exports.getAll = () => {
         console.error(error, `Status code: ${response.statusCode}`);
       } else {
         console.log("Response body:", body);
-        const result = JSON.parse(body);
-        resolve(result.data);
+        resolve(body.data);
       }
     });
   });
 
-  return results;
+  return promise;
 };
 
 exports.create = (obj) => {
   const promise = new Promise(function (resolve, reject) {
     const url = `${connectApiHost}/${connectApiPath}`;
 
-    const options = {
+    const requestOptions = {
       url: url,
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(obj),
+      json: true,
     };
 
     request(options, (error, response, body) => {
       if (error) {
         reject(error);
       } else {
-        const data = JSON.parse(body);
-        if (data.status === "success") {
-          resolve(data);
+        if (body.status === "success") {
+          resolve(body);
         } else {
-          reject(data);
+          reject(body);
         }
       }
     });
@@ -59,13 +63,18 @@ exports.create = (obj) => {
 exports.findOne = (param) => {
   const promise = new Promise(function (resolve, reject) {
     const url = `${connectApiHost}/${connectApiPath}/code/${param}`;
-    request.get(url, (error, response, body) => {
-      const result = JSON.parse(body);
-      console.log(result);
+
+    const requestOptions = {
+      url: url,
+      json: true
+    };
+
+    request.get(requestOptions, (error, response, body) => {
+      //console.log(result);
       if (result.status === "success") {
-        resolve(result.data);
+        resolve(body.data);
       } else {
-        reject(result.status);
+        reject(body.status);
       }
     });
   });
