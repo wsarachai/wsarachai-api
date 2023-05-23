@@ -10,7 +10,7 @@ router.use((req, res, next) => {
 
 router
   .route("/")
-  .get(courseController.getAll())
-  .post(courseController.create());
+  .get(courseController.getAll)
+  .post(courseController.create);
 
 module.exports = router;

@@ -2,7 +2,7 @@
 
 const courseService = require("../services/courseService");
 
-module.exports = getAll = (req, res) => {
+exports.getAll = (req, res) => {
   courseService.getAll().then(function (response) {
     res.status(200).json({
       status: 'success',
@@ -14,10 +14,9 @@ module.exports = getAll = (req, res) => {
       data: err
     });
   })
+};;
 
-};
-
-module.exports = create = (req, res) => {
+exports.create = (req, res) => {
   res.status(200).json({
     status: 'success',
     data: {},
