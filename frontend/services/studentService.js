@@ -53,7 +53,7 @@ exports.create = (student) => {
 };
 
 exports.findOne = (user) => {
-  const student = new Promise(function (resolve, reject) {
+  const promise = new Promise(function (resolve, reject) {
     console.log('findOne: ' + user.studentId);
     const url = `${connectApiHost}/${connectApiPath}/userId/${user.studentId}`;
     request.get(url, (error, response, body) => {
@@ -69,6 +69,8 @@ exports.findOne = (user) => {
       }
     });
   });
+
+  return promise;
 }
 
 exports.findByLineId = (user) => {
