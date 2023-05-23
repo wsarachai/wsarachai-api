@@ -15,7 +15,7 @@ const textMessage = (event, client) => {
     const cmds = event.message.text.split(':');
     const studentId = cmds[1];
     console.log(event.message.text);
-    console.log(cmds[1]);
+    console.log(cmds[0]);
     console.log(cmds[1]);
 
     if (event.source.type === 'user') {

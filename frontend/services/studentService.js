@@ -54,8 +54,8 @@ exports.create = (student) => {
 
 exports.findOne = (user) => {
   const student = new Promise(function (resolve, reject) {
-    console.log('findOne: ' + user);
-    const url = `${connectApiHost}/${connectApiPath}/userId/${user.userId}`;
+    console.log('findOne: ' + user.studentId);
+    const url = `${connectApiHost}/${connectApiPath}/userId/${user.studentId}`;
     request.get(url, (error, response, body) => {
       if (error) {
         reject(error, 'Error:', error);
