@@ -27,6 +27,10 @@ const textMessage = (event, client) => {
         } else {
           //
           const url = 'api.line.me';
+          const reqUrl = `https://itsci.mju.ac.th/watcharin/student/register?userId=${userId}&studentId=${user.studentId}&firstName=${user.firstName}&lastName=${user.lastName}`;
+
+          console.log(reqUrl);
+
           var postData = JSON.stringify({
             "to": userId,
             "messages": [{
@@ -38,7 +42,7 @@ const textMessage = (event, client) => {
                 "actions": [{
                   "type": "uri",
                   "label": "คลิกที่นี่",
-                  "uri": `https://itsci.mju.ac.th/watcharin/student/register?userId=${userId}&studentId=${user.studentId}&firstName=${user.firstName}&lastName=${user.lastName}`
+                  "uri": reqUrl
                 }]
               }
             }]
