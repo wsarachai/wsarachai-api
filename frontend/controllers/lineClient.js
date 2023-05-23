@@ -9,14 +9,9 @@ aimlInterpreter.loadAIMLFilesIntoArray(['./test-aiml.xml']);
 
 const textMessage = (event, client) => {
 
-  console.log(event.message.text.slice(0, 3));
-
   if (event.message.text.slice(0, 3) === 'reg') {
     const cmds = event.message.text.split(':');
     const studentId = cmds[1];
-    console.log(event.message.text);
-    console.log(cmds[0]);
-    console.log(cmds[1]);
 
     if (event.source.type === 'user') {
       let userId = event.source.userId;
@@ -26,7 +21,7 @@ const textMessage = (event, client) => {
           console.log('User found:', user);
           client.pushMessage(userId, {
             type: 'text',
-            text: `สวัสดี, ${user.code}-${user.firstName} ${user.lastName}`,
+            text: `สวัสดี, ${user.studentId}-${user.firstName} ${user.lastName}`,
           });
         } else {
           //
