@@ -64,7 +64,8 @@ exports.createStudentFrm = (req, res) => {
         userId: lineId,
         studentId: student.studentId,
         firstName: student.firstName,
-        lastName: student.lastName
+        lastName: student.lastName,
+        nickname: student.nickname || ""
       });
     });
   } else {
