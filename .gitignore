@@ -1,4 +1,5 @@
 themesettings.json
+.env
 # Logs
 logs
 *.log

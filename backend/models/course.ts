@@ -1,6 +1,6 @@
-const mongoose = require("mongoose");
+import { model, Schema } from "mongoose";
 
-const coursesSchema = mongoose.Schema({
+const coursesSchema = new Schema({
   code: {
     type: String,
     required: [true, "A code is required"],
@@ -13,15 +13,15 @@ const coursesSchema = mongoose.Schema({
   },
   type: {
     type: String,
-    required: [true, "A userId is required"]
+    required: [true, "A userId is required"],
   },
   startTime: {
     type: String,
-    required: [true, "A startTime is required [xx:xx]"]
+    required: [true, "A startTime is required [xx:xx]"],
   },
   hours: {
     type: Number,
-    required: [true, "A hours is required"]
+    required: [true, "A hours is required"],
   },
   location: {
     latitude: {
@@ -35,6 +35,4 @@ const coursesSchema = mongoose.Schema({
   },
 });
 
-const Course = mongoose.model("Course", coursesSchema);
-
-module.exports = Course;
+export default model("Course", coursesSchema);
