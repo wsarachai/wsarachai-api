@@ -1,6 +1,6 @@
-import { model, Schema } from "mongoose";
+import { model, Schema, Document } from "mongoose";
 
-const usersSchema = new Schema({
+const usersSchema: Schema = new Schema({
   code: {
     type: String,
     required: [true, "A code is required"],
@@ -24,7 +24,6 @@ const usersSchema = new Schema({
     type: String,
     //required: [true, 'A Nick is required'],
   },
-  age: { type: Number, default: 0 },
 });
 
 export default model("User", usersSchema);

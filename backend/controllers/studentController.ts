@@ -1,11 +1,12 @@
 import { Request, Response } from "express";
-import Course from "../models/course";
+import Student from "../models/student";
 
-class CourseController {
+class UserController {
   constructor() {}
+
   getAll = async (req: Request, res: Response) => {
     try {
-      const results = await Course.find().populate("subject");
+      const results = await Student.find();
       res.status(200).json({
         status: "success",
         results: results.length,
@@ -21,8 +22,7 @@ class CourseController {
 
   create = async (req: Request, res: Response) => {
     try {
-      const newObject = req?.body && (await Course.create(req.body));
-
+      const newObject = req?.body && (await Student.create(req.body));
       res.status(200).json({
         status: "success",
         data: newObject,
@@ -37,10 +37,10 @@ class CourseController {
 
   get = async (req: Request, res: Response) => {
     try {
-      const course = await Course.findById(req.params.id).populate("subject");
+      const user = await Student.findById(req.params.id);
       res.status(200).json({
         status: "success",
-        data: { course },
+        data: { user },
       });
     } catch (err) {
       res.status(404).json({
@@ -52,13 +52,13 @@ class CourseController {
 
   update = async (req: Request, res: Response) => {
     try {
-      const course = await Course.findByIdAndUpdate(req.params.id, req.body, {
+      const user = await Student.findByIdAndUpdate(req.params.id, req.body, {
         new: true,
         runValidators: true,
       });
       res.status(200).json({
         status: "success",
-        data: { course },
+        data: { user },
       });
     } catch (err) {
       res.status(404).json({
@@ -67,10 +67,9 @@ class CourseController {
       });
     }
   };
-
   delete = async (req: Request, res: Response) => {
     try {
-      await Course.findByIdAndDelete(req.params.id);
+      await Student.findByIdAndDelete(req.params.id);
 
       res.status(200).json({
         status: "success",
@@ -83,15 +82,12 @@ class CourseController {
       });
     }
   };
-
-  findByCode = async (req: Request, res: Response) => {
+  findById = async (req: Request, res: Response) => {
     try {
-      const course = await Course.findOne({ code: req.params.id }).populate(
-        "subject"
-      );
+      const user = await Student.findOne({ userId: req.params.id });
       res.status(200).json({
         status: "success",
-        data: course,
+        data: user,
       });
     } catch (err) {
       res.status(404).json({
@@ -102,4 +98,4 @@ class CourseController {
   };
 }
 
-export default new CourseController();
+export default new UserController();

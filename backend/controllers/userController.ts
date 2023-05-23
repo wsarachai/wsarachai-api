@@ -4,13 +4,13 @@ import User from "../models/user";
 class UserController {
   constructor() {}
 
-  getAllUsers = async (req: Request, res: Response) => {
+  getAll = async (req: Request, res: Response) => {
     try {
-      const users = await User.find();
+      const results = await User.find();
       res.status(200).json({
         status: "success",
-        results: users.length,
-        data: users,
+        results: results.length,
+        data: results,
       });
     } catch (err) {
       res.status(404).json({
@@ -20,12 +20,12 @@ class UserController {
     }
   };
 
-  createUser = async (req: Request, res: Response) => {
+  create = async (req: Request, res: Response) => {
     try {
-      const newUser = await User.create(req.body);
+      const newObject = req?.body && (await User.create(req.body));
       res.status(200).json({
         status: "success",
-        data: newUser,
+        data: newObject,
       });
     } catch (err) {
       res.status(400).json({
@@ -35,7 +35,7 @@ class UserController {
     }
   };
 
-  getUser = async (req: Request, res: Response) => {
+  get = async (req: Request, res: Response) => {
     try {
       const user = await User.findById(req.params.id);
       res.status(200).json({
@@ -50,7 +50,7 @@ class UserController {
     }
   };
 
-  updateUser = async (req: Request, res: Response) => {
+  update = async (req: Request, res: Response) => {
     try {
       const user = await User.findByIdAndUpdate(req.params.id, req.body, {
         new: true,
@@ -67,7 +67,7 @@ class UserController {
       });
     }
   };
-  deleteUser = async (req: Request, res: Response) => {
+  delete = async (req: Request, res: Response) => {
     try {
       await User.findByIdAndDelete(req.params.id);
 
@@ -82,7 +82,7 @@ class UserController {
       });
     }
   };
-  findByUserId = async (req: Request, res: Response) => {
+  findById = async (req: Request, res: Response) => {
     try {
       const user = await User.findOne({ userId: req.params.id });
       res.status(200).json({

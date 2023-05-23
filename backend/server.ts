@@ -7,11 +7,7 @@ import app from "./app";
 dotenv.config();
 
 const DB: string = process.env.DATABASE as string;
-connect(DB, {
-  useNewUrlParser: true,
-  useCreateIndex: true,
-  useFindAndModify: false,
-}).then(() => {
+connect(DB).then(() => {
   console.log("You successfully connected to MongoDB!");
 });
 

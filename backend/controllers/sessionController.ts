@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
-import Course from "../models/course";
+import Session from "../models/session";
 
 class CourseController {
   constructor() {}
   getAll = async (req: Request, res: Response) => {
     try {
-      const results = await Course.find().populate("subject");
+      const results = await Session.find().populate("course");
       res.status(200).json({
         status: "success",
         results: results.length,
@@ -21,8 +21,7 @@ class CourseController {
 
   create = async (req: Request, res: Response) => {
     try {
-      const newObject = req?.body && (await Course.create(req.body));
-
+      const newObject = req?.body && (await Session.create(req.body));
       res.status(200).json({
         status: "success",
         data: newObject,
@@ -37,7 +36,7 @@ class CourseController {
 
   get = async (req: Request, res: Response) => {
     try {
-      const course = await Course.findById(req.params.id).populate("subject");
+      const course = await Session.findById(req.params.id).populate("course");
       res.status(200).json({
         status: "success",
         data: { course },
@@ -52,7 +51,7 @@ class CourseController {
 
   update = async (req: Request, res: Response) => {
     try {
-      const course = await Course.findByIdAndUpdate(req.params.id, req.body, {
+      const course = await Session.findByIdAndUpdate(req.params.id, req.body, {
         new: true,
         runValidators: true,
       });
@@ -70,7 +69,7 @@ class CourseController {
 
   delete = async (req: Request, res: Response) => {
     try {
-      await Course.findByIdAndDelete(req.params.id);
+      await Session.findByIdAndDelete(req.params.id);
 
       res.status(200).json({
         status: "success",
@@ -86,8 +85,8 @@ class CourseController {
 
   findByCode = async (req: Request, res: Response) => {
     try {
-      const course = await Course.findOne({ code: req.params.id }).populate(
-        "subject"
+      const course = await Session.findOne({ code: req.params.id }).populate(
+        "course"
       );
       res.status(200).json({
         status: "success",
