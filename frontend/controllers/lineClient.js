@@ -8,67 +8,20 @@ aimlInterpreter.loadAIMLFilesIntoArray(['./test-aiml.xml']);
 
 
 const textMessage = (event, client) => {
-  if (event.message.text === 'Bye') {
-    if (event.source.type === 'user') {
-      client.leaveRoom(event.source.roomId);
-    } else if (event.source.type === 'group') {
-      client.leaveGroup(event.source.groupId);
-    } else {
-      client.replyMessage(event.replyToken, {
-        type: 'text',
-        text: 'I cannot leave a 1-on-1 chat!',
-      }).catch((err) => {
-        if (err instanceof HTTPError) {
-          console.error(err.statusCode);
-        }
-      });
-    }
-  }
-  else if (event.message.text === 'Hi') {
-    if (event.source.type === 'user') {
-      let userId = event.source.userId;
-      client.getProfile(userId).then((profile) => {
-        console.log(profile);
-        client.pushMessage(userId, {
-          type: 'text',
-          text: `hello, ${profile.displayName}`,
-        });
-      });
-    } else {
-      client.replyMessage(event.replyToken, {
-        type: 'text',
-        text: 'Hi, noname',
-      }).catch((err) => {
-        if (err instanceof HTTPError) {
-          console.error(err.statusCode);
-        }
-      });
-    }
-  }
-  else if (event.message.text === 'User') {
-    if (event.source.type === 'user') {
-      let userId = event.source.userId;
-      studentService.findOne({ userId: userId }).then(user => {
-        if (user) {
-          console.log('User found:', user);
-          client.pushMessage(userId, {
-            type: 'text',
-            text: `สวัสดี, ${user.code}-${user.firstName} ${user.lastName}`,
-          });
-        } else {
-          console.log('User not found');
-        }
-      })
-        .catch(error => {
-          console.error('Error occurred while finding user:', error);
-        });
-    }
-  }
-  else if (event.message.text === 'Info') {
+
+  console.log(event.message.text.slice(0, 3));
+
+  if (event.message.text.slice(0, 3) === 'reg') {
+    const cmds = event.message.text.split(':');
+    const studentId = cmds[1];
+    console.log(event.message.text);
+    console.log(cmds[1]);
+    console.log(cmds[1]);
+
     if (event.source.type === 'user') {
       let userId = event.source.userId;
 
-      studentService.findOne({ userId: userId }).then(user => {
+      studentService.findOne({ studentId: studentId }).then(user => {
         if (user) {
           console.log('User found:', user);
           client.pushMessage(userId, {
@@ -135,6 +88,62 @@ const textMessage = (event, client) => {
         type: 'text',
         text: 'You are not a User!'
       })
+    }
+  }
+  else if (event.message.text === 'Bye') {
+    if (event.source.type === 'user') {
+      client.leaveRoom(event.source.roomId);
+    } else if (event.source.type === 'group') {
+      client.leaveGroup(event.source.groupId);
+    } else {
+      client.replyMessage(event.replyToken, {
+        type: 'text',
+        text: 'I cannot leave a 1-on-1 chat!',
+      }).catch((err) => {
+        if (err instanceof HTTPError) {
+          console.error(err.statusCode);
+        }
+      });
+    }
+  }
+  else if (event.message.text === 'Hi') {
+    if (event.source.type === 'user') {
+      let userId = event.source.userId;
+      client.getProfile(userId).then((profile) => {
+        console.log(profile);
+        client.pushMessage(userId, {
+          type: 'text',
+          text: `hello, ${profile.displayName}`,
+        });
+      });
+    } else {
+      client.replyMessage(event.replyToken, {
+        type: 'text',
+        text: 'Hi, noname',
+      }).catch((err) => {
+        if (err instanceof HTTPError) {
+          console.error(err.statusCode);
+        }
+      });
+    }
+  }
+  else if (event.message.text === 'User') {
+    if (event.source.type === 'user') {
+      let userId = event.source.userId;
+      studentService.findOne({ userId: userId }).then(user => {
+        if (user) {
+          console.log('User found:', user);
+          client.pushMessage(userId, {
+            type: 'text',
+            text: `สวัสดี, ${user.code}-${user.firstName} ${user.lastName}`,
+          });
+        } else {
+          console.log('User not found');
+        }
+      })
+        .catch(error => {
+          console.error('Error occurred while finding user:', error);
+        });
     }
   }
   else if (event.message.text === 'atten') {

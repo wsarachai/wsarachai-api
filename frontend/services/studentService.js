@@ -1,7 +1,7 @@
 const request = require("request");
 
 const connectApiHost = "http://localhost:3000"
-const connectApiPath = "api/v1/users"
+const connectApiPath = "api/v1/students"
 
 exports.getAll = () => {
   const allStudent = new Promise(function (resolve, reject) {
