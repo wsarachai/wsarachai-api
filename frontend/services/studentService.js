@@ -25,7 +25,7 @@ exports.getAll = () => {
 
 exports.update = (student) => {
   const createStudent = new Promise(function (resolve, reject) {
-    const url = `${connectApiHost}/${connectApiPath}/${student.studentId}`;
+    const url = `${connectApiHost}/${connectApiPath}/${student._id}`;
     console.log(url);
     const options = {
       url: url,
