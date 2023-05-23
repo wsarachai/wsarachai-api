@@ -89,7 +89,7 @@ const textMessage = (event, client) => {
                 "actions": [{
                   "type": "uri",
                   "label": "คลิกที่นี่",
-                  "uri": `https://itsci.mju.ac.th/watcharin/student/register?userId=${userId}&course=${client.config.course}`
+                  "uri": `https://itsci.mju.ac.th/watcharin/student/register?userId=${userId}&studentId=${user.studentId}&firstName=${user.firstName}&lastName=${user.lastName}`
                 }]
               }
             }]
