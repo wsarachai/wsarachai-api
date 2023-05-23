@@ -27,7 +27,7 @@ const textMessage = (event, client) => {
         } else {
           //
           const url = 'api.line.me';
-          const reqUrl = `https://itsci.mju.ac.th/watcharin/student/register?userId=${userId}&studentId=${user.studentId}&firstName=${user.firstName}&lastName=${user.lastName}`;
+          const reqUrl = `https://itsci.mju.ac.th/watcharin/student/register?userId=${userId}&studentId=${user.studentId}&_id=${user._id}`;
 
           console.log(reqUrl);
 

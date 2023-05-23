@@ -23,12 +23,13 @@ exports.getAll = () => {
   return allStudent;
 };
 
-exports.create = (student) => {
+exports.update = (student) => {
   const createStudent = new Promise(function (resolve, reject) {
-    const url = `${connectApiHost}/${connectApiPath}`;
+    const url = `${connectApiHost}/${connectApiPath}/${student.studentId}`;
+    console.log(url);
     const options = {
       url: url,
-      method: 'POST',
+      method: 'PATCH',
       headers: {
         'Content-Type': 'application/json'
       },

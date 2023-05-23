@@ -11,7 +11,7 @@ router.use((req, res, next) => {
 router
   .route("/register")
   .get(studentController.createStudentFrm)
-  .post(studentController.createStudent);
+  .post(studentController.updateStudent);
 
 router
   .route("/atten")

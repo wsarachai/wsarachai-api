@@ -53,10 +53,19 @@ const calculateDistance = (lat1, lon1, lat2, lon2) => {
 
 exports.createStudentFrm = (req, res) => {
   console.log(req.query);
-  if (req.query.userId) {
-    res.render(theme.getPageViewPath("itscis", "register"), {
-      currentLayout: theme.getLayoutPath("default"),
-      userId: req.query.userId,
+  const _id = req.query._id;
+  const lineId = req.query.userId;
+  const studentId = req.query.studentId;
+  if (lineId && studentId) {
+    studentService.findOne({ studentId: studentId }).then(student => {
+      res.render(theme.getPageViewPath("itscis", "register"), {
+        currentLayout: theme.getLayoutPath("default"),
+        _id: _id,
+        userId: lineId,
+        studentId: student.studentId,
+        firstName: student.firstName,
+        lastName: student.lastName
+      });
     });
   } else {
     res.render(theme.getPageViewPath("itscis", "register-result"), {
@@ -66,9 +75,9 @@ exports.createStudentFrm = (req, res) => {
   }
 };
 
-exports.createStudent = (req, res) => {
+exports.updateStudent = (req, res) => {
   studentService
-    .create(req.body)
+    .update(req.body)
     .then((newUser) => {
       console.log(newUser);
 
