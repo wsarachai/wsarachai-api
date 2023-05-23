@@ -53,16 +53,16 @@ const calculateDistance = (lat1, lon1, lat2, lon2) => {
 
 exports.createStudentFrm = (req, res) => {
   console.log(req.query);
-  if (req.query.studentId) {
+  if (req.query.userId) {
     res.render(theme.getPageViewPath("itscis", "register"), {
       currentLayout: theme.getLayoutPath("default"),
       userId: req.query.userId,
     });
   } else {
-      res.render(theme.getPageViewPath("itscis", "register-result"), {
-        currentLayout: theme.getLayoutPath("default"),
-        message: "ไม่สำเร็จ ให้ติดต่ออาจารย์!!",
-      });
+    res.render(theme.getPageViewPath("itscis", "register-result"), {
+      currentLayout: theme.getLayoutPath("default"),
+      message: "ไม่สำเร็จ ใช้ Application Line เท่านั้น​!!",
+    });
   }
 };
 
