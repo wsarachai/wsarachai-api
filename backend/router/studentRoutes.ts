@@ -10,5 +10,6 @@ router
   .delete(studentController.delete);
 router.route("/all").post(studentController.createFromJson);
 router.route("/userId/:id").get(studentController.findById);
+router.route("/lineId/:id").get(studentController.findByLineId);
 
 export default router;

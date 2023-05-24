@@ -91,6 +91,7 @@ class UserController {
       });
     }
   };
+  
   delete = async (req: Request, res: Response) => {
     try {
       await Student.findByIdAndDelete(req.params.id);
@@ -106,9 +107,25 @@ class UserController {
       });
     }
   };
+
   findById = async (req: Request, res: Response) => {
     try {
       const user = await Student.findOne({ studentId: req.params.id });
+      res.status(200).json({
+        status: "success",
+        data: user,
+      });
+    } catch (err) {
+      res.status(404).json({
+        status: "failed",
+        message: err,
+      });
+    }
+  };
+
+  findByLineId = async (req: Request, res: Response) => {
+    try {
+      const user = await Student.findOne({ lineId: req.params.id });
       res.status(200).json({
         status: "success",
         data: user,
