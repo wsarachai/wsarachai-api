@@ -1,23 +1,15 @@
 const https = require("https");
 const studentService = require("../services/studentService");
-const AIMLInterpreter = require("./AIMLInterpreter");
 
-const aimlInterpreter = new AIMLInterpreter({
-  name: "WireInterpreter",
-  age: "47",
-});
-
-aimlInterpreter.loadAIMLFilesIntoArray(["./test-aiml.xml"]);
-
-const needRegister = (event, client) => {
-  const cmds = event.message.text.split(":");
+const needRegister = (event, client, text) => {
+  const cmds = text.split(":");
   const studentId = cmds[1];
 
   if (event.source.type === "user") {
     let userId = event.source.userId;
 
     studentService
-      .findOne({ studentId: studentId })
+      .findByStudentId({ studentId: studentId })
       .then((user) => {
         console.log(user);
         if (user.lineId) {
@@ -89,9 +81,9 @@ const needRegister = (event, client) => {
         console.error("Error occurred while finding user:", error);
       });
   } else {
-    client.replyMessage(event.replyToken, {
+    client.pushMessage(userId, {
       type: "text",
-      text: "You are not a User!",
+      text: "ไม่สามารถค้นหาข้อมูลนักศึกษา!",
     });
   }
 };
@@ -168,9 +160,9 @@ const getInfo = (event, client) => {
         console.error("Error occurred while finding user:", error);
       });
   } else {
-    client.replyMessage(event.replyToken, {
+    client.pushMessage(userId, {
       type: "text",
-      text: "You are not a User!",
+      text: "ไม่สามารถค้นหาข้อมูลนักศึกษา!",
     });
   }
 };
@@ -185,8 +177,7 @@ const sayBye = (event, client) => {
       .replyMessage(event.replyToken, {
         type: "text",
         text: "I cannot leave a 1-on-1 chat!",
-      })
-      .catch((err) => {
+      }).catch((err) => {
         if (err instanceof HTTPError) {
           console.error(err.statusCode);
         }
@@ -194,7 +185,7 @@ const sayBye = (event, client) => {
   }
 };
 
-const sayHi = () => {
+const sayHi = (event, client) => {
   if (event.source.type === "user") {
     let userId = event.source.userId;
     client.getProfile(userId).then((profile) => {
@@ -205,24 +196,22 @@ const sayHi = () => {
       });
     });
   } else {
-    client
-      .replyMessage(event.replyToken, {
-        type: "text",
-        text: "Hi, noname",
-      })
-      .catch((err) => {
-        if (err instanceof HTTPError) {
-          console.error(err.statusCode);
-        }
-      });
+    client.pushMessage(userId, {
+      type: "text",
+      text: "Hi, noname",
+    }).catch((err) => {
+      if (err instanceof HTTPError) {
+        console.error(err.statusCode);
+      }
+    });
   }
 };
 
 const checkValidUser = async (event, client) => {
   if (event.source.type === "user") {
-    let userId = event.source.userId;
+    let lineId = event.source.userId;
 
-    const student = await studentService.findByLineId({ userId: userId });
+    const student = await studentService.findByLineId({ lineId: lineId });
     const user = await studentService.findByStudentId({
       studentId: student.studentId,
     });
@@ -311,17 +300,12 @@ const attenStudent = (event, client) => {
       .catch((error) => {
         console.error("Error occurred while finding user:", error);
       });
-  } else {
-    client.replyMessage(event.replyToken, {
-      type: "text",
-      text: "You are not a User!",
-    });
   }
 };
 
 const getMessageContent = (event, client) => {
   client.getMessageContent("455505364492661649").then((stream) => {
-    stream.on("data", (chunk) => {});
+    stream.on("data", (chunk) => { });
     stream.on("error", (err) => {
       console.error(err.statusCode);
     });
@@ -341,40 +325,31 @@ const getLineUserProfile = (event, client) => {
   }
 };
 
-const talkToAimlInterpreter = (event, client) => {
-  return aimlInterpreter.findAnswerInLoadedAIMLFiles(
-    event.message.text,
-    async (answer, wildCardArray, input) => {
-      // console.log(answer + ' | ' + wildCardArray + ' | ' + input);
-      if (answer === undefined) {
-        answer = "I found nothing.";
-      }
-      await client.replyMessage(event.replyToken, {
-        type: "text",
-        text: answer,
-      });
-    }
-  );
-};
-
-exports.message = (event, client) => {
-  if (event.message.text.slice(0, 3) === "Reg") {
-    needRegister(event, client);
-  } else if (event.message.text === "Info") {
+exports.message = (event, client, text) => {
+  if (text.slice(0, 3) === "reg") {
+    needRegister(event, client, text);
+  } else if (text === "info") {
     getInfo(event, client);
-  } else if (event.message.text === "Bye") {
+  } else if (text === "bye") {
     sayBye(event, client);
-  } else if (event.message.text === "Hi") {
+  } else if (text === "hi") {
     sayHi(event, client);
-  } else if (event.message.text === "User") {
+  } else if (text === "user") {
     checkValidUser(event, client);
-  } else if (event.message.text === "atten") {
+  } else if (text === "atten") {
     attenStudent(event, client);
-  } else if (event.message.text === "Msg") {
+  } else if (text === "msg") {
     getMessageContent(event, client);
-  } else if (event.message.text === "Profile") {
+  } else if (text === "profile") {
     getLineUserProfile(event, client);
   } else {
-    return talkToAimlInterpreter(event, client);
+    client.pushMessage(userId, {
+      type: "text",
+      text: `นักศึกษายังไม่ได้ลงทะเบียนกับ Line ให้พิมพ์ข้อความ "Reg:<รหัสนักศึกษา>" เพื่อลงทะเบียนก่อน `
+    });
+    // client.replyMessage(event.replyToken, {
+    //   type: "text",
+    //   text: "You are not a User!",
+    // });
   }
 };

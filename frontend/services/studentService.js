@@ -80,9 +80,10 @@ exports.findByLineId = (user) => {
     const url = `${connectApiHost}/${connectApiPath}/lineId/${user.lineId}`;
     request.get(url, (error, response, body) => {
       if (error) {
-        reject(error, "Error:", error);
+        //reject(error, "Error:", error);
+        console.log(error);
       } else if (response.statusCode !== 200) {
-        reject(error, "Error:", error);
+        //reject(error, "Error:", error);
         console.error(error, `Status code: ${response.statusCode}`);
       } else {
         console.log("Response body:", body);

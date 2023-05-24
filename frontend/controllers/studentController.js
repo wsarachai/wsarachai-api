@@ -57,7 +57,7 @@ exports.createStudentFrm = (req, res) => {
   const lineId = req.query.userId;
   const studentId = req.query.studentId;
   if (lineId && studentId) {
-    studentService.findOne({ studentId: studentId }).then(student => {
+    studentService.findByStudentId({ studentId: studentId }).then(student => {
       res.render(theme.getPageViewPath("itscis", "register"), {
         currentLayout: theme.getLayoutPath("default"),
         _id: _id,
