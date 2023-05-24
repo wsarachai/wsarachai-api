@@ -223,27 +223,27 @@ const checkValidUser = async (event, client) => {
     let userId = event.source.userId;
 
     const student = await studentService.findByLineId({ userId: userId });
+    const user = await studentService.findByStudentId({
+      studentId: student.studentId,
+    });
 
-    studentService
-      .findByStudentId({ studentId: student.studentId })
-      .then((user) => {
-        if (user) {
-          console.log("User found:", user);
-          client.pushMessage(userId, {
-            type: "text",
-            text: `สวัสดี, ${user.code}-${user.firstName} ${user.lastName}`,
-          });
-        } else {
-          console.log("User not found");
-          client.pushMessage(userId, {
-            type: "text",
-            text: `นักศึกษายังไม่ได้ลงทะเบียนกับ Line ให้พิมพ์ข้อความ "Reg:<รหัสนักศึกษา>" เพื่อลงทะเบียนก่อน `,
-          });
-        }
-      })
-      .catch((error) => {
-        console.error("Error occurred while finding user:", error);
-      });
+    if (user) {
+      if (user) {
+        console.log("User found:", user);
+        client.pushMessage(userId, {
+          type: "text",
+          text: `สวัสดี, ${user.code}-${user.firstName} ${user.lastName}`,
+        });
+      } else {
+        console.log("User not found");
+        client.pushMessage(userId, {
+          type: "text",
+          text: `นักศึกษายังไม่ได้ลงทะเบียนกับ Line ให้พิมพ์ข้อความ "Reg:<รหัสนักศึกษา>" เพื่อลงทะเบียนก่อน `,
+        });
+      }
+    } else {
+      console.error("Error occurred while finding user:", error);
+    }
   }
 };
 
