@@ -177,7 +177,7 @@
     </category>
     <category>
         <pattern>*</pattern>
-        <template>I found nothing.</template>
+        <template>I found nothing. Please type "Reg:student-code"</template>
     </category>
 
 </aiml>

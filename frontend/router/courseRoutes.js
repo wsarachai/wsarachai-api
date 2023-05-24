@@ -1,4 +1,5 @@
 const express = require("express");
+const courseController = require("../controllers/courseController");
 const router = express.Router();
 
 router.use((req, res, next) => {
@@ -7,10 +8,9 @@ router.use((req, res, next) => {
   next();
 });
 
-router.get("/", (req, res) => {
-  res.render(theme.getPageViewPath("itscis", "index"), {
-    currentLayout: theme.getLayoutPath("default"),
-  });
-});
+router
+  .route("/")
+  .get(courseController.getAll)
+  .post(courseController.create);
 
 module.exports = router;

@@ -5,7 +5,7 @@
     "direction": "ltr",
     "modeSwitchEnabled": true,
     "modeDefault": "light",
-    "assetsDir": "/watcharin/assets/",
+    "assetsDir": "/assets/",
     "iconType": "duotone",
     "assets": {
         "favicon": "media/logos/favicon.ico",
