@@ -279,9 +279,10 @@ exports.message = async (event, client, text) => {
       checkValidUser(event, client);
     } else if (text === "hi") {
       sayHi(event, client);
-    } else if (text === "atten") {
-      attenStudent(event, client);
     }
+    //else if (text === "atten") {
+    //  attenStudent(event, client);
+    //}
     // else if (text === "bye") {
     //   sayBye(event, client);
     // } 

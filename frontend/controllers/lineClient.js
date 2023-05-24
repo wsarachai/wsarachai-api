@@ -35,7 +35,14 @@ const handleEvent = async (event, client) => {
 
   const student = await studentService.findByLineId({ lineId: event.source.userId });
   if (student) {
-    if (event.message.type === "text") {
+    if (student.lineId) {
+      client.pushMessage(event.source.userId, {
+        type: "text",
+        text: `นักศึกษาได้ลงทะเบียนแล้ว`
+      });
+      textMessage.message(event, client, "user");
+    }
+    else if (event.message.type === "text") {
       textMessage.message(event, client, event.message.text.toLowerCase());
     }
   } else if (event.message.text.toLowerCase().slice(0, 3) === "reg") {
