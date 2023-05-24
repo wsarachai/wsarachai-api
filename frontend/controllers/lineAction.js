@@ -218,11 +218,14 @@ const sayHi = () => {
   }
 };
 
-const checkValidUser = (event, client) => {
+const checkValidUser = async (event, client) => {
   if (event.source.type === "user") {
     let userId = event.source.userId;
+
+    const student = await studentService.findByLineId({ userId: userId });
+
     studentService
-      .findOne({ userId: userId })
+      .findByStudentId({ studentId: student.studentId })
       .then((user) => {
         if (user) {
           console.log("User found:", user);
