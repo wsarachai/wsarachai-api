@@ -1,10 +1,7 @@
 const https = require("https");
 const studentService = require("../services/studentService");
 
-const needRegister = (event, client, text) => {
-  const cmds = text.split(":");
-  const studentId = cmds[1];
-
+const needRegister = (event, client, studentId) => {
   if (event.source.type === "user") {
     let userId = event.source.userId;
 
@@ -12,69 +9,76 @@ const needRegister = (event, client, text) => {
       .findByStudentId({ studentId: studentId })
       .then((user) => {
         console.log(user);
-        if (user.lineId) {
-          console.log("User found:", user);
+        if (user) {
+          if (user.lineId) {
+            console.log("User found:", user);
+            client.pushMessage(userId, {
+              type: "text",
+              text: `สวัสดี, ${user.firstName} ${user.lastName} รหัสนักศึกษา ${user.studentId}`,
+            });
+          } else {
+            //
+            const url = "api.line.me";
+            const reqUrl = `https://itsci.mju.ac.th/watcharin/student/register?userId=${userId}&studentId=${user.studentId}&_id=${user._id}`;
+
+            console.log(reqUrl);
+
+            var postData = JSON.stringify({
+              to: userId,
+              messages: [
+                {
+                  type: "template",
+                  altText: "Account Link",
+                  template: {
+                    type: "buttons",
+                    text: "ลงทะเบียนนักศึกษาใหม่",
+                    actions: [
+                      {
+                        type: "uri",
+                        label: "คลิกที่นี่",
+                        uri: reqUrl,
+                      },
+                    ],
+                  },
+                },
+              ],
+            });
+            var options = {
+              hostname: url,
+              port: 443,
+              path: "/v2/bot/message/push",
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                "Content-Length": Buffer.byteLength(postData),
+                Authorization: `Bearer ${client.config.channelAccessToken}`,
+              },
+            };
+
+            let req = https.request(options, (res) => {
+              console.log(`STATUS: ${res.statusCode}`);
+              console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+              res.setEncoding("utf8");
+              res.on("data", (chunk) => {
+                console.log(`BODY: ${chunk}`);
+              });
+              res.on("end", () => {
+                console.log("No more data in response.");
+              });
+            });
+
+            req.on("error", (e) => {
+              console.log(`problem with request: ${e.message}`);
+            });
+            // write data to request body
+            req.write(postData);
+            req.end();
+          }
+        } else {
           client.pushMessage(userId, {
             type: "text",
-            text: `สวัสดี, ${user.studentId}-${user.firstName} ${user.lastName}`,
+            text: `รหัสนักศึกษานี้ไม่มีอยู่ในระบบให้ติดต่ออาจารย์`,
           });
-        } else {
-          //
-          const url = "api.line.me";
-          const reqUrl = `https://itsci.mju.ac.th/watcharin/student/register?userId=${userId}&studentId=${user.studentId}&_id=${user._id}`;
-
-          console.log(reqUrl);
-
-          var postData = JSON.stringify({
-            to: userId,
-            messages: [
-              {
-                type: "template",
-                altText: "Account Link",
-                template: {
-                  type: "buttons",
-                  text: "ลงทะเบียนนักศึกษาใหม่",
-                  actions: [
-                    {
-                      type: "uri",
-                      label: "คลิกที่นี่",
-                      uri: reqUrl,
-                    },
-                  ],
-                },
-              },
-            ],
-          });
-          var options = {
-            hostname: url,
-            port: 443,
-            path: "/v2/bot/message/push",
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              "Content-Length": Buffer.byteLength(postData),
-              Authorization: `Bearer ${client.config.channelAccessToken}`,
-            },
-          };
-
-          let req = https.request(options, (res) => {
-            console.log(`STATUS: ${res.statusCode}`);
-            console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
-            res.setEncoding("utf8");
-            res.on("data", (chunk) => {
-              console.log(`BODY: ${chunk}`);
-            });
-            res.on("end", () => {
-              console.log("No more data in response.");
-            });
-          });
-
-          req.on("error", (e) => {
-            console.log(`problem with request: ${e.message}`);
-          });
-          // write data to request body
-          req.write(postData);
-          req.end();
         }
       })
       .catch((error) => {
@@ -88,72 +92,18 @@ const needRegister = (event, client, text) => {
   }
 };
 
-const getInfo = (event, client) => {
+const getLineUserProfile = (event, client) => {
   if (event.source.type === "user") {
     let lineId = event.source.userId;
 
     studentService
-      .findLineId({ userId: lineId })
+      .findByLineId({ lineId: lineId })
       .then((user) => {
         if (user) {
-          console.log("User found:", user);
-          client.pushMessage(userId, {
+          client.pushMessage(lineId, {
             type: "text",
-            text: `สวัสดี, ${user.studentId}-${user.firstName} ${user.lastName}`,
+            text: `คำสั่งนี้ใช้สำหรับแก้ไขข้อมูลนักศึกษา ในขณะนี้ยังไม่สามารถดำเนินการได้`,
           });
-        } else {
-          //
-          const url = "api.line.me";
-          var postData = JSON.stringify({
-            to: userId,
-            messages: [
-              {
-                type: "template",
-                altText: "Account Link",
-                template: {
-                  type: "buttons",
-                  text: "ลงทะเบียนนักศึกษาใหม่",
-                  actions: [
-                    {
-                      type: "uri",
-                      label: "คลิกที่นี่",
-                      uri: `https://itsci.mju.ac.th/watcharin/student/register?userId=${userId}&studentId=${user.studentId}&firstName=${user.firstName}&lastName=${user.lastName}`,
-                    },
-                  ],
-                },
-              },
-            ],
-          });
-          var options = {
-            hostname: url,
-            port: 443,
-            path: "/v2/bot/message/push",
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              "Content-Length": Buffer.byteLength(postData),
-              Authorization: `Bearer ${client.config.channelAccessToken}`,
-            },
-          };
-
-          let req = https.request(options, (res) => {
-            console.log(`STATUS: ${res.statusCode}`);
-            console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
-            res.setEncoding("utf8");
-            res.on("data", (chunk) => {
-              console.log(`BODY: ${chunk}`);
-            });
-            res.on("end", () => {
-              console.log("No more data in response.");
-            });
-          });
-
-          req.on("error", (e) => {
-            console.log(`problem with request: ${e.message}`);
-          });
-          // write data to request body
-          req.write(postData);
-          req.end();
         }
       })
       .catch((error) => {
@@ -192,7 +142,7 @@ const sayHi = (event, client) => {
       console.log(profile);
       client.pushMessage(userId, {
         type: "text",
-        text: `hello, ${profile.displayName}`,
+        text: `สวัสดี, ${profile.displayName}`,
       });
     });
   } else {
@@ -210,28 +160,20 @@ const sayHi = (event, client) => {
 const checkValidUser = async (event, client) => {
   if (event.source.type === "user") {
     let lineId = event.source.userId;
-
     const student = await studentService.findByLineId({ lineId: lineId });
-    const user = await studentService.findByStudentId({
-      studentId: student.studentId,
-    });
 
-    if (user) {
-      if (user) {
-        console.log("User found:", user);
-        client.pushMessage(userId, {
-          type: "text",
-          text: `สวัสดี, ${user.code}-${user.firstName} ${user.lastName}`,
-        });
-      } else {
-        console.log("User not found");
-        client.pushMessage(userId, {
-          type: "text",
-          text: `นักศึกษายังไม่ได้ลงทะเบียนกับ Line ให้พิมพ์ข้อความ "Reg:<รหัสนักศึกษา>" เพื่อลงทะเบียนก่อน `,
-        });
-      }
+    if (student) {
+      console.log("User found:", student);
+      client.pushMessage(lineId, {
+        type: "text",
+        text: `สวัสดี, ${student.firstName} ${student.lastName} รหัสนักศึกษา ${student.studentId}`,
+      });
     } else {
-      console.error("Error occurred while finding user:", error);
+      console.log("User not found");
+      client.pushMessage(lineId, {
+        type: "text",
+        text: `นักศึกษายังไม่ได้ลงทะเบียนกับ Line ให้พิมพ์ข้อความ "Reg:<รหัสนักศึกษา>" เพื่อลงทะเบียนก่อน `,
+      });
     }
   }
 };
@@ -313,7 +255,7 @@ const getMessageContent = (event, client) => {
   });
 };
 
-const getLineUserProfile = (event, client) => {
+const getInfo = (event, client) => {
   if (event.source.type === "user") {
     let userId = event.source.userId;
     client.getProfile(userId).then((profile) => {
@@ -325,31 +267,57 @@ const getLineUserProfile = (event, client) => {
   }
 };
 
-exports.message = (event, client, text) => {
-  if (text.slice(0, 3) === "reg") {
-    needRegister(event, client, text);
-  } else if (text === "info") {
-    getInfo(event, client);
-  } else if (text === "bye") {
-    sayBye(event, client);
-  } else if (text === "hi") {
-    sayHi(event, client);
-  } else if (text === "user") {
-    checkValidUser(event, client);
-  } else if (text === "atten") {
-    attenStudent(event, client);
-  } else if (text === "msg") {
-    getMessageContent(event, client);
-  } else if (text === "profile") {
-    getLineUserProfile(event, client);
+exports.message = async (event, client, text) => {
+  let lineId = event.source.userId;
+  const student = await studentService.findByLineId({ lineId: lineId });
+
+  if (student) {
+    text = text.trim();
+    if (text === "profile") {
+      getLineUserProfile(event, client);
+    } else if (text === "user") {
+      checkValidUser(event, client);
+    } else if (text === "hi") {
+      sayHi(event, client);
+    } else if (text === "atten") {
+      attenStudent(event, client);
+    }
+    // else if (text === "bye") {
+    //   sayBye(event, client);
+    // } 
+    // else if (text === "msg") {
+    //   getMessageContent(event, client);
+    // } 
+    // else if (text === "info") {
+    //   getInfo(event, client);
+    // } 
+    else {
+      client.pushMessage(event.source.userId, {
+        type: "text",
+        text: `คำสั่งนี้ไม่สามารถดำเนินการได้ กรุณาใช้คำสั่งดังต่อไปนี้ [Hi,User,Profile,atten]`
+      });
+      // client.replyMessage(event.replyToken, {
+      //   type: "text",
+      //   text: "You are not a User!",
+      // });
+    }
   } else {
-    client.pushMessage(userId, {
-      type: "text",
-      text: `นักศึกษายังไม่ได้ลงทะเบียนกับ Line ให้พิมพ์ข้อความ "Reg:<รหัสนักศึกษา>" เพื่อลงทะเบียนก่อน `
-    });
-    // client.replyMessage(event.replyToken, {
-    //   type: "text",
-    //   text: "You are not a User!",
-    // });
+    if (text.slice(0, 3) === "reg") {
+      const cmds = text.split(":");
+      const studentId = cmds[1];
+      if (studentId && studentId.length == 10) {
+        needRegister(event, client, studentId);
+      } else {
+        client.pushMessage(event.source.userId, {
+          type: "text",
+          text: `รูปแบบการลงทะเบียนไม่ถูกต้องให้พิมพ์ข้อความ "Reg:<รหัสนักศึกษา>"`
+        });
+      }
+    } else {
+      client.pushMessage(event.source.userId, {
+        type: "text",
+        text: `ยังไม่ได้ลงทะเบียนให้พิมพ์ข้อความ "Reg:<รหัสนักศึกษา>" เพื่อลงทะเบียนก่อน`
+      });
+    }
   }
 };

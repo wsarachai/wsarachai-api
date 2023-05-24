@@ -61,7 +61,7 @@ exports.createStudentFrm = (req, res) => {
       res.render(theme.getPageViewPath("itscis", "register"), {
         currentLayout: theme.getLayoutPath("default"),
         _id: _id,
-        userId: lineId,
+        lineId: lineId,
         studentId: student.studentId,
         firstName: student.firstName,
         lastName: student.lastName,
@@ -77,10 +77,15 @@ exports.createStudentFrm = (req, res) => {
 };
 
 exports.updateStudent = (req, res) => {
+  const newUser = {
+    lineId: req.body.lineId,
+    nickname: 'เก่ง',
+  };
+
   studentService
-    .update(req.body)
-    .then((newUser) => {
-      console.log(newUser);
+    .update(req.body._id, newUser)
+    .then((user) => {
+      console.log(user);
 
       res.render(theme.getPageViewPath("itscis", "register-result"), {
         currentLayout: theme.getLayoutPath("default"),
