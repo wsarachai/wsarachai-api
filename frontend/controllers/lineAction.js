@@ -232,6 +232,10 @@ const checkValidUser = (event, client) => {
           });
         } else {
           console.log("User not found");
+          client.pushMessage(userId, {
+            type: "text",
+            text: `นักศึกษายังไม่ได้ลงทะเบียนกับ Line ให้พิมพ์ข้อความ "Reg:<รหัสนักศึกษา>" เพื่อลงทะเบียนก่อน `,
+          });
         }
       })
       .catch((error) => {
