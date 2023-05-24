@@ -75,8 +75,8 @@ exports.findByStudentId = (user) => {
 };
 
 exports.findByLineId = (user) => {
+  console.log("findByLine: " + user.lineId);
   const promise = new Promise(function (resolve, reject) {
-    console.log("findByLine: " + user.lineId);
     const url = `${connectApiHost}/${connectApiPath}/lineId/${user.lineId}`;
     request.get(url, (error, response, body) => {
       if (error) {
