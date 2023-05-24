@@ -15,9 +15,10 @@
   </div>
   <!--begin::Heading-->
 
-  <!--begin::Email-->
-  <input type="hidden" name="userId" value="<%- userId %>" />
-  <!--end::Email-->
+  <!--begin::userId-->
+  <input type="hidden" name="_id" value="<%- _id %>" />
+  <input type="hidden" name="lineId" value="<%- lineId %>" />
+  <!--end::userId-->
 
   <!--begin::Input group--->
   <div class="fv-row mb-8">
@@ -27,6 +28,8 @@
       placeholder="รหัสนักศึกษา"
       name="code"
       autocomplete="off"
+      readonly="true"
+      value="<%- studentId %>"
       class="form-control bg-transparent"
     />
     <!--end::Email-->
@@ -39,6 +42,8 @@
       type="text"
       placeholder="ชื่อ"
       name="firstName"
+      readonly="true"
+      value="<%- firstName %>"
       autocomplete="off"
       class="form-control bg-transparent"
     />
@@ -52,6 +57,8 @@
       type="text"
       placeholder="นามสกุล"
       name="lastName"
+      readonly="true"
+      value="<%- lastName %>"
       autocomplete="off"
       class="form-control bg-transparent"
     />
@@ -65,6 +72,7 @@
       type="text"
       placeholder="ชื่อเล่น"
       name="nickname"
+      value="<%- nickname %>"
       autocomplete="off"
       class="form-control bg-transparent"
     />

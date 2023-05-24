@@ -1,7 +1,7 @@
 const request = require("request");
 
-const connectApiHost = "http://localhost:3000"
-const connectApiPath = "api/v1/users"
+const connectApiHost = "http://localhost:3000";
+const connectApiPath = "api/v1/students";
 
 exports.getAll = () => {
   const allStudent = new Promise(function (resolve, reject) {
@@ -9,12 +9,12 @@ exports.getAll = () => {
     request.get(url, (error, response, body) => {
       console.log(body);
       if (error) {
-        reject(error, 'Error:', error);
+        reject(error, "Error:", error);
       } else if (response.statusCode !== 200) {
-        reject(error, 'Error:', error);
+        reject(error, "Error:", error);
         console.error(error, `Status code: ${response.statusCode}`);
       } else {
-        console.log('Response body:', body);
+        console.log("Response body:", body);
         const result = JSON.parse(body);
         resolve(result.data);
       }
@@ -23,16 +23,17 @@ exports.getAll = () => {
   return allStudent;
 };
 
-exports.create = (student) => {
+exports.update = (id, student) => {
   const createStudent = new Promise(function (resolve, reject) {
-    const url = `${connectApiHost}/${connectApiPath}`;
+    const url = `${connectApiHost}/${connectApiPath}/${id}`;
+    console.log(url);
     const options = {
       url: url,
-      method: 'POST',
+      method: "PATCH",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(student)
+      body: JSON.stringify(student),
     };
 
     request(options, (error, response, body) => {
@@ -40,7 +41,7 @@ exports.create = (student) => {
         reject(error);
       } else {
         const data = JSON.parse(body);
-        if (data.status === 'success') {
+        if (data.status === "success") {
           resolve(data);
         } else {
           reject(data);
@@ -52,23 +53,45 @@ exports.create = (student) => {
   return createStudent;
 };
 
-exports.findOne = (user) => {
-  const student = new Promise(function (resolve, reject) {
-    console.log('findOne: ' + user);
-    const url = `${connectApiHost}/${connectApiPath}/userId/${user.userId}`;
+exports.findByStudentId = (user) => {
+  const promise = new Promise(function (resolve, reject) {
+    console.log("findOne: " + user.studentId);
+    const url = `${connectApiHost}/${connectApiPath}/userId/${user.studentId}`;
     request.get(url, (error, response, body) => {
       if (error) {
-        reject(error, 'Error:', error);
+        reject(error, "Error:", error);
       } else if (response.statusCode !== 200) {
-        reject(error, 'Error:', error);
+        reject(error, "Error:", error);
         console.error(error, `Status code: ${response.statusCode}`);
       } else {
-        console.log('Response body:', body);
+        console.log("Response body:", body);
         const result = JSON.parse(body);
         resolve(result.data);
       }
     });
   });
 
-  return student;
+  return promise;
+};
+
+exports.findByLineId = (user) => {
+  console.log("findByLine: " + user.lineId);
+  const promise = new Promise(function (resolve, reject) {
+    const url = `${connectApiHost}/${connectApiPath}/lineId/${user.lineId}`;
+    request.get(url, (error, response, body) => {
+      if (error) {
+        //reject(error, "Error:", error);
+        console.log(error);
+      } else if (response.statusCode !== 200) {
+        //reject(error, "Error:", error);
+        console.error(error, `Status code: ${response.statusCode}`);
+      } else {
+        console.log("Response body:", body);
+        const result = JSON.parse(body);
+        resolve(result.data);
+      }
+    });
+  });
+
+  return promise;
 };

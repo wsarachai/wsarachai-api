@@ -1,0 +1,32 @@
+<!--begin::Form-->
+<form
+  class="form w-100"
+  novalidate="novalidate"
+  id="itsci_sign_in_form"
+  data-itsci-redirect-url="atten"
+  action="atten"
+  method="POST"
+>
+  <!--begin::Heading-->
+  <div class="text-center mb-11">
+    <!--begin::Title-->
+    <h1 class="text-dark fw-bolder mb-3">ลงชื่อเข้าเรียน</h1>
+    <!--end::Title-->
+  </div>
+  <!--begin::Heading-->
+
+  <!--begin::Email-->
+  <input type="hidden" name="userId" value="<%- userId %>" />
+  <input type="hidden" name="course" value="<%- course %>" />
+  <input type="hidden" id="userLocation" name="userLocation" value="" />
+  <!--end::Email-->
+
+  <!--begin::Submit button-->
+  <div class="d-grid mb-10">
+    <button type="submit" id="itsci_sign_in_submit" class="btn btn-primary">
+      ตกลง
+    </button>
+  </div>
+  <!--end::Submit button-->
+</form>
+<!--end::Form-->
