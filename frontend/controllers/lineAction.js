@@ -181,19 +181,19 @@ const checkValidUser = async (event, client) => {
 // The process to atten the students
 const attenStudent = (event, client) => {
   if (event.source.type === "user") {
-    let userId = event.source.userId;
+    let lineId = event.source.userId;
 
     // Find the student by Line Id, we will get the student Id
     // from the database.
     studentService
-      .findOne({ userId: userId })
+      .findByLineId({ lineId: lineId })
       .then((user) => {
         if (user) {
           // We get the student, let create the panel button option for the student
           // can click to begin the attenuation process
           const url = "api.line.me";
           var postData = JSON.stringify({
-            to: userId,
+            to: user.lineId,
             messages: [
               {
                 type: "template",
@@ -205,7 +205,7 @@ const attenStudent = (event, client) => {
                     {
                       type: "uri",
                       label: "คลิกที่นี่",
-                      uri: `https://itsci.mju.ac.th/watcharin/student/atten?userId=${userId}&course=${client.config.course}`,
+                      uri: `https://itsci.mju.ac.th/watcharin/student/atten?lineId=${user.lineId}&course=${client.config.course}`,
                     },
                   ],
                 },

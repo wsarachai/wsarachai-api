@@ -112,12 +112,12 @@ exports.getAllStudent = async (req, res) => {
 };
 
 exports.atten = (req, res) => {
-  console.log(req.query.userId);
+  console.log(req.query.lineId);
 
   theme.addJavascriptFile("js/custom/authentication/get-location.js");
   res.render(theme.getPageViewPath("itscis", "student-attention"), {
     currentLayout: theme.getLayoutPath("atten-layout"),
-    userId: req.query.userId,
+    lineId: req.query.lineId,
     course: req.query.course
   });
 };
@@ -125,14 +125,15 @@ exports.atten = (req, res) => {
 exports.attenCheck = async (req, res) => {
   let message = "ลงชื่อเข้าเรียนไม่สำเร็จ ให้ติดต่ออาจารย์!!"
   console.log(req.body);
-  if (req.body.userLocation && req.body.course && req.body.userId) {
+  if (req.body.userLocation && req.body.course && req.body.lineId) {
     const location = JSON.parse(req.body.userLocation);
-    const course = await courseService.findOne(req.body.course);
+    const student = await studentService.findByLineId(req.body.lineId);
+    const course = await courseService.findByCode(req.body.course);
 
     if (course) {
       let status = timeInRanges(course.startTime);
       if (status === "atten" || status === "late") {
-        const student = await studentService.findOne({ userId: req.body.userId });
+        const student = await studentService.findByLineId({ lineId: req.body.lineId });
 
         // Example usage
         const distance = calculateDistance(

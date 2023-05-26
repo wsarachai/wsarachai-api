@@ -60,7 +60,7 @@ exports.create = (obj) => {
   return promise;
 };
 
-exports.findOne = (param) => {
+exports.findByCode = (param) => {
   const promise = new Promise(function (resolve, reject) {
     const url = `${connectApiHost}/${connectApiPath}/code/${param}`;
 
