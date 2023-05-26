@@ -99,6 +99,32 @@ class CourseController {
       });
     }
   };
+
+  createFromJson = async (req: Request, res: Response) => {
+    try {
+      const data = req.body;
+      Object.keys(data).forEach(async function (key) {
+        const session = {
+          course: data[key]["course"],
+          startTime: data[key]["startTime"],
+          hours: data[key]["hours"],
+          dayOfWeek: data[key]["dayOfWeek"],
+          location: data[key]["location"],
+        };
+        await Session.create(session);
+      });
+      res.status(200).json({
+        status: "success",
+        data: data,
+      });
+    } catch (err) {
+      res.status(400).json({
+        status: "failed",
+        message: err,
+      });
+    }
+  };
+
 }
 
 export default new CourseController();
