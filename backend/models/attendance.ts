@@ -5,10 +5,9 @@ const AttendanceSchema: Schema = new Schema({
     type: String,
     required: [true, "A status is required"],
   },
-  student: {
-    type: Types.ObjectId,
-    ref: "Student",
-    required: [true, "A student is required"],
+  timeAtten: {
+    type: String,
+    required: [true, "A timeAtten is required"],
   },
 });
 

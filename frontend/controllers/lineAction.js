@@ -178,14 +178,19 @@ const checkValidUser = async (event, client) => {
   }
 };
 
+// The process to atten the students
 const attenStudent = (event, client) => {
   if (event.source.type === "user") {
     let userId = event.source.userId;
 
+    // Find the student by Line Id, we will get the student Id
+    // from the database.
     studentService
       .findOne({ userId: userId })
       .then((user) => {
         if (user) {
+          // We get the student, let create the panel button option for the student
+          // can click to begin the attenuation process
           const url = "api.line.me";
           var postData = JSON.stringify({
             to: userId,
@@ -280,9 +285,9 @@ exports.message = async (event, client, text) => {
     } else if (text === "hi") {
       sayHi(event, client);
     }
-    //else if (text === "atten") {
-    //  attenStudent(event, client);
-    //}
+    else if (text === "atten") {
+      attenStudent(event, client);
+    }
     // else if (text === "bye") {
     //   sayBye(event, client);
     // } 

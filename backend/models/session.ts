@@ -10,6 +10,10 @@ const SessionSchema: Schema = new Schema({
     ref: "Course",
     required: [true, "A course is required"],
   },
+  dayOfWeek: {
+    type: String,
+    required: [true, "A dayOfWeek is required [xx:xx]"],
+  },
   startTime: {
     type: String,
     required: [true, "A startTime is required [xx:xx]"],
