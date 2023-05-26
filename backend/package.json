@@ -12,6 +12,7 @@
   "author": "Watcharin Sarachai",
   "license": "ISC",
   "dependencies": {
+    "@line/liff": "^2.22.1",
     "@types/express": "^4.17.17",
     "body-parser": "^1.20.2",
     "dotenv": "^16.0.3",
