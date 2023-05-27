@@ -37,12 +37,12 @@ class CourseController {
 
   get = async (req: Request, res: Response) => {
     try {
-      const course = await Register.findById(req.params.id);
+      const register = await Register.findById(req.params.id);
       // .populate("student")
       // .populate("session");
       res.status(200).json({
         status: "success",
-        data: { course },
+        data: register,
       });
     } catch (err) {
       res.status(404).json({
@@ -54,13 +54,13 @@ class CourseController {
 
   update = async (req: Request, res: Response) => {
     try {
-      const course = await Register.findByIdAndUpdate(req.params.id, req.body, {
+      const register = await Register.findByIdAndUpdate(req.params.id, req.body, {
         new: true,
         runValidators: true,
       });
       res.status(200).json({
         status: "success",
-        data: { course },
+        data: register,
       });
     } catch (err) {
       res.status(404).json({
@@ -138,6 +138,25 @@ class CourseController {
         data: data,
       });
     } catch (err) {
+      res.status(400).json({
+        status: "failed",
+        message: err,
+      });
+    }
+  };
+
+  addAttendance = async (req: Request, res: Response) => {
+    try {
+      let register = await Register.findById(req.params.id);
+      register.attendances.push(req.body);
+      register = await register.attendances.push(req.body);
+      await register.save();
+
+      res.status(200).json({
+        status: "success",
+        data: register,
+      });
+    } catch(err) {
       res.status(400).json({
         status: "failed",
         message: err,

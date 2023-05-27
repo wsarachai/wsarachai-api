@@ -13,5 +13,6 @@ router
   .delete(registerController.delete);
 router.route("/code/:id").get(registerController.findByCode);
 router.route("/student/:id").get(registerController.findByStudentCode);
+router.route("/add-atten:id").post(registerController.addAttendance);
 
 export default router;
