@@ -1,7 +1,7 @@
 const request = require("request");
 
 const connectApiHost = "http://localhost:3000";
-const connectApiPath = "api/v1/sessions";
+const connectApiPath = "api/v1/attens";
 
 exports.getAll = () => {
   const promise = new Promise(function (resolve, reject) {
@@ -40,7 +40,7 @@ exports.create = (obj) => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(obj),
+      body: obj,
       json: true,
     };
 
@@ -60,29 +60,7 @@ exports.create = (obj) => {
   return promise;
 };
 
-exports.findOne = (param) => {
-  const promise = new Promise(function (resolve, reject) {
-    const url = `${connectApiHost}/${connectApiPath}/code/${param}`;
-
-    const requestOptions = {
-      url: url,
-      json: true
-    };
-
-    request.get(requestOptions, (error, response, body) => {
-      //console.log(result);
-      if (result.status === "success") {
-        resolve(body.data);
-      } else {
-        reject(body.status);
-      }
-    });
-  });
-
-  return promise;
-};
-
-exports.sessionFindById = (param) => {
+exports.findById = (param) => {
   const promise = new Promise(function (resolve, reject) {
     const url = `${connectApiHost}/${connectApiPath}/${param}`;
 

@@ -82,7 +82,7 @@ exports.findOne = (param) => {
   return promise;
 };
 
-exports.sessionFindById = (param) => {
+exports.findById = (param) => {
   const promise = new Promise(function (resolve, reject) {
     const url = `${connectApiHost}/${connectApiPath}/${param}`;
 

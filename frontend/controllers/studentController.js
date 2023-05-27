@@ -1,6 +1,7 @@
 const studentService = require("../services/studentService");
-const registerService = require("../services/registerService");
 const sessionService = require("../services/sessionService");
+const registerService = require("../services/registerService");
+const attenService = require("../services/attenService");
 
 const degToRad = (degrees) => {
   return degrees * (Math.PI / 180);
@@ -140,7 +141,7 @@ exports.attenCheck = async (req, res) => {
     for (var i = 0; i < registers.length; i++) {
       var reg = registers[i];
       // console.log(reg);
-      const session = await sessionService.sessionFindById(reg.session);
+      const session = await sessionService.findById(reg.session);
       if (session) {
         // console.log(session._id);
         status = timeInRanges(session.startTime);
@@ -155,7 +156,15 @@ exports.attenCheck = async (req, res) => {
           console.log("Distance: ", distance.toFixed(2), "km"); // Output: 3934.44 kilometers
 
           if (distance <= 0.05) {
-
+            const now = new Date();
+            const attenTime = `${now.getHours()}:${now.getMinutes()}:00`;
+            const atten = await attenService.create({
+              status: status,
+              timeAtten: attenTime
+            });
+            console.log(reg);
+            console.log(atten);
+            await registerService.appendAttendance(reg._id, atten.data);
             message = `${student.studentId} ${student.firstName} ${student.lastName}: ลงชื่อเข้าเรียนสำเร็จ!!`;
           } else {
             message = `${student.studentId} ${student.firstName} ${student.lastName}: ลงชื่อเข้าเรียนไม่สำเร็จ ไม่ได้อยู่ในห้องเรียน กรุณาเข้าห้องเรียนเพื่อลงชื่อ!!`;

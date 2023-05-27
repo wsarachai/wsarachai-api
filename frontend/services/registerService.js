@@ -103,3 +103,32 @@ exports.findByStudentId = (param) => {
 
   return promise;
 };
+
+exports.appendAttendance = (sessionId, obj) => {
+  const promise = new Promise(function (resolve, reject) {
+    const url = `${connectApiHost}/${connectApiPath}/add-atten/${sessionId}`;
+
+    const requestOptions = {
+      url: url,
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: obj,
+      json: true,
+    };
+
+    request(requestOptions, (error, response, body) => {
+      if (error) {
+        reject(error);
+      } else {
+        if (body.status === "success") {
+          resolve(body);
+        } else {
+          reject(body);
+        }
+      }
+    });
+  });
+  return promise;
+};
