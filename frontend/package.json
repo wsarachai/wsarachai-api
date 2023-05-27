@@ -2,11 +2,13 @@
   "name": "wsarachai",
   "version": "1.0.0",
   "description": "WSarachai API",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server.js",
-    "debug": "nodemon --inspect server.js"
+    "start:build": "tsc",
+    "start:run": "nodemon dist/server.js",
+    "start:": "concurrently npm:start:*",
+    "debug": "nodemon --inspect dist/server.js"
   },
   "author": "Watcharin Sarachai",
   "license": "ISC",

@@ -11,6 +11,22 @@ const RegisterSchema: Schema = new Schema({
     ref: "Sessioin",
     required: [true, "A session is required"],
   },
+  midTermScore: {
+    type: Number,
+    defaultValue: 0,
+  },
+  finalScore: {
+    type: Number,
+    defaultValue: 0,
+  },
+  projectScore: {
+    type: Number,
+    defaultValue: 0,
+  },
+  grade: {
+    type: String,
+    defaultValue: "",
+  },
   attendances: [
     {
       type: Types.ObjectId,

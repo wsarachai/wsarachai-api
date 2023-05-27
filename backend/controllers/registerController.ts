@@ -5,9 +5,7 @@ class CourseController {
   constructor() {}
   getAll = async (req: Request, res: Response) => {
     try {
-      const results = await Register.find()
-        .populate("student")
-        .populate("session");
+      const results = await Register.find();
       res.status(200).json({
         status: "success",
         results: results.length,
@@ -99,6 +97,31 @@ class CourseController {
       });
     } catch (err) {
       res.status(404).json({
+        status: "failed",
+        message: err,
+      });
+    }
+  };
+
+  createFromJson = async (req: Request, res: Response) => {
+    try {
+      const data = req.body;
+      Object.keys(data).forEach(async function (key) {
+        const register = {
+          course: data[key]["course"],
+          startTime: data[key]["startTime"],
+          hours: data[key]["hours"],
+          dayOfWeek: data[key]["dayOfWeek"],
+          location: data[key]["location"],
+        };
+        await Register.create(register);
+      });
+      res.status(200).json({
+        status: "success",
+        data: data,
+      });
+    } catch (err) {
+      res.status(400).json({
         status: "failed",
         message: err,
       });

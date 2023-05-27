@@ -5,6 +5,10 @@ const SessionSchema: Schema = new Schema({
     type: Number,
     required: [true, "A sectionNumber is required"],
   },
+  sessionType: {
+    type: String,
+    required: [true, "A sessionType is required"],
+  },
   course: {
     type: Types.ObjectId,
     ref: "Course",
