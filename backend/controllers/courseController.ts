@@ -40,7 +40,7 @@ class CourseController {
       const course = await Course.findById(req.params.id).populate("subject");
       res.status(200).json({
         status: "success",
-        data: { course },
+        data: course,
       });
     } catch (err) {
       res.status(404).json({
@@ -58,7 +58,7 @@ class CourseController {
       });
       res.status(200).json({
         status: "success",
-        data: { course },
+        data: course,
       });
     } catch (err) {
       res.status(404).json({

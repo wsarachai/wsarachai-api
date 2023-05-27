@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
-import Session from "../models/session";
+import Attendance from "../models/attendance";
 
 class CourseController {
   constructor() {}
   getAll = async (req: Request, res: Response) => {
     try {
-      const results = await Session.find();
+      const results = await Attendance.find();
       res.status(200).json({
         status: "success",
         results: results.length,
@@ -21,7 +21,8 @@ class CourseController {
 
   create = async (req: Request, res: Response) => {
     try {
-      const newObject = req?.body && (await Session.create(req.body));
+      const newObject = req?.body && (await Attendance.create(req.body));
+
       res.status(200).json({
         status: "success",
         data: newObject,
@@ -36,10 +37,12 @@ class CourseController {
 
   get = async (req: Request, res: Response) => {
     try {
-      const session = await Session.findById(req.params.id);
+      const course = await Attendance.findById(req.params.id);
+      // .populate("student")
+      // .populate("session");
       res.status(200).json({
         status: "success",
-        data: session,
+        data: { course },
       });
     } catch (err) {
       res.status(404).json({
@@ -51,13 +54,13 @@ class CourseController {
 
   update = async (req: Request, res: Response) => {
     try {
-      const session = await Session.findByIdAndUpdate(req.params.id, req.body, {
+      const course = await Attendance.findByIdAndUpdate(req.params.id, req.body, {
         new: true,
         runValidators: true,
       });
       res.status(200).json({
         status: "success",
-        data: session,
+        data: { course },
       });
     } catch (err) {
       res.status(404).json({
@@ -69,26 +72,11 @@ class CourseController {
 
   delete = async (req: Request, res: Response) => {
     try {
-      await Session.findByIdAndDelete(req.params.id);
+      await Attendance.findByIdAndDelete(req.params.id);
 
       res.status(200).json({
         status: "success",
         data: null,
-      });
-    } catch (err) {
-      res.status(404).json({
-        status: "failed",
-        message: err,
-      });
-    }
-  };
-
-  findByCode = async (req: Request, res: Response) => {
-    try {
-      const session = await Session.findOne({ code: req.params.id }).populate("course");
-      res.status(200).json({
-        status: "success",
-        data: session,
       });
     } catch (err) {
       res.status(404).json({

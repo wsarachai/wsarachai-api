@@ -95,7 +95,7 @@ const test = async () => {
   retisters.forEach(async (reg) => {
     const session = await sessionService.sessionFindById(reg.session);
     console.log(session);
-    //console.log(timeInRanges(session.startTime));
+    console.log(timeInRanges(session.startTime));
   });
 };
 

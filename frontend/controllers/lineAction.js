@@ -186,7 +186,7 @@ const attenStudent = (event, client) => {
     // Find the student by Line Id, we will get the student Id
     // from the database.
     studentService
-      .findByLineId({ lineId: lineId })
+      .findByLineId(lineId)
       .then((user) => {
         if (user) {
           // We get the student, let create the panel button option for the student
@@ -274,7 +274,7 @@ const getInfo = (event, client) => {
 
 exports.message = async (event, client, text) => {
   let lineId = event.source.userId;
-  const student = await studentService.findByLineId({ lineId: lineId });
+  const student = await studentService.findByLineId(lineId);
 
   if (student) {
     text = text.trim();

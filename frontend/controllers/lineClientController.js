@@ -12,7 +12,7 @@ const handleEvent = async (event, client) => {
   }
 
   // Get Student by Line account Id
-  const student = await studentService.findByLineId({ lineId: event.source.userId });
+  const student = await studentService.findByLineId(event.source.userId);
   if (student) {
     if (event.message.text.toLowerCase().slice(0, 3) === "reg") {
       // The student type the "reg:xxxxxxxxxx" again, notify the message to them

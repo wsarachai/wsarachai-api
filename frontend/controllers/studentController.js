@@ -1,5 +1,6 @@
 const studentService = require("../services/studentService");
-const courseService = require("../services/courseService");
+const registerService = require("../services/registerService");
+const sessionService = require("../services/sessionService");
 
 const degToRad = (degrees) => {
   return degrees * (Math.PI / 180);
@@ -12,8 +13,11 @@ const timeInRanges = (time) => {
   const now = new Date();
   const stuTime = new Date(`2023-05-22 ${now.getHours()}:${now.getMinutes()}:00`);
   const date1 = new Date('2023-05-22 ' + time);
-  const date2 = new Date(`2023-05-22 ${times[0]}:${parseInt(times[1]) + 15}:00`);
-  const date3 = new Date(`2023-05-22 ${parseInt(times[0]) + 1}:${times[1]}:00`);
+  const date2 = new Date('2023-05-22 ' + time);
+  const date3 = new Date('2023-05-22 ' + time);
+
+  date2.setMinutes(date2.getMinutes() + 15);
+  date3.setMinutes(date3.getHours() + 1);
 
   // Verify if the first time is equal, more recent or less recent than the second
   if (stuTime.getTime() >= date1.getTime() && stuTime.getTime() <= date2.getTime()) {
@@ -123,32 +127,40 @@ exports.atten = (req, res) => {
 };
 
 exports.attenCheck = async (req, res) => {
-  let message = "ลงชื่อเข้าเรียนไม่สำเร็จ ให้ติดต่ออาจารย์!!"
+  var message = "ลงชื่อเข้าเรียนไม่สำเร็จ ให้ติดต่ออาจารย์!!"
   console.log(req.body);
   if (req.body.userLocation && req.body.course && req.body.lineId) {
     const location = JSON.parse(req.body.userLocation);
     const student = await studentService.findByLineId(req.body.lineId);
-    const course = await courseService.findByCode(req.body.course);
+    const registers = await registerService.findByStudentId(student._id);
 
-    if (course) {
-      let status = timeInRanges(course.startTime);
-      if (status === "atten" || status === "late") {
-        const student = await studentService.findByLineId({ lineId: req.body.lineId });
+    message = `${student.studentId} ${student.firstName} ${student.lastName}: ลงชื่อเข้าเรียนไม่สำเร็จ ให้ติดต่ออาจารย์!!`;
 
-        // Example usage
-        const distance = calculateDistance(
-          location.latitude,
-          location.longitude,
-          course.location.latitude,
-          course.location.longitude
-        );
+    let status = "absent";
+    for (var i = 0; i < registers.length; i++) {
+      var reg = registers[i];
+      // console.log(reg);
+      const session = await sessionService.sessionFindById(reg.session);
+      if (session) {
+        // console.log(session._id);
+        status = timeInRanges(session.startTime);
+        if (status === 'atten' || status === 'late') {
+          const distance = calculateDistance(
+            location.latitude,
+            location.longitude,
+            session.location.latitude,
+            session.location.longitude
+          );
 
-        console.log(distance.toFixed(2)); // Output: 3934.44 kilometers
+          console.log("Distance: ", distance.toFixed(2), "km"); // Output: 3934.44 kilometers
 
-        if (distance <= 0.05) {
-          message = `${student.code} ${student.firstName} ${student.lastName}: ลงชื่อเข้าเรียนสำเร็จ`;
-        } else {
-          message = `${student.code} ${student.firstName} ${student.lastName}: ลงชื่อเข้าเรียนไม่สำเร็จ, อยู่นอกระยะห้องเรียนกรุณาเข้าไปเช็คชื่อในห้องเรียนเท่านั้น`;
+          if (distance <= 0.05) {
+
+            message = `${student.studentId} ${student.firstName} ${student.lastName}: ลงชื่อเข้าเรียนสำเร็จ!!`;
+          } else {
+            message = `${student.studentId} ${student.firstName} ${student.lastName}: ลงชื่อเข้าเรียนไม่สำเร็จ ไม่ได้อยู่ในห้องเรียน กรุณาเข้าห้องเรียนเพื่อลงชื่อ!!`;
+          }
+          break;
         }
       }
     }

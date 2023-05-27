@@ -1,7 +1,7 @@
 const request = require("request");
 
 const connectApiHost = "http://localhost:3000";
-const connectApiPath = "api/v1/registers";
+const connectApiPath = "api/v1/sessions";
 
 exports.getAll = () => {
   const promise = new Promise(function (resolve, reject) {
@@ -82,9 +82,9 @@ exports.findOne = (param) => {
   return promise;
 };
 
-exports.findByStudentId = (param) => {
+exports.sessionFindById = (param) => {
   const promise = new Promise(function (resolve, reject) {
-    const url = `${connectApiHost}/${connectApiPath}/student/${param}`;
+    const url = `${connectApiHost}/${connectApiPath}/${param}`;
 
     const requestOptions = {
       url: url,

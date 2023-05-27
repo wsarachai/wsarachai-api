@@ -44,7 +44,7 @@ exports.create = (obj) => {
       json: true,
     };
 
-    request(options, (error, response, body) => {
+    request(requestOptions, (error, response, body) => {
       if (error) {
         reject(error);
       } else {
