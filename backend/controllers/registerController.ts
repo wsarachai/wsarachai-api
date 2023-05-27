@@ -105,7 +105,7 @@ class CourseController {
 
   findByStudentCode = async (req: Request, res: Response) => {
     try {
-      const course = await Register.findOne({ student: req.params.id });
+      const course = await Register.find({ student: req.params.id });
       // .populate("student")
       // .populate("session");
       res.status(200).json({

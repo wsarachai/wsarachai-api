@@ -1,14 +1,14 @@
 {
-  "name": "utils",
+  "name": "wsarachai",
   "version": "1.0.0",
-  "description": "",
-  "main": "app.js",
+  "description": "WSarachai API",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start:build": "tsc",
-    "start:run": "nodemon dist/app.js",
+    "start:run": "nodemon dist/server.js",
     "start": "concurrently npm:start:*",
-    "run": "node dist/app.js"
+    "run": "node dist/server.js"
   },
   "author": "",
   "license": "ISC",

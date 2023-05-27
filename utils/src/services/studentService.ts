@@ -1,25 +1,33 @@
 import axios from "axios";
 
+interface IStudent {
+  _id: string;
+  studentId: string;
+  firstName: string;
+  lastName: string;
+  nickname: string;
+  lineId: string;
+}
+
 class StudentService {
   private connectApiHost = "http://localhost:3000";
   private connectApiPath = "api/v1/students";
 
   getAll = () => {
-    const promise = new Promise((resolve, reject) => {
+    const promise = new Promise<IStudent>((resolve, reject) => {
       const url = `${this.connectApiHost}/${this.connectApiPath}`;
       axios
         .get(url)
         .then((body) => {
-          const result = JSON.parse(body.data);
-          resolve(result.data);
+          resolve(body.data.data);
         })
         .catch(reject);
     });
     return promise;
   };
 
-  update = (id: any, student: any) => {
-    const promise = new Promise((resolve, reject) => {
+  update = (id: string, student: IStudent) => {
+    const promise = new Promise<IStudent>((resolve, reject) => {
       const url = `${this.connectApiHost}/${this.connectApiPath}/${id}`;
       axios
         .patch(url, student)
@@ -35,13 +43,13 @@ class StudentService {
     return promise;
   };
 
-  findByStudentId = (user: any) => {
-    const promise = new Promise((resolve, reject) => {
-      const url = `${this.connectApiHost}/${this.connectApiPath}/userId/${user.studentId}`;
+  findByStudentId = (studentId: string) => {
+    const promise = new Promise<IStudent>((resolve, reject) => {
+      const url = `${this.connectApiHost}/${this.connectApiPath}/userId/${studentId}`;
       axios
         .get(url)
         .then((body) => {
-          resolve(body.data);
+          resolve(body.data.data);
         })
         .catch(reject);
     });
@@ -49,13 +57,13 @@ class StudentService {
     return promise;
   };
 
-  findByLineId = (user: any) => {
-    const promise = new Promise((resolve, reject) => {
-      const url = `${this.connectApiHost}/${this.connectApiPath}/lineId/${user.lineId}`;
+  findByLineId = (lineId: string) => {
+    const promise = new Promise<IStudent>((resolve, reject) => {
+      const url = `${this.connectApiHost}/${this.connectApiPath}/lineId/${lineId}`;
       axios
         .get(url)
         .then((body) => {
-          resolve(body.data);
+          resolve(body.data.data);
         })
         .catch(reject);
     });

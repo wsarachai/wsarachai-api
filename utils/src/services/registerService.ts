@@ -19,7 +19,7 @@ class RegisterService {
       axios
         .get(url)
         .then((response) => {
-          resolve(response.data);
+          resolve(response.data.data);
         })
         .catch((error) => {
           reject("Error:" + error);
@@ -57,7 +57,24 @@ class RegisterService {
       axios
         .get(url)
         .then((response) => {
-          resolve(response.data);
+          resolve(response.data.data);
+        })
+        .catch((error) => {
+          reject("Error:" + error);
+        });
+    });
+
+    return promise;
+  };
+
+  findByStudentId = (param: string) => {
+    const promise = new Promise<IRegister[]>((resolve, reject) => {
+      const url = `${this.connectApiHost}/${this.connectApiPath}/student/${param}`;
+
+      axios
+        .get(url)
+        .then((response) => {
+          resolve(response.data.data);
         })
         .catch((error) => {
           reject("Error:" + error);
