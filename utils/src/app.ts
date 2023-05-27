@@ -1,8 +1,5 @@
-import studentJson from "./students-6304106xxx.json";
-import { registerCreate } from "./registerService";
-
-console.log(studentJson.status);
-console.log(studentJson.results);
+import studentJson from "./json/students-6304106xxx.json";
+import registerService from "./services/registerService";
 
 const sessions: string[] = [
   "647075eecbe9b20b97d51294", // 646cccee42758d6e02cf8534 IT241-lec #combined
@@ -28,7 +25,8 @@ const setep_1 = () => {
     // const newReg = JSON.stringify(reg);
     console.log(reg);
 
-    registerCreate(reg)
+    registerService
+      .create(reg)
       .then((result) => {
         console.log(result);
       })
@@ -38,4 +36,6 @@ const setep_1 = () => {
   });
 };
 
-setep_1();
+registerService.findOne("6471994ed771ee45f10b6a8b").then((result) => {
+  console.log(result);
+});

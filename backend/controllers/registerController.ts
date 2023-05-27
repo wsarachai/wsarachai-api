@@ -37,9 +37,9 @@ class CourseController {
 
   get = async (req: Request, res: Response) => {
     try {
-      const course = await Register.findById(req.params.id)
-        .populate("student")
-        .populate("session");
+      const course = await Register.findById(req.params.id);
+      // .populate("student")
+      // .populate("session");
       res.status(200).json({
         status: "success",
         data: { course },
@@ -88,9 +88,26 @@ class CourseController {
 
   findByCode = async (req: Request, res: Response) => {
     try {
-      const course = await Register.findOne({ code: req.params.id })
-        .populate("student")
-        .populate("session");
+      const course = await Register.findOne({ code: req.params.id });
+      // .populate("student")
+      // .populate("session");
+      res.status(200).json({
+        status: "success",
+        data: course,
+      });
+    } catch (err) {
+      res.status(404).json({
+        status: "failed",
+        message: err,
+      });
+    }
+  };
+
+  findByStudentCode = async (req: Request, res: Response) => {
+    try {
+      const course = await Register.findOne({ student: req.params.id });
+      // .populate("student")
+      // .populate("session");
       res.status(200).json({
         status: "success",
         data: course,
