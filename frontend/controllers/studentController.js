@@ -132,8 +132,8 @@ exports.attenCheck = async (req, res) => {
   console.log(req.body);
 
   // for tes on Mac
-  req.body.lineId = "Uaa87542acc2a6380d218823e6188126d";
-  req.body.course = "ITXXX";
+  //req.body.lineId = "Uaa87542acc2a6380d218823e6188126d";
+  //req.body.course = "ITXXX";
   // for tes on
 
   if (req.body.userLocation && req.body.course && req.body.lineId) {
