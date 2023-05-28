@@ -18,7 +18,7 @@ const timeInRanges = (time) => {
   const date3 = new Date('2023-05-22 ' + time);
 
   date2.setMinutes(date2.getMinutes() + 15);
-  date3.setMinutes(date3.getHours() + 1);
+  date3.setHours(date3.getHours() + 1);
 
   // Verify if the first time is equal, more recent or less recent than the second
   if (stuTime.getTime() >= date1.getTime() && stuTime.getTime() <= date2.getTime()) {
@@ -130,6 +130,12 @@ exports.atten = (req, res) => {
 exports.attenCheck = async (req, res) => {
   var message = "ลงชื่อเข้าเรียนไม่สำเร็จ ให้ติดต่ออาจารย์!!"
   console.log(req.body);
+
+  // for tes on Mac
+  req.body.lineId = "Uaa87542acc2a6380d218823e6188126d";
+  req.body.course = "ITXXX";
+  // for tes on
+
   if (req.body.userLocation && req.body.course && req.body.lineId) {
     const location = JSON.parse(req.body.userLocation);
     const student = await studentService.findByLineId(req.body.lineId);
@@ -159,15 +165,32 @@ exports.attenCheck = async (req, res) => {
             console.log(reg);
 
             const now = new Date();
-            const attenTime = `${now.getDay}:now.getMonth}:${now.getHours()}:${now.getMinutes()}:00`;
-            const atten = await attenService.create({
-              register: reg._id,
-              status: status,
-              timeAtten: attenTime
-            });
-            console.log(atten);
-            await registerService.appendAttendance(reg._id, atten.data);
-            message = `${student.studentId} ${student.firstName} ${student.lastName}: ลงชื่อเข้าเรียนสำเร็จ!!`;
+            const day = `${now.getDate()}`;
+            const month = `${now.getMonth()}`;
+            const attenTime = `${now.getHours()}:${now.getMinutes()}:00`;
+
+            let alreadyCheckIn = false;
+            for (let i = 0; i < reg.attendances.length; i++) {
+              const atten = await attenService.findById(reg.attendances[i]);
+              if (atten.course.day === day) {
+                alreadyCheckIn = true;
+              }
+            }
+
+            if (!alreadyCheckIn) {
+              const atten = await attenService.create({
+                register: reg._id,
+                status: status,
+                day: day,
+                month: month,
+                timeAtten: attenTime
+              });
+              console.log(atten);
+              await registerService.appendAttendance(reg._id, atten.data);
+              message = `${student.studentId} ${student.firstName} ${student.lastName}: ลงชื่อเข้าเรียนสำเร็จ!! [${status}]`;
+            } else {
+              message = `${student.studentId} ${student.firstName} ${student.lastName}: ได้ลงชื่อเข้าเรียนแล้ว!!`;
+            }
           } else {
             message = `${student.studentId} ${student.firstName} ${student.lastName}: ลงชื่อเข้าเรียนไม่สำเร็จ ไม่ได้อยู่ในห้องเรียน กรุณาเข้าห้องเรียนเพื่อลงชื่อ!!`;
           }

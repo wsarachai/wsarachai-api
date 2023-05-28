@@ -10,6 +10,14 @@ const AttendanceSchema: Schema = new Schema({
     type: String,
     required: [true, "A status is required"],
   },
+  day: {
+    type: String,
+    required: [true, "A day is required"],
+  },
+  month: {
+    type: String,
+    required: [true, "A month is required"],
+  },
   timeAtten: {
     type: String,
     required: [true, "A timeAtten is required"],
