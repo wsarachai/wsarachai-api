@@ -2,6 +2,7 @@ const studentService = require("../services/studentService");
 const sessionService = require("../services/sessionService");
 const registerService = require("../services/registerService");
 const attenService = require("../services/attenService");
+const courseService = require("../services/courseService");
 
 const degToRad = (degrees) => {
   return degrees * (Math.PI / 180);
@@ -132,8 +133,8 @@ exports.attenCheck = async (req, res) => {
   console.log(req.body);
 
   // for tes on Mac
-  //req.body.lineId = "Uaa87542acc2a6380d218823e6188126d";
-  //req.body.course = "ITXXX";
+  req.body.lineId = "Uaa87542acc2a6380d218823e6188126d";
+  req.body.course = "IT241";
   // for tes on
 
   if (req.body.userLocation && req.body.course && req.body.lineId) {
@@ -148,10 +149,11 @@ exports.attenCheck = async (req, res) => {
       var reg = registers[i];
       // console.log(reg);
       const session = await sessionService.findById(reg.session);
+      const course = await courseService.getById(session.course);
       if (session) {
         // console.log(session._id);
         status = timeInRanges(session.startTime);
-        if (status === 'atten' || status === 'late') {
+        if ((status === 'atten' || status === 'late') && req.body.course === course.subject.code) {
           const distance = calculateDistance(
             location.latitude,
             location.longitude,

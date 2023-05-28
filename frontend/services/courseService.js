@@ -30,6 +30,33 @@ exports.getAll = () => {
   return promise;
 };
 
+exports.getById = (param) => {
+  const promise = new Promise(function (resolve, reject) {
+    const url = `${connectApiHost}/${connectApiPath}/${param}`;
+
+    const requestOptions = {
+      url: url,
+      json: true
+    };
+
+    request.get(requestOptions, (error, response, body) => {
+      console.log(body);
+
+      if (error) {
+        reject(error, "Error:", error);
+      } else if (response.statusCode !== 200) {
+        reject(error, "Error:", error);
+        console.error(error, `Status code: ${response.statusCode}`);
+      } else {
+        console.log("Response body:", body);
+        resolve(body.data);
+      }
+    });
+  });
+
+  return promise;
+};
+
 exports.create = (obj) => {
   const promise = new Promise(function (resolve, reject) {
     const url = `${connectApiHost}/${connectApiPath}`;

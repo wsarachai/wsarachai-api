@@ -40,7 +40,7 @@ class UserController {
       const obj = await Subject.findById(req.params.id);
       res.status(200).json({
         status: "success",
-        data: { obj },
+        data: obj,
       });
     } catch (err) {
       res.status(404).json({
@@ -58,7 +58,7 @@ class UserController {
       });
       res.status(200).json({
         status: "success",
-        data: { obj },
+        data: obj,
       });
     } catch (err) {
       res.status(404).json({
