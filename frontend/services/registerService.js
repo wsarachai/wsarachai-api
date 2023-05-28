@@ -106,7 +106,7 @@ exports.findByStudentId = (param) => {
 
 exports.appendAttendance = (sessionId, obj) => {
   const promise = new Promise(function (resolve, reject) {
-    const url = `${connectApiHost}/${connectApiPath}/add-atten/${sessionId}`;
+    const url = `${connectApiHost}/${connectApiPath}/atten/add/${sessionId}`;
 
     const requestOptions = {
       url: url,

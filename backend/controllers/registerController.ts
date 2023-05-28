@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import Register from "../models/register";
+import Attendance from "../models/attendance";
 
 class CourseController {
   constructor() {}
@@ -153,6 +154,26 @@ class CourseController {
     try {
       let register = await Register.findById(req.params.id);
       register.attendances.push(req.body);
+      await register.save();
+
+      res.status(200).json({
+        status: "success",
+        data: register,
+      });
+    } catch (err) {
+      res.status(400).json({
+        status: "failed",
+        message: err,
+      });
+    }
+  };
+
+  removeAttendance = async (req: Request, res: Response) => {
+    try {
+      let register = await Register.findById(req.params.id);
+      let atten = register.attendances.pull(req.body);
+      atten = await Attendance.findByIdAndDelete(req.body);
+      console.log(atten);
       await register.save();
 
       res.status(200).json({
