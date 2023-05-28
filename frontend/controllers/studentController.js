@@ -156,13 +156,15 @@ exports.attenCheck = async (req, res) => {
           console.log("Distance: ", distance.toFixed(2), "km"); // Output: 3934.44 kilometers
 
           if (distance <= 0.05) {
+            console.log(reg);
+
             const now = new Date();
-            const attenTime = `${now.getHours()}:${now.getMinutes()}:00`;
+            const attenTime = `${now.getDay}:now.getMonth}:${now.getHours()}:${now.getMinutes()}:00`;
             const atten = await attenService.create({
+              register: reg._id,
               status: status,
               timeAtten: attenTime
             });
-            console.log(reg);
             console.log(atten);
             await registerService.appendAttendance(reg._id, atten.data);
             message = `${student.studentId} ${student.firstName} ${student.lastName}: ลงชื่อเข้าเรียนสำเร็จ!!`;

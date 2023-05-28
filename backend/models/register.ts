@@ -11,6 +11,12 @@ const RegisterSchema: Schema = new Schema({
     ref: "Sessioin",
     required: [true, "A session is required"],
   },
+  attendances: [
+    {
+      type: Types.ObjectId,
+      ref: "Attendance",
+    },
+  ],
   midTermScore: {
     type: Number,
     defaultValue: 0,
@@ -27,12 +33,6 @@ const RegisterSchema: Schema = new Schema({
     type: String,
     defaultValue: "",
   },
-  attendances: [
-    {
-      type: Types.ObjectId,
-      ref: "Attendance",
-    },
-  ],
 });
 
 export default model("Register", RegisterSchema);
