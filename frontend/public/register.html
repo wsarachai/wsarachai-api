@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <html lang="th" prefix="og: http://ogp.me/ns#">
+  <meta property="og:title" content="ITSCI App - 01">
+  <meta property="og:type" content="`website`, `blog`, or `article`">
+  <meta property="og:description" content="A one to two sentence description">
+  <meta property="og:url" content="https://itsci.mju.ac.th">
+  <meta property="og:site_name" content="ITSCI Website">
+  <meta property="og:image" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ITSCI App - 01</title>
+</head>
+
+<body>
+  <h1>Hello</h1>
+  <ul>
+    <li><span id="txt1"></span></li>
+    <li><span id="txt2"></span></li>
+    <li><span id="txt3"></span></li>
+    <li><span id="txt4"></span></li>
+    <li><span id="txt5"></span></li>
+    <li><span id="txt6"></span></li>
+  </ul>
+  <div>
+    <span id="content"></span>
+  </div>
+  <script>
+    document.addEventListener('readystatechange', event => {
+      switch (document.readyState) {
+        case "loading":
+          console.log(`document.readyState: ${document.readyState} - The document is still loading.`);
+          break;
+        case "interactive":
+          console.log(`document.readyState: ${document.readyState} - The document has finished loading DOM. - "DOMContentLoaded" event`);
+          break;
+        case "complete":
+          console.log(`document.readyState: ${document.readyState} - The page DOM with Sub-resources are now fully loaded. - "load" event`);
+          liff.init({
+            liffId: '1661172872-N4g4kl7y', // Use own liffId
+          })
+            .then(() => {
+              // start to use LIFF's api
+              document.querySelector("#txt1").textContent = liff.getLanguage();
+              document.querySelector("#txt2").textContent = liff.getVersion();
+              document.querySelector("#txt3").textContent = liff.isInClient();
+              document.querySelector("#txt4").textContent = liff.isLoggedIn();
+              document.querySelector("#txt5").textContent = liff.getOS();
+              document.querySelector("#txt6").textContent = liff.getLineVersion();
+
+              if (!liff.isLoggedIn()) {
+                liff.login();
+              }
+              if (!liff.isLoggedIn()) {
+                // Verify that the domain name and path (https://example.com/path) match the endpoint URL.
+                liff.login({ redirectUri: 'https://itsci.mju.ac.th/watcharin/test.html' });
+              }
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+          break;
+      }
+    });
+  </script>
+  <script charset="utf-8" src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+</body>
+
+</html>

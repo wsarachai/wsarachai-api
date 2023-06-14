@@ -1,5 +1,10 @@
 const lineClient = require('./lineClientController');
 
+exports.webHookITSCI = (req, res) => {
+    Promise.all(req.body.events.map(lineClient.handleEventITSCI))
+        .then((result) => res.json(result));
+};
+
 exports.webHook241 = (req, res) => {
     Promise.all(req.body.events.map(lineClient.handleEvent241))
         .then((result) => res.json(result));

@@ -40,6 +40,10 @@ const handleEvent = async (event, client) => {
   }
 };
 
+exports.handleEventITSCI = (event) => {
+  handleEvent(event, lineConfig.clientITSCI);
+};
+
 exports.handleEvent241 = (event) => {
   handleEvent(event, lineConfig.client241);
 };

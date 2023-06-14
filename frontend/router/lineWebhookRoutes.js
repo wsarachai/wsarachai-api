@@ -7,6 +7,9 @@ const router = express.Router();
 router.route('/auth').get(lineWebHookController.auth);
 
 router
+  .route("/itsci")
+  .post(lineConfig.middlewareITSCI, lineWebHookController.webHookITSCI);
+router
   .route("/it241")
   .post(lineConfig.middleware241, lineWebHookController.webHook241);
 router
