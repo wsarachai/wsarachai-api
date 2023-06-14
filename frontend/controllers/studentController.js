@@ -117,6 +117,15 @@ exports.getAllStudent = async (req, res) => {
   });
 };
 
+exports.getStudentByLineId = async (req, res) => {
+  const student = await studentService.findByLineId(req.params.id);
+  res.status(200).json({
+    status: "success",
+    requestAt: req.requestTime,
+    data: student,
+  });
+};
+
 exports.atten = (req, res) => {
   console.log(req.query.lineId);
 

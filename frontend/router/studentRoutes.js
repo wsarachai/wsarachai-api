@@ -8,8 +8,10 @@ router.use((req, res, next) => {
   next();
 });
 
-router.route("/all")
-  .get(studentController.getAllStudent);
+//router.route("/all")
+//  .get(studentController.getAllStudent);
+router.route("/:id")
+  .get(studentController.getStudentByLineId);
 
 router.route("/register")
   .get(studentController.createStudentFrm)
