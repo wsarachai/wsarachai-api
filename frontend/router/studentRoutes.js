@@ -8,8 +8,10 @@ router.use((req, res, next) => {
   next();
 });
 
-router
-  .route("/register")
+router.route("/all")
+  .get(studentController.getAllStudent);
+
+router.route("/register")
   .get(studentController.createStudentFrm)
   .post(studentController.updateStudent);
 

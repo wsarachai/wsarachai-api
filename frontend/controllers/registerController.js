@@ -102,15 +102,6 @@ exports.updateStudent = (req, res) => {
     });
 };
 
-exports.getAllStudent = async (req, res) => {
-  const students = await studentService.getAll();
-  res.status(200).json({
-    status: "success",
-    requestAt: req.requestTime,
-    data: students,
-  });
-};
-
 exports.atten = (req, res) => {
   console.log(req.query.userId);
 
