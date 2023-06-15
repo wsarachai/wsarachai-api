@@ -59,53 +59,52 @@ const calculateDistance = (lat1, lon1, lat2, lon2) => {
 
 exports.createStudentFrm = (req, res) => {
   console.log(req.query);
-  const _id = req.query._id;
-  const lineId = req.query.userId;
-  const studentId = req.query.studentId;
-  if (lineId && studentId) {
-    studentService.findByStudentId({ studentId: studentId }).then(student => {
-      res.render(theme.getPageViewPath("itscis", "register"), {
-        currentLayout: theme.getLayoutPath("default"),
-        _id: _id,
-        lineId: lineId,
-        studentId: student.studentId,
-        firstName: student.firstName,
-        lastName: student.lastName,
-        nickname: student.nickname || ""
-      });
-    });
-  } else {
-    res.render(theme.getPageViewPath("itscis", "register-result"), {
-      currentLayout: theme.getLayoutPath("default"),
-      message: "ไม่สำเร็จ ใช้ Application Line เท่านั้น​!!",
-    });
-  }
+  // const _id = req.query._id;
+  // const lineId = req.query.userId;
+  // const studentId = req.query.studentId;
+  // if (lineId && studentId) {
+  // studentService.findByStudentId({ studentId: studentId }).then(student => {
+  theme.addVendors(["liff", "jquery"]);
+  theme.addJavascriptFile("js/custom/register/liff-get-student.js");
+
+  res.render(theme.getPageViewPath("itscis", "register"), {
+    currentLayout: theme.getLayoutPath("default"),
+    liff: '1661172872-N4g4kl7y'
+  });
+  // });
+  // } else {
+  //   res.render(theme.getPageViewPath("itscis", "register-result"), {
+  //     currentLayout: theme.getLayoutPath("default"),
+  //     message: "ไม่สำเร็จ ใช้ Application Line เท่านั้น​!!",
+  //   });
+  // }
 };
 
-exports.updateStudent = (req, res) => {
-  const newUser = {
-    lineId: req.body.lineId,
-    nickname: 'เก่ง',
-  };
+exports.updateStudent = async (req, res) => {
+  const student = await studentService.findByStudentId(req.body.studentId);
+  if (student) {
+    let newUser = {
+      lineId: req.body.lineId
+    };
+    studentService
+      .update(student._id, newUser)
+      .then((user) => {
+        console.log(user);
 
-  studentService
-    .update(req.body._id, newUser)
-    .then((user) => {
-      console.log(user);
+        res.render(theme.getPageViewPath("itscis", "register-result"), {
+          currentLayout: theme.getLayoutPath("default"),
+          message: "สำเร็จ!!",
+        });
+      })
+      .catch((err) => {
+        console.log(err);
 
-      res.render(theme.getPageViewPath("itscis", "register-result"), {
-        currentLayout: theme.getLayoutPath("default"),
-        message: "สำเร็จ!!",
+        res.render(theme.getPageViewPath("itscis", "register-result"), {
+          currentLayout: theme.getLayoutPath("default"),
+          message: "ไม่สำเร็จ ให้ติดต่ออาจารย์!!",
+        });
       });
-    })
-    .catch((err) => {
-      console.log(err);
-
-      res.render(theme.getPageViewPath("itscis", "register-result"), {
-        currentLayout: theme.getLayoutPath("default"),
-        message: "ไม่สำเร็จ ให้ติดต่ออาจารย์!!",
-      });
-    });
+  }
 };
 
 exports.getAllStudent = async (req, res) => {

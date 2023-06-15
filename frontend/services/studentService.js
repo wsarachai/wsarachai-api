@@ -53,10 +53,10 @@ exports.update = (id, student) => {
   return createStudent;
 };
 
-exports.findByStudentId = (user) => {
+exports.findByStudentId = (studentId) => {
   const promise = new Promise(function (resolve, reject) {
-    console.log("findOne: " + user.studentId);
-    const url = `${connectApiHost}/${connectApiPath}/userId/${user.studentId}`;
+    console.log("findOne: " + studentId);
+    const url = `${connectApiHost}/${connectApiPath}/userId/${studentId}`;
     request.get(url, (error, response, body) => {
       if (error) {
         reject(error, "Error:", error);

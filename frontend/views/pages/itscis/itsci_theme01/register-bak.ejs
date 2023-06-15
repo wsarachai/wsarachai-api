@@ -1,5 +1,5 @@
 <!--begin::Form-->
-<form class="form w-100" novalidate="novalidate" id="itsci_register_form" data-kt-redirect-url="/student/register"
+<form class="form w-100" novalidate="novalidate" id="itsci_register_form" data-kt-redirect-url="/signin"
   action="register" method="POST">
   <!--begin::Heading-->
   <div class="text-center mb-11">
@@ -10,23 +10,22 @@
   <!--begin::Heading-->
 
   <!--begin::userId-->
-  <input type="hidden" name="_id" id="_id" />
-  <input type="hidden" name="lineId" id="lineId" />
-  <input type="hidden" name="accessTokenHash" id="accessTokenHash" />
+  <input type="hidden" name="_id" value="<%- _id %>" />
+  <input type="hidden" name="lineId" value="<%- lineId %>" />
   <!--end::userId-->
 
   <!--begin::Input group--->
   <div class="fv-row mb-8">
     <!--begin::Email-->
-    <input type="text" placeholder="รหัสนักศึกษา" name="studentId" autocomplete="off" id="studentId"
-      class="form-control bg-transparent" />
+    <input type="text" placeholder="รหัสนักศึกษา" name="code" autocomplete="off" readonly="true"
+      value="<%- studentId %>" class="form-control bg-transparent" />
     <!--end::Email-->
   </div>
 
   <!--begin::Input group--->
   <div class="fv-row mb-8">
     <!--begin::firstName Tnai-->
-    <input type="text" placeholder="ชื่อ" name="firstName" readonly="true" id="firstName" autocomplete="off"
+    <input type="text" placeholder="ชื่อ" name="firstName" readonly="true" value="<%- firstName %>" autocomplete="off"
       class="form-control bg-transparent" />
     <!--end::firstName Tnai-->
   </div>
@@ -34,7 +33,7 @@
   <!--begin::Input group--->
   <div class="fv-row mb-8">
     <!--begin::firstName Tnai-->
-    <input type="text" placeholder="นามสกุล" name="lastName" readonly="true" id="lastName" autocomplete="off"
+    <input type="text" placeholder="นามสกุล" name="lastName" readonly="true" value="<%- lastName %>" autocomplete="off"
       class="form-control bg-transparent" />
     <!--end::firstName Tnai-->
   </div>
@@ -42,7 +41,7 @@
   <!--begin::Input group--->
   <div class="fv-row mb-8">
     <!--begin::firstName Tnai-->
-    <input type="text" placeholder="ชื่อเล่น" name="nickname" id="nickname" autocomplete="off"
+    <input type="text" placeholder="ชื่อเล่น" name="nickname" value="<%- nickname %>" autocomplete="off"
       class="form-control bg-transparent" />
     <!--end::firstName Tnai-->
   </div>

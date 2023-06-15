@@ -10,12 +10,13 @@ router.use((req, res, next) => {
 
 //router.route("/all")
 //  .get(studentController.getAllStudent);
-router.route("/:id")
-  .get(studentController.getStudentByLineId);
 
 router.route("/register")
   .get(studentController.createStudentFrm)
   .post(studentController.updateStudent);
+
+router.route("/line/:id")
+  .get(studentController.getStudentByLineId);
 
 router
   .route("/atten")
