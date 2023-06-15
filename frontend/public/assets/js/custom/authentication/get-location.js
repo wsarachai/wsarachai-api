@@ -89,7 +89,7 @@ const ITSCIAttendance = function () {
       form = $('#itsci_sign_in_form');
       userLocation = $('#userLocation');
       submitButton = $('#itsci_sign_in_submit');
-      submitButton.disabled = true;
+      submitButton.prop('disabled', true);
 
       handleForm();
     }
