@@ -57,13 +57,10 @@ const calculateDistance = (lat1, lon1, lat2, lon2) => {
   return distance; // Distance in kilometers
 };
 
-exports.createStudentFrm = (req, res) => {
+
+
+exports.getStudentFrm = (req, res) => {
   console.log(req.query);
-  // const _id = req.query._id;
-  // const lineId = req.query.userId;
-  // const studentId = req.query.studentId;
-  // if (lineId && studentId) {
-  // studentService.findByStudentId({ studentId: studentId }).then(student => {
   theme.addVendors(["liff", "jquery"]);
   theme.addJavascriptFile("js/custom/register/liff-get-student.js");
 
@@ -71,38 +68,29 @@ exports.createStudentFrm = (req, res) => {
     currentLayout: theme.getLayoutPath("default"),
     liff: '1661172872-N4g4kl7y'
   });
-  // });
-  // } else {
-  //   res.render(theme.getPageViewPath("itscis", "register-result"), {
-  //     currentLayout: theme.getLayoutPath("default"),
-  //     message: "ไม่สำเร็จ ใช้ Application Line เท่านั้น​!!",
-  //   });
-  // }
 };
 
 exports.updateStudent = async (req, res) => {
   const student = await studentService.findByStudentId(req.body.studentId);
   if (student) {
     let newUser = {
-      lineId: req.body.lineId
+      lineId: req.body.lineId,
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      nickname: req.body.nickname,
     };
     studentService
       .update(student._id, newUser)
       .then((user) => {
         console.log(user);
 
-        res.render(theme.getPageViewPath("itscis", "register-result"), {
-          currentLayout: theme.getLayoutPath("default"),
-          message: "สำเร็จ!!",
-        });
+        // res.render(theme.getPageViewPath("itscis", "register-result"), {
+        //   currentLayout: theme.getLayoutPath("default"),
+        //   message: "สำเร็จ!!",
+        // });
       })
       .catch((err) => {
         console.log(err);
-
-        res.render(theme.getPageViewPath("itscis", "register-result"), {
-          currentLayout: theme.getLayoutPath("default"),
-          message: "ไม่สำเร็จ ให้ติดต่ออาจารย์!!",
-        });
       });
   }
 };
@@ -125,9 +113,19 @@ exports.getStudentByLineId = async (req, res) => {
   });
 };
 
-exports.atten = (req, res) => {
+exports.getStudentById = async (req, res) => {
+  const student = await studentService.findByStudentId(req.params.id);
+  res.status(200).json({
+    status: "success",
+    requestAt: req.requestTime,
+    data: student,
+  });
+};
+
+exports.attenForm = (req, res) => {
   console.log(req.query.lineId);
 
+  theme.addVendors(["liff", "jquery"]);
   theme.addJavascriptFile("js/custom/authentication/get-location.js");
   res.render(theme.getPageViewPath("itscis", "student-attention"), {
     currentLayout: theme.getLayoutPath("atten-layout"),
@@ -136,7 +134,7 @@ exports.atten = (req, res) => {
   });
 };
 
-exports.attenCheck = async (req, res) => {
+exports.atten = async (req, res) => {
   var message = "ลงชื่อเข้าเรียนไม่สำเร็จ ให้ติดต่ออาจารย์!!"
   console.log(req.body);
 
@@ -212,5 +210,14 @@ exports.attenCheck = async (req, res) => {
   res.render(theme.getPageViewPath("itscis", "student-attention-result"), {
     currentLayout: theme.getLayoutPath("atten-layout"),
     message: message,
+  });
+};
+
+
+exports.attenCheck = (req, res) => {
+  //theme.addVendors(["liff", "jquery"]);
+  res.render(theme.getPageViewPath("itscis", "student-attention-result"), {
+    currentLayout: theme.getLayoutPath("atten-layout"),
+    message: "ยังไม่ได้ทำ",
   });
 };

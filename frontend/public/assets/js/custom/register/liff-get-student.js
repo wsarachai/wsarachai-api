@@ -2,10 +2,11 @@
 
 const ITSCIRegister = function () {
 
+  let liff_clientID;
+
   // Elements
   let form;
   let submitButton;
-  let _id;
   let lineId;
   let accessTokenHash;
   let studentId;
@@ -13,11 +14,76 @@ const ITSCIRegister = function () {
   let lastName;
   let nickname;
 
-  let handleForm = function (e) {
-    submitButton.setAttribute('data-kt-indicator', 'on');
+  const closeWindow = () => {
+    setTimeout(() => { liff.closeWindow() }, 1000);
+  };
+
+  const sendMessages = (msg) => {
+    if (!liff.isInClient()) {
+      window.alert('This button is unavailable as LIFF is currently being opened in an external browser.');
+    }
+    else {
+      liff.sendMessages([
+        {
+          type: 'text',
+          text: `ITSCI: ${msg}`,
+        },
+      ]);
+    }
+  };
+
+  const setFormData = (data) => {
+    studentId.val(data.studentId);
+    firstName.val(data.firstName);
+    lastName.val(data.lastName);
+    nickname.val(data.nickname);
+  };
+
+  const btnOnSave = function (e) {
+    e.preventDefault();
+    submitButton.removeAttr('data-kt-indicator');
+    submitButton.prop('disabled', false);
+    form.submit();
+
+    sendMessages("บันทึกข้อมูลเรียบร้อยแล้ว");
+    closeWindow();
+  };
+
+  const btnOnEdit = function (e) {
+    e.preventDefault();
+    submitButton.removeAttr('data-kt-indicator');
+    submitButton.prop('disabled', false);
+
+    firstName.prop("readonly", false);
+    lastName.prop("readonly", false);
+    nickname.prop("readonly", false);
+    submitButton.html("บันทึก");
+
+    submitButton.click(btnOnSave);
+  };
+
+  const findStudentById = (e) => {
+    e.preventDefault();
+    $.get(`https://itsci.mju.ac.th/watcharin/student/userId/${studentId.val()}`, (result, status) => {
+      console.log(result.data);
+      const data = result.data;
+
+      if (data) {
+        setFormData(data);
+        submitButton.click(btnOnSave);
+      }
+      else {
+        sendMessages("ไม่พบข้อมูลนักศึกษา");
+        closeWindow();
+      }
+    });
+  };
+
+  let handleForm = (e) => {
+    submitButton.attr("data-kt-indicator", "on");
 
     liff.init({
-      liffId: '1661172872-N4g4kl7y',
+      liffId: liff_clientID,
     }).then(() => {
       if (!liff.isLoggedIn()) {
         liff.login();
@@ -31,55 +97,47 @@ const ITSCIRegister = function () {
 
         console.log(context);
 
-        lineId.value = context.userId;
-        accessTokenHash.value = context.accessTokenHash;
+        lineId.val(context.userId);
+        accessTokenHash.val(context.accessTokenHash);
 
-        $.get(`https://itsci.mju.ac.th/watcharin/student/line/${context.userId}`, (result, status) => {
+        const url = `https://itsci.mju.ac.th/watcharin/student/line/${context.userId}`;
+        $.get(url, (result, status) => {
 
-          submitButton.removeAttribute('data-kt-indicator');
+          submitButton.removeAttr('data-kt-indicator');
 
           const data = result.data;
+
           if (data) {
+            // Found student
             console.log(data);
-            studentId.value = data.studentId;
-            firstName.value = data.firstName;
-            lastName.value = data.lastName;
-            nickname.value = data.nickname;
+            studentId.prop("readonly", true);
+            setFormData(data);
+            $("h1").html("ข้อมูลนักศึกษา");
+            submitButton.html("แก้ไข");
+
+            submitButton.click(btnOnEdit);
+          } else {
+            $("h1").html("ลงทะเบียนนักศึกษา");
+            submitButton.click(findStudentById);
           }
-          submitButton.disabled = false;
+          submitButton.prop('disabled', false);
         });
       }
-    });
-
-    submitButton.addEventListener('click', function (e) {
-      e.preventDefault();
-      submitButton.removeAttribute('data-kt-indicator');
-
-      // Enable button
-      submitButton.disabled = false;
-      form.submit(); // submit form
-
-      // var redirectUrl = form.getAttribute('data-kt-redirect-url');
-      // if (redirectUrl) {
-      //   location.href = redirectUrl;
-      // }
-
     });
   };
 
   return {
-    // Initialization
     init: function () {
-      _id = document.querySelector("#_id");
-      lineId = document.querySelector("#lineId");
-      accessTokenHash = document.querySelector("#accessTokenHash");
-      studentId = document.querySelector("#studentId");
-      firstName = document.querySelector("#firstName");
-      lastName = document.querySelector("#lastName");
-      nickname = document.querySelector("#nickname");
-      form = document.querySelector('#itsci_register_form');
-      submitButton = document.querySelector('#itsci_register_submit');
-      submitButton.disabled = true;
+      liff_clientID = $("#liff").val();
+      lineId = $("#lineId");
+      accessTokenHash = $("#accessTokenHash");
+      studentId = $("#studentId");
+      firstName = $("#firstName");
+      lastName = $("#lastName");
+      nickname = $("#nickname");
+      form = $('#itsci_register_form');
+      submitButton = $('#itsci_register_submit');
+      submitButton.prop('disabled', true);
 
       handleForm();
     }

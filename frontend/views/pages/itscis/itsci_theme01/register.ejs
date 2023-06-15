@@ -1,15 +1,15 @@
 <!--begin::Form-->
-<form class="form w-100" novalidate="novalidate" id="itsci_register_form" data-kt-redirect-url="/student/register"
-  action="register" method="POST">
+<form class="form w-100" novalidate="novalidate" id="itsci_register_form" action="profile" method="POST">
   <!--begin::Heading-->
   <div class="text-center mb-11">
     <!--begin::Title-->
-    <h1 class="text-dark fw-bolder mb-3">ลงทะเบียน</h1>
+    <h1 class="text-dark fw-bolder mb-3">ข้อมูลนักศึกษา</h1>
     <!--end::Title-->
   </div>
   <!--begin::Heading-->
 
   <!--begin::userId-->
+  <input type="hidden" name="liff" id="liff" value="<%- liff %>" />
   <input type="hidden" name="_id" id="_id" />
   <input type="hidden" name="lineId" id="lineId" />
   <input type="hidden" name="accessTokenHash" id="accessTokenHash" />
@@ -42,7 +42,7 @@
   <!--begin::Input group--->
   <div class="fv-row mb-8">
     <!--begin::firstName Tnai-->
-    <input type="text" placeholder="ชื่อเล่น" name="nickname" id="nickname" autocomplete="off"
+    <input type="text" placeholder="ชื่อเล่น" name="nickname" readonly="true" id="nickname" autocomplete="off"
       class="form-control bg-transparent" />
     <!--end::firstName Tnai-->
   </div>

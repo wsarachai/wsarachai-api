@@ -8,19 +8,21 @@ router.use((req, res, next) => {
   next();
 });
 
-//router.route("/all")
-//  .get(studentController.getAllStudent);
-
-router.route("/register")
-  .get(studentController.createStudentFrm)
+router.route("/profile")
+  .get(studentController.getStudentFrm)
   .post(studentController.updateStudent);
 
 router.route("/line/:id")
   .get(studentController.getStudentByLineId);
 
-router
-  .route("/atten")
-  .get(studentController.atten)
-  .post(studentController.attenCheck);
+router.route("/userId/:id")
+  .get(studentController.getStudentById);
+
+router.route("/atten")
+  .get(studentController.attenForm)
+  .post(studentController.atten);
+
+router.route("/check-atten")
+  .get(studentController.attenCheck);
 
 module.exports = router;

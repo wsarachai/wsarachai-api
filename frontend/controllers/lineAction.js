@@ -192,26 +192,64 @@ const attenStudent = (event, client) => {
           // We get the student, let create the panel button option for the student
           // can click to begin the attenuation process
           const url = "api.line.me";
+          // var postData = JSON.stringify({
+          //     to: user.lineId,
+          //     messages: [
+          //       {
+          //         type: "template",
+          //         altText: "Account Link",
+          //         template: {
+          //           type: "buttons",
+          //           text: "ลงชื่อเข้าเรียน",
+          //           actions: [
+          //             {
+          //               type: "uri",
+          //               label: "คลิกที่นี่",
+          //               uri: `https://itsci.mju.ac.th/watcharin/student/atten?lineId=${user.lineId}&course=${client.config.course}`,
+          //             },
+          //           ],
+          //         },
+          //       },
+          //     ],
+          //   });
+
           var postData = JSON.stringify({
             to: user.lineId,
-            messages: [
-              {
-                type: "template",
-                altText: "Account Link",
-                template: {
-                  type: "buttons",
-                  text: "ลงชื่อเข้าเรียน",
-                  actions: [
+            messages: [{
+              "type": "flex",
+              "altText": "this is a flex message",
+              "contents": {
+                "type": "bubble",
+                "body": {
+                  "type": "box",
+                  "layout": "vertical",
+                  "contents": [
                     {
-                      type: "uri",
-                      label: "คลิกที่นี่",
-                      uri: `https://itsci.mju.ac.th/watcharin/student/atten?lineId=${user.lineId}&course=${client.config.course}`,
+                      "type": "button",
+                      "action": {
+                        "type": "uri",
+                        "label": "ลงชื่อเข้าเรียน",
+                        "uri": `https://liff.line.me/1661172872-wDR1EMJv?lineId=${user.lineId}&course=${client.config.course}`
+                      },
+                      "style": "primary",
+                      "color": "#183d0c"
                     },
-                  ],
-                },
-              },
-            ],
+                    {
+                      "type": "button",
+                      "action": {
+                        "type": "uri",
+                        "label": "ตรวจสอบเวลาเรียน",
+                        "uri": `https://liff.line.me/1661172872-OAl3oYX2?lineId=${user.lineId}&course=${client.config.course}`
+                      },
+                      "style": "primary",
+                      "color": "#0000ff"
+                    }
+                  ]
+                }
+              }
+            }]
           });
+
           var options = {
             hostname: url,
             port: 443,
@@ -273,57 +311,42 @@ const getInfo = (event, client) => {
 };
 
 exports.message = async (event, client, text) => {
-  let lineId = event.source.userId;
-  const student = await studentService.findByLineId(lineId);
+  const subTxt = text.slice(0, 5);
+  if (subTxt !== "ITSCI:") {
+    let lineId = event.source.userId;
+    const student = await studentService.findByLineId(lineId);
 
-  if (student) {
-    text = text.trim();
-    if (text === "profile") {
-      getLineUserProfile(event, client);
-    } else if (text === "user") {
-      checkValidUser(event, client);
-    } else if (text === "hi") {
-      sayHi(event, client);
-    }
-    else if (text === "atten") {
-      attenStudent(event, client);
-    }
-    // else if (text === "bye") {
-    //   sayBye(event, client);
-    // } 
-    // else if (text === "msg") {
-    //   getMessageContent(event, client);
-    // } 
-    // else if (text === "info") {
-    //   getInfo(event, client);
-    // } 
-    else {
-      client.pushMessage(event.source.userId, {
-        type: "text",
-        text: `คำสั่งนี้ไม่สามารถดำเนินการได้ กรุณาใช้คำสั่งดังต่อไปนี้ [Hi,User,Profile,atten]`
-      });
-      // client.replyMessage(event.replyToken, {
-      //   type: "text",
-      //   text: "You are not a User!",
-      // });
-    }
-  } else {
-    if (text.slice(0, 3) === "reg") {
-      const cmds = text.split(":");
-      const studentId = cmds[1];
-      if (studentId && studentId.length == 10) {
-        needRegister(event, client, studentId);
-      } else {
+    if (student) {
+      text = text.trim();
+      if (text === "profile") {
+        getLineUserProfile(event, client);
+      } else if (text === "user") {
+        checkValidUser(event, client);
+      } else if (text === "hi") {
+        sayHi(event, client);
+      }
+      else if (text === "atten") {
+        attenStudent(event, client);
+      }
+      // else if (text === "bye") {
+      //   sayBye(event, client);
+      // } 
+      // else if (text === "msg") {
+      //   getMessageContent(event, client);
+      // } 
+      // else if (text === "info") {
+      //   getInfo(event, client);
+      // } 
+      else {
         client.pushMessage(event.source.userId, {
           type: "text",
-          text: `รูปแบบการลงทะเบียนไม่ถูกต้องให้พิมพ์ข้อความ "Reg:<รหัสนักศึกษา>"`
+          text: `คำสั่งนี้ไม่สามารถดำเนินการได้ กรุณาใช้คำสั่งดังต่อไปนี้ [Hi,User,Profile,atten]`
         });
+        // client.replyMessage(event.replyToken, {
+        //   type: "text",
+        //   text: "You are not a User!",
+        // });
       }
-    } else {
-      client.pushMessage(event.source.userId, {
-        type: "text",
-        text: `ยังไม่ได้ลงทะเบียนให้พิมพ์ข้อความ "Reg:<รหัสนักศึกษา>" เพื่อลงทะเบียนก่อน`
-      });
     }
   }
 };
