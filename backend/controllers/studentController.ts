@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import Student from "../models/student";
 
 class UserController {
-  constructor() {}
+  constructor() { }
 
   getAll = async (req: Request, res: Response) => {
     try {
@@ -45,7 +45,11 @@ class UserController {
           lastName: data[key]["lastName"],
           nickname: data[key]["nickname"],
         };
-        await Student.create(stu);
+        try {
+          await Student.create(stu);
+        } catch (err) {
+          console.log(err);
+        }
       });
       res.status(200).json({
         status: "success",
@@ -91,7 +95,7 @@ class UserController {
       });
     }
   };
-  
+
   delete = async (req: Request, res: Response) => {
     try {
       await Student.findByIdAndDelete(req.params.id);

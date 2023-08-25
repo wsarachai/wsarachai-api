@@ -1,0 +1,12 @@
+version: '3.1'
+services:
+  mongo:
+    image: mongo
+    restart: always
+    volumes:
+      - /home/watcharin/workspace/mongodb/data:/data/db
+    # environment:
+    #   MONGO_INITDB_ROOT_USERNAME: root
+    #   MONGO_INITDB_ROOT_PASSWORD: lkilogmL2011
+    ports:
+      - "27017:27017"
