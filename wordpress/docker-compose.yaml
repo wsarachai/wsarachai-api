@@ -1,0 +1,38 @@
+version: "3.8"
+services:
+  mysql:
+    image: "mysql:8.1.0"
+    restart: always
+    volumes:
+      - ./mysql-data:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=keng1976
+      - MYSQL_DATABASE=WordPress_db
+    ports:
+      - "3306:3306"
+
+  phpMyAdmin:
+    image: phpmyadmin:latest
+    restart: always
+    ports:
+      - "3001:80"
+    depends_on:
+      - mysql
+    environment:
+      - PMA_ARBITRARY=1
+
+  WordPress:
+    image: wordpress:latest
+    restart: always
+    ports:
+      - "3002:80"
+    depends_on:
+      - mysql
+    environment:
+      - WordPress_DB_HOST=mysql
+      - WordPress_DB_USER=root
+      - WordPress_DB_PASSWORD=keng1976
+      - WordPress_DB_NAME=WordPress_db
+    volumes:
+      - ./WordPress:/var/www/html
+      - ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
